@@ -23,7 +23,10 @@
       </el-submenu>
       <el-menu-item index="3" disabled>消息中心</el-menu-item>
       <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
-      <el-menu-item index="5">cancan</el-menu-item>
+      <el-submenu index="5" style="float: right;">
+        <template slot="title">cancan</template>
+        <el-menu-item index="5-1">logout</el-menu-item>
+      </el-submenu>
     </el-menu>
   </el-row>
 </template>
