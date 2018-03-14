@@ -2,6 +2,7 @@
   <el-menu
     default-active="2"
     class="el-menu-vertical-demo"
+    :router="true"
     @open="handleOpen"
     @close="handleClose">
     <el-submenu index="1">
@@ -10,7 +11,7 @@
         <span>导航一</span>
       </template>
       <el-menu-item-group>
-        <el-menu-item index="1-1" route="/createOrder">创建订单</el-menu-item>
+        <el-menu-item index="/createOrder">创建订单</el-menu-item>
         <el-menu-item index="1-2">确认支付订单</el-menu-item>
         <el-menu-item index="1-3">结算订单</el-menu-item>
       </el-menu-item-group>
@@ -50,6 +51,11 @@
       handleClose() {
 
       },
+      toOrder() {
+        this.$router.push({
+          path: '/createOrder'
+        })
+      }
     }
   }
 </script>

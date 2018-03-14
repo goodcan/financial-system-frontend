@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Main from '../views/Main'
-import CreateOrder from '../components/CreateOrder'
+import CreateOrder from '../orders/CreateOrder'
 
 Vue.use(Router);
 
