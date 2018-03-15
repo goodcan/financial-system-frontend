@@ -4,7 +4,7 @@
       <el-form-item
         :label="'姓名' + index"
         :prop="'contacts.' + index + '.name'"
-        :rules="{required: true, message: '类目名不能为空', trigger: 'blur'}">
+        :rules="{required: true, message: '姓名不能为空', trigger: 'blur'}">
         <el-input v-model="contact.name"/>
       </el-form-item>
       <el-form-item
