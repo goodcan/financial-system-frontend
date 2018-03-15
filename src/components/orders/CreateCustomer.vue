@@ -1,5 +1,9 @@
 <template>
-  <el-form :model="customerForm" ref="customerForm" label-width="100px">
+  <el-form
+    :model="customerForm"
+    ref="customerForm"
+    :status-icon="true"
+    label-width="100px">
     <div v-for="(customer, index) in customerForm.customers">
       <el-form-item
         :label="'客户名称'+ index"
@@ -13,8 +17,8 @@
     </div>
     <el-form-item>
       <el-button type="primary" @click="submitForm('customerForm')">提交</el-button>
-      <el-button @click="addClass">新增客户名称</el-button>
-      <el-button @click="resetForm()">重置</el-button>
+      <el-button @click="addCustomer">新增客户名称</el-button>
+      <el-button @click="resetForm('customerForm')">重置</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -64,9 +68,9 @@
           }
         });
       },
-      resetForm() {
-        // this.$refs[formName].resetFields();
-        this.customerForm.customers = [{name: '', time: Date.now()}]
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+        // this.customerForm.customers = [{name: '', time: Date.now()}]
       },
       removeCustomer(item) {
         console.log(item);
@@ -76,7 +80,7 @@
           this.customerForm.customers.splice(index, 1)
         }
       },
-      addClass() {
+      addCustomer() {
         this.customerForm.customers.push({
           value: '',
           time: Date.now()
