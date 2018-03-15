@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Main from '../views/Main'
-import CreateOrder from '../orders/CreateOrder'
+import CreateOrder from '../components/orders/CreateOrder'
+import Register from '../components/user/Register'
+import Login from '../components/user/Login'
 
 Vue.use(Router);
 
@@ -19,6 +21,16 @@ export default new Router({
           component: CreateOrder
         }
       ]
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
     }
   ]
 })

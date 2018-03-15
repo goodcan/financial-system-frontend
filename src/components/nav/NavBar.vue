@@ -36,6 +36,16 @@
         <el-menu-item index="3-2">修改</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
+    <el-submenu index="4">
+      <template slot="title">
+        <i class="el-icon-setting"></i>
+        <span>创建模板</span>
+      </template>
+      <el-menu-item-group>
+        <el-menu-item index="4-1">创建新类目</el-menu-item>
+        <el-menu-item index="4-2">创建新客户</el-menu-item>
+      </el-menu-item-group>
+    </el-submenu>
   </el-menu>
 </template>
 

@@ -15,9 +15,9 @@
 </template>
 
 <script>
-  import NavHeader from '../components/NavHeader'
-  import NavFooter from '../components/NavFooter'
-  import NavBar from '../components/NavBar'
+  import NavHeader from '../components/nav/NavHeader'
+  import NavFooter from '../components/nav/NavFooter'
+  import NavBar from '../components/nav/NavBar'
 
   export default {
     data() {
