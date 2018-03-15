@@ -64,6 +64,8 @@
           if (res.code === 1) {
             this.$store.commit('updateUserObj', res.result.userObj);
             this.isLogin = true
+          } else {
+            this.$router.push({path: '/login'})
           }
         })
       },
@@ -84,6 +86,7 @@
         this.$store.commit('updateToken', null);
         this.$store.commit('updateUserObj', null);
         this.isLogin = false;
+        this.$router.push({path: '/login'})
       }
     }
   }

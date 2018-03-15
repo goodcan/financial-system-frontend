@@ -1,14 +1,14 @@
 <template>
   <el-form label-width="80px" label-position="top">
     <h3>登录</h3>
-    <el-form-item label="用户名">
-      <el-input v-model="form.username"/>
+    <el-form-item label="账户">
+      <el-input v-model="form.username" placeholder="请输入账户"/>
     </el-form-item>
-    <el-form-item label="用户名">
-      <el-input type="password" v-model="form.password"/>
+    <el-form-item label="密码">
+      <el-input type="password" v-model="form.password" placeholder="请输入密码"/>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="register">登录</el-button>
+      <el-button type="primary" @click="login">登录</el-button>
       <el-button type="primary" @click="form.username='';form.password=''">清空</el-button>
     </el-form-item>
   </el-form>
@@ -27,7 +27,7 @@
       }
     },
     methods: {
-      register() {
+      login() {
         axios.post('/api/login', {
           username: this.form.username,
           password: this.form.password

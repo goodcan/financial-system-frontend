@@ -36,7 +36,7 @@
         <el-menu-item index="3-2">修改</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
-    <el-submenu index="4">
+    <el-submenu index="4" v-if="userLevel === 2">
       <template slot="title">
         <i class="el-icon-setting"></i>
         <span>创建模板</span>
@@ -44,6 +44,7 @@
       <el-menu-item-group>
         <el-menu-item index="/createClass">创建新类目</el-menu-item>
         <el-menu-item index="/createCustomer">创建新客户</el-menu-item>
+        <el-menu-item index="/createContact">创建联系人</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
   </el-menu>
@@ -53,6 +54,15 @@
   export default {
     data() {
       return {}
+    },
+    computed: {
+      userLevel() {
+        if (this.$store.state.userObj) {
+          return this.$store.state.userObj.level
+        } else {
+          return 0
+        }
+      }
     },
     methods: {
       handleOpen() {

@@ -1,14 +1,16 @@
 <template>
   <el-form :model="customerForm" ref="customerForm" label-width="100px">
-    <el-form-item
-      v-for="(customer, index) in customerForm.customers"
-      :label="'客户名称'+ index"
-      :key="customer.time"
-      :prop="'customers.' + index + '.name'"
-      :rules="{required: true, message: '客户名不能为空', trigger: 'blur'}">
-      <el-input v-model="customer.name"/>
-      <el-button @click.prevent="removeCustomer(customer)" v-if="index > 0">删除</el-button>
-    </el-form-item>
+    <div v-for="(customer, index) in customerForm.customers">
+      <el-form-item
+        :label="'客户名称'+ index"
+        :prop="'customers.' + index + '.name'"
+        :rules="{required: true, message: '客户名不能为空', trigger: 'blur'}">
+        <el-input v-model="customer.name"/>
+      </el-form-item>
+      <el-form-item>
+        <el-button @click.prevent="removeCustomer(customer)" v-if="index > 0">删除</el-button>
+      </el-form-item>
+    </div>
     <el-form-item>
       <el-button type="primary" @click="submitForm('customerForm')">提交</el-button>
       <el-button @click="addClass">新增客户名称</el-button>
@@ -38,7 +40,8 @@
           if (valid) {
             // alert('submit!');
             axios.post('/api/addOrderCustomer', {
-              customers: this.customerForm.customers
+              customers: this.customerForm.customers,
+              createUser: this.$store.state.userObj.username
             }).then((response) => {
               let res = response.data;
               if (res.code === 1) {
