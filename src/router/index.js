@@ -4,6 +4,8 @@ import Main from '../views/Main'
 import CreateOrder from '../components/orders/CreateOrder'
 import Register from '../components/user/Register'
 import Login from '../components/user/Login'
+import CreateClass from '../components/orders/CreateClass'
+import CreateCustomer from '../components/orders/CreateCustomer'
 
 Vue.use(Router);
 
@@ -19,6 +21,16 @@ export default new Router({
           path: '/createOrder',
           name: 'CreateOrder',
           component: CreateOrder
+        },
+        {
+          path: '/createClass',
+          name: 'CreateClass',
+          component: CreateClass
+        },
+        {
+          path: '/createCustomer',
+          name: 'CreateCustomer',
+          component: CreateCustomer
         }
       ]
     },

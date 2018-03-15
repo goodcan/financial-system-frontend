@@ -42,8 +42,8 @@
         <span>创建模板</span>
       </template>
       <el-menu-item-group>
-        <el-menu-item index="4-1">创建新类目</el-menu-item>
-        <el-menu-item index="4-2">创建新客户</el-menu-item>
+        <el-menu-item index="/createClass">创建新类目</el-menu-item>
+        <el-menu-item index="/createCustomer">创建新客户</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
   </el-menu>
