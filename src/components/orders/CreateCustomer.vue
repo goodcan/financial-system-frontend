@@ -49,6 +49,7 @@
             }).then((response) => {
               let res = response.data;
               if (res.code === 1) {
+                this.$refs[formName].resetFields();
                 this.customerForm.customers = [{name: '', time: Date.now()}];
                 this.$notify({
                   title: '成功',

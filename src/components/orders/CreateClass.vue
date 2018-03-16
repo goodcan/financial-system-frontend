@@ -1,5 +1,9 @@
 <template>
-  <el-form :model="classForm" ref="classForm" label-width="100px">
+  <el-form
+    :model="classForm"
+    ref="classForm"
+    :status-icon="true"
+    label-width="100px">
     <div v-for="(eachClass, index) in classForm.classes">
       <el-form-item
         :label="'类目名称'+ index"
@@ -14,7 +18,7 @@
     <el-form-item>
       <el-button type="primary" @click="submitForm('classForm')">提交</el-button>
       <el-button @click="addClass">新增类目</el-button>
-      <el-button @click="resetForm()">重置</el-button>
+      <el-button @click="resetForm('classForm')">重置</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -45,6 +49,7 @@
             }).then((response) => {
               let res = response.data;
               if (res.code === 1) {
+                this.$refs[formName].resetFields();
                 this.classForm.classes = [{name: '', time: Date.now()}];
                 this.$notify({
                   title: '成功',
@@ -64,9 +69,9 @@
           }
         });
       },
-      resetForm() {
-        // this.$refs[formName].resetFields();
-        this.classForm.classes = [{name: '', time: Date.now()}]
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+        // this.classForm.classes = [{name: '', time: Date.now()}]
       },
       removeClasses(item) {
         console.log(item);

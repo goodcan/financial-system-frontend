@@ -1,5 +1,9 @@
 <template>
-  <el-form :model="contactForm" ref="contactForm" label-width="100px">
+  <el-form
+    :model="contactForm"
+    ref="contactForm"
+    :status-icon="true"
+    label-width="100px">
     <div v-for="(contact, index) in contactForm.contacts">
       <el-form-item
         :label="'姓名' + index"
@@ -32,7 +36,7 @@
     <el-form-item>
       <el-button type="primary" @click="submitForm('contactForm')">提交</el-button>
       <el-button @click="addContact">新增类目</el-button>
-      <el-button @click="resetForm()">重置</el-button>
+      <el-button @click="resetForm('contactForm')">重置</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -66,6 +70,7 @@
             }).then((response) => {
               let res = response.data;
               if (res.code === 1) {
+                this.$refs[formName].resetFields();
                 this.contactForm.contacts = [{name: '', tel: '', email: '', qq: '', time: Date.now()}];
                 this.$notify({
                   title: '成功',
@@ -85,9 +90,9 @@
           }
         });
       },
-      resetForm() {
-        // this.$refs[formName].resetFields();
-        this.contactForm.contacts = [{name: '', time: Date.now()}]
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+        // this.contactForm.contacts = [{name: '', time: Date.now()}]
       },
       removeContact(item) {
         console.log(item);
