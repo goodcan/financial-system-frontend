@@ -36,7 +36,7 @@
         <el-menu-item index="3-2">修改</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
-    <el-submenu index="4" v-if="userLevel === 2">
+    <el-submenu index="4" v-if="userPermissions.editOrderOption === 1">
       <template slot="title">
         <i class="el-icon-setting"></i>
         <span>订单信息管理</span>
@@ -57,11 +57,11 @@
       return {}
     },
     computed: {
-      userLevel() {
+      userPermissions() {
         if (this.$store.state.userObj) {
-          return this.$store.state.userObj.level
+          return this.$store.state.userObj.permissions
         } else {
-          return 0
+          return {}
         }
       }
     },
