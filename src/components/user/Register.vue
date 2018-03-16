@@ -32,9 +32,13 @@
         </el-input>
       </el-form-item>
       <el-form-item prop="registerKey">
-        <el-input type="password" v-model="form.registerKey" placeholder="验证码">
+        <el-input
+          type="text"
+          v-model="form.registerKey"
+          placeholder="验证码"
+          @keyup.enter.native="register('form')">>
           <template slot="prepend">
-            <span class="glyphicon glyphicon-lock"></span>
+            <span class="glyphicon glyphicon-tag"></span>
           </template>
         </el-input>
       </el-form-item>
@@ -79,17 +83,17 @@
     text-align: center;
   }
 
-  .register-container.el-input-group__prepend {
+  .register-container .el-input-group__prepend {
     border-bottom-left-radius: 20px;
     border-top-left-radius: 20px;
   }
 
- .register-container .el-input__inner {
+  .register-container .el-input__inner {
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
   }
 
- .register-container .el-form-item__error {
+  .register-container .el-form-item__error {
     margin-left: 55px;
   }
 
@@ -120,7 +124,7 @@
         rules: {
           username: [
             {required: true, message: '用户名能为空', trigger: 'blur'},
-            {min: 6, max: 24, message: '需要6到12个字符', trigger: 'blur'}
+            {min: 2, max: 24, message: '需要6到12个字符', trigger: 'blur'}
           ],
           password1: [
             {required: true, message: '密码不能为空', trigger: 'blur'},

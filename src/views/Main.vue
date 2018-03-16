@@ -1,14 +1,12 @@
 <template>
   <el-row>
-    <el-row :gutter="15">
+    <nav-header/>
+    <el-row :gutter="15" style="margin-top: 15px">
       <el-col :span="4">
         <nav-bar/>
       </el-col>
       <el-col :span="20">
-        <nav-header/>
-        <el-row style="margin-top: 30px">
           <router-view/>
-        </el-row>
       </el-col>
     </el-row>
   </el-row>
