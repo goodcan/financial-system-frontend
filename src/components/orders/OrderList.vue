@@ -8,7 +8,7 @@
           <el-form-item>
             <el-steps :active="props.row.status" finish-status="success">
               <el-step title="创建订单"/>
-              <el-step title="进行中"/>
+              <el-step title="制作完成"/>
               <el-step title="结算完成"/>
             </el-steps>
           </el-form-item>
@@ -67,10 +67,22 @@
       label="状态">
       <template slot-scope="scope">
         <el-tag
-          :type="scope.row.status === 2 ? 'primary' : 'success'"
+          :type="scope.row.status === 1 ? 'primary' : 'success'"
           lose-transition>
-          {{scope.row.status === 2? '进行中': '已完成'}}
+          {{scope.row.status === 1? '进行中': '已完成'}}
         </el-tag>
+      </template>
+    </el-table-column>
+    <el-table-column label="操作">
+      <template slot-scope="scope">
+        <!--<el-button-->
+        <!--size="mini"-->
+        <!--@click="handleEdit(scope.$index, scope.row)">编辑</el-button>-->
+        <el-button
+          size="mini"
+          type="danger"
+          @click="delOrder(scope.row)">删除
+        </el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -80,21 +92,6 @@
   .table-expand label {
     width: 90px;
     color: #99a9bf;
-  }
-
-  .demo-table-expand {
-    font-size: 0;
-  }
-
-  .demo-table-expand label {
-    width: 90px;
-    color: #99a9bf;
-  }
-
-  .demo-table-expand .el-form-item {
-    margin-right: 0;
-    margin-bottom: 0;
-    width: 50%;
   }
 </style>
 
@@ -121,6 +118,41 @@
             this.orders = res.result;
           }
         })
+      },
+      delOrder(order) {
+        this.$confirm('此操作将永久删除该订单, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          center: true
+        }).then(() => {
+          axios.post('/api/delOrder', {
+            userId: order.userId,
+            orderId: order.orderId
+          }).then((response) => {
+            let res = response.data;
+            if (res.code === 1) {
+              this.$message({
+                showClose: true,
+                message: '删除成功!',
+                type: 'success'
+              });
+              this.init();
+            } else {
+              this.$message({
+                showClose: true,
+                message: res.msg,
+                type: 'error'
+              });
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+
       }
     }
   }
