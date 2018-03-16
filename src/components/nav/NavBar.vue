@@ -12,7 +12,7 @@
       </template>
       <el-menu-item-group>
         <el-menu-item index="/createOrder">创建订单</el-menu-item>
-        <el-menu-item index="1-2">确认支付订单</el-menu-item>
+        <el-menu-item index="/orderList">订单列表</el-menu-item>
         <el-menu-item index="1-3">结算订单</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
@@ -39,12 +39,13 @@
     <el-submenu index="4" v-if="userLevel === 2">
       <template slot="title">
         <i class="el-icon-setting"></i>
-        <span>创建模板</span>
+        <span>订单信息管理</span>
       </template>
       <el-menu-item-group>
-        <el-menu-item index="/createClass">创建新类目</el-menu-item>
-        <el-menu-item index="/createCustomer">创建新客户</el-menu-item>
-        <el-menu-item index="/createContact">创建联系人</el-menu-item>
+        <el-menu-item index="/createDpt">部门管理</el-menu-item>
+        <el-menu-item index="/createClass">类目管理</el-menu-item>
+        <el-menu-item index="/createCustomer">客户管理</el-menu-item>
+        <el-menu-item index="/createContact">联系人管理</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
   </el-menu>

@@ -14,7 +14,6 @@ export default new Vuex.Store({
       window.sessionStorage.setItem('token', token);
     },
     updateUserObj(state, userObj) {
-      console.log(userObj);
       this.state.userObj = userObj;
     }
   }

@@ -2,10 +2,12 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Main from '../views/Main'
 import CreateOrder from '../components/orders/CreateOrder'
+import OrderList from '../components/orders/OrderList'
 import Register from '../components/user/Register'
 import Login from '../components/user/Login'
 import CreateClass from '../components/orders/CreateClass'
 import CreateCustomer from '../components/orders/CreateCustomer'
+import CreateDpt from '../components/orders/CreateDpt'
 import CreateContact from '../components/orders/CreateContact'
 
 Vue.use(Router);
@@ -24,6 +26,11 @@ export default new Router({
           component: CreateOrder
         },
         {
+          path: '/orderList',
+          name: 'OrderList',
+          component: OrderList
+        },
+        {
           path: '/createClass',
           name: 'CreateClass',
           component: CreateClass
@@ -37,6 +44,11 @@ export default new Router({
           path: '/createContact',
           name: 'CreateContact',
           component: CreateContact
+        },
+        {
+          path: '/createDpt',
+          name: 'CreateDpt',
+          component: CreateDpt
         }
       ]
     },
