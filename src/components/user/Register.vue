@@ -46,13 +46,16 @@
         },
         rules: {
           username: [
-            {required: true, message: '用户名能为空', trigger: 'blur'}
+            {required: true, message: '用户名能为空', trigger: 'blur'},
+            {min: 6, max: 24, message: '需要6到12个字符', trigger: 'blur'}
           ],
           password1: [
-            {required: true, message: '密码不能为空', trigger: 'blur'}
+            {required: true, message: '密码不能为空', trigger: 'blur'},
+            {min: 6, max: 24, message: '需要6到12个字符', trigger: 'blur'}
           ],
           password2: [
-            {validator: validatePwd2, trigger: 'blur'}
+            {required: true, validator: validatePwd2, trigger: 'blur'},
+            {min: 6, max: 24, message: '需要6到12个字符', trigger: 'blur'}
           ]
         }
       }
@@ -73,6 +76,12 @@
                 this.$router.push({
                   path: '/'
                 })
+              } else {
+                this.$message({
+                  showClose: true,
+                  message: res.msg,
+                  type: 'error'
+                });
               }
             })
           } else {
