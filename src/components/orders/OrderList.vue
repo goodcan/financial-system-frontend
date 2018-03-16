@@ -1,91 +1,98 @@
 <template>
-  <el-table
-    :data="orders"
-    style="width: 100%">
-    <el-table-column type="expand">
-      <template slot-scope="props">
-        <el-form label-position="left" class="table-expand">
-          <el-form-item>
-            <el-steps :active="props.row.status" finish-status="success">
-              <el-step title="创建订单"/>
-              <el-step title="制作完成"/>
-              <el-step title="结算完成"/>
-            </el-steps>
-          </el-form-item>
-          <el-col :span="12">
-            <el-form-item label="订单ID：">
-              <span>{{ props.row.orderId }}</span>
+  <div>
+    <el-row style="text-align: center;margin-bottom: 15px">
+      <span>需要支出：{{payStatus.need | currency('￥')}}</span> |
+      <span>预计支出：{{payStatus.expect | currency('￥')}}</span> |
+      <span>已经支出：{{payStatus.had | currency('￥')}}</span>
+    </el-row>
+    <el-table
+      :data="orders"
+      style="width: 100%">
+      <el-table-column type="expand">
+        <template slot-scope="props">
+          <el-form label-position="left" class="table-expand">
+            <el-form-item>
+              <el-steps :active="props.row.status" finish-status="success">
+                <el-step title="创建订单"/>
+                <el-step title="制作完成"/>
+                <el-step title="结算完成"/>
+              </el-steps>
             </el-form-item>
-            <el-form-item label="创建时间：">
-              <span>{{ props.row.createTime }}</span>
+            <el-col :span="12">
+              <el-form-item label="订单ID：">
+                <span>{{ props.row.orderId }}</span>
+              </el-form-item>
+              <el-form-item label="创建时间：">
+                <span>{{ props.row.createTime }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="创建人：">
+                <span>{{ props.row.createUser }}</span>
+              </el-form-item>
+              <el-form-item label="部门类别：">
+                <span>{{ props.row.department }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="订单类目：">
+                <span>{{ props.row.className }}</span>
+              </el-form-item>
+              <el-form-item label="客户名称：">
+                <span>{{ props.row.customerName }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="对接人员：">
+                <span>{{ props.row.contactName }}</span>
+              </el-form-item>
+              <el-form-item label="佣金：">
+                <span>{{ props.row.price | currency('￥') }}</span>
+              </el-form-item>
+            </el-col>
+            <el-form-item label="备注：" v-if="props.row.desc">
+              <span>{{ props.row.desc }}</span>
             </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="创建人：">
-              <span>{{ props.row.createUser }}</span>
-            </el-form-item>
-            <el-form-item label="部门类别：">
-              <span>{{ props.row.department }}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="订单类目：">
-              <span>{{ props.row.className }}</span>
-            </el-form-item>
-            <el-form-item label="客户名称：">
-              <span>{{ props.row.customerName }}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="对接人员：">
-              <span>{{ props.row.contactName }}</span>
-            </el-form-item>
-            <el-form-item label="佣金：">
-              <span>{{ props.row.price }}</span>
-            </el-form-item>
-          </el-col>
-          <el-form-item label="备注：" v-if="props.row.desc">
-            <span>{{ props.row.desc }}</span>
-          </el-form-item>
-        </el-form>
-      </template>
-    </el-table-column>
-    <el-table-column
-      label="订单 ID"
-      prop="orderId">
-    </el-table-column>
-    <el-table-column
-      label="创建时间"
-      prop="createTime">
-    </el-table-column>
-    <el-table-column
-      label="创建人"
-      prop="createUser">
-    </el-table-column>
-    <el-table-column
-      prop="tag"
-      label="状态">
-      <template slot-scope="scope">
-        <el-tag
-          :type="scope.row.status === 1 ? 'primary' : 'success'"
-          lose-transition>
-          {{scope.row.status === 1? '进行中': '已完成'}}
-        </el-tag>
-      </template>
-    </el-table-column>
-    <el-table-column label="操作">
-      <template slot-scope="scope">
-        <!--<el-button-->
-        <!--size="mini"-->
-        <!--@click="handleEdit(scope.$index, scope.row)">编辑</el-button>-->
-        <el-button
-          size="mini"
-          type="danger"
-          @click="delOrder(scope.row)">删除
-        </el-button>
-      </template>
-    </el-table-column>
-  </el-table>
+          </el-form>
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="订单 ID"
+        prop="orderId">
+      </el-table-column>
+      <el-table-column
+        label="创建时间"
+        prop="createTime">
+      </el-table-column>
+      <el-table-column
+        label="创建人"
+        prop="createUser">
+      </el-table-column>
+      <el-table-column
+        prop="tag"
+        label="状态">
+        <template slot-scope="scope">
+          <el-tag
+            :type="orderStatus(scope.row.status)"
+            lose-transition>
+            {{orderStatusText(scope.row.status)}}
+          </el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <!--<el-button-->
+          <!--size="mini"-->
+          <!--@click="handleEdit(scope.$index, scope.row)">编辑</el-button>-->
+          <el-button
+            size="mini"
+            type="danger"
+            @click="delOrder(scope.row)">删除
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
 </template>
 
 <style>
@@ -102,6 +109,27 @@
     data() {
       return {
         orders: []
+      }
+    },
+    computed: {
+      payStatus() {
+        let needPay = 0;
+        let hadPay = 0;
+        let expectPay = 0;
+        this.orders.forEach((item) => {
+          if (item.status === 1) {
+            expectPay += item.price;
+          } else if (item.status === 2) {
+            needPay += item.price
+          } else if (item.status === 3) {
+            hadPay += item.price
+          }
+        });
+        return {
+          need: needPay,
+          had: hadPay,
+          expect: expectPay
+        }
       }
     },
     mounted() {
@@ -152,7 +180,24 @@
             message: '已取消删除'
           });
         });
-
+      },
+      orderStatus(status) {
+        if (status === 1) {
+          return 'primary'
+        } else if (status === 2) {
+          return 'warning'
+        } else if (status === 3) {
+          return 'success'
+        }
+      },
+      orderStatusText(status) {
+        if (status === 1) {
+          return '制作中'
+        } else if (status === 2) {
+          return '代付款'
+        } else if (status === 3) {
+          return '已付款'
+        }
       }
     }
   }

@@ -147,7 +147,7 @@
               customerName: this.form.selectCustomer,
               contactName: this.form.selectContact,
               expectDate: this.form.expectDate,
-              price: this.form.price,
+              price: parseInt(this.form.price),
               desc: this.form.desc
             }).then((response) => {
               let res = response.data;
@@ -163,6 +163,7 @@
                   title: '失败',
                   message: res.msg
                 });
+                this.$refs[formName].clearValidate();
               }
             })
           } else {

@@ -11,41 +11,34 @@
       label-width="80px"
       label-position="top">
       <el-form-item prop="username">
-        <el-input v-model="form.username">
+        <el-input v-model="form.username" placeholder="用户名">
           <template slot="prepend">
             <span class="glyphicon glyphicon-user"></span>
           </template>
         </el-input>
       </el-form-item>
       <el-form-item prop="password1">
-        <el-input type="password" v-model="form.password1">
+        <el-input type="password" v-model="form.password1" placeholder="设置密码">
           <template slot="prepend">
             <span class="glyphicon glyphicon-lock"></span>
           </template>
         </el-input>
       </el-form-item>
       <el-form-item prop="password2">
-        <el-input type="password" v-model="form.password2">
+        <el-input type="password" v-model="form.password2" placeholder="确认密码">
           <template slot="prepend">
             <span class="glyphicon glyphicon-lock"></span>
           </template>
         </el-input>
       </el-form-item>
-      <el-form-item prop="department">
-        <div class=" el-input-group__prepend " style="display: inline;float: left">
-          <span class="glyphicon glyphicon-tag"></span>
-        </div>
-        <el-select
-          v-model="form.department"
-          placeholder="请选择部门"
-          class="input-with-select">
-          <el-option
-            v-for="item in departments"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"/>
-        </el-select>
+      <el-form-item prop="registerKey">
+        <el-input type="password" v-model="form.registerKey" placeholder="验证码">
+          <template slot="prepend">
+            <span class="glyphicon glyphicon-lock"></span>
+          </template>
+        </el-input>
       </el-form-item>
+
       <div class="register-btn">
         <el-button
           type="success"
@@ -86,41 +79,17 @@
     text-align: center;
   }
 
-  .input-with-select .el-input-group__append {
-    background-color: #fff;
-  }
-
-  .el-input-group__prepend {
+  .register-container.el-input-group__prepend {
     border-bottom-left-radius: 20px;
     border-top-left-radius: 20px;
   }
 
-  .my-select .el-input__inner {
-    width: 0;
-    padding: 0;
-  }
-
-  .my-select .el-input-group__append {
-    background-color: #fff;
+ .register-container .el-input__inner {
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
   }
 
-  .my-select .el-select .el-input {
-    width: 210px;
-  }
-
-  .my-select .el-select .el-input .el-input__inner {
-    width: 240px;
-    padding-left: 15px;
-  }
-
-  .el-input__inner {
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-  }
-
-  .el-form-item__error {
+ .register-container .el-form-item__error {
     margin-left: 55px;
   }
 
@@ -145,7 +114,7 @@
           username: '',
           password1: '',
           password2: '',
-          department: '',
+          registerKey: '',
         },
         departments: [],
         rules: {
@@ -161,24 +130,13 @@
             {required: true, validator: validatePwd2, trigger: 'blur'},
             {min: 6, max: 24, message: '需要6到12个字符', trigger: 'blur'}
           ],
-          department: [
-            {required: true, message: '没有部门', trigger: 'blur'},
+          registerKey: [
+            {required: true, message: '请输入验证码', trigger: 'blur'},
           ]
         }
       }
     },
-    mounted() {
-      this.init();
-    },
     methods: {
-      init() {
-        axios.post('/api/registerInitData').then((response) => {
-          let res = response.data;
-          if (res.code === 1) {
-            this.departments = res.result.departments;
-          }
-        })
-      },
       register(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -186,7 +144,7 @@
               username: this.form.username,
               password1: this.form.password1,
               password2: this.form.password2,
-              userType: this.form.department
+              registerKey: this.form.registerKey
             }).then((response) => {
               let res = response.data;
               if (res.code === 1) {
@@ -201,6 +159,7 @@
                   message: res.msg,
                   type: 'error'
                 });
+                this.$refs[formName].clearValidate();
               }
             })
           } else {

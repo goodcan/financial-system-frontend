@@ -64,17 +64,17 @@
     text-align: center;
   }
 
-  .el-input-group__prepend {
+  .login-container .el-input-group__prepend {
     border-bottom-left-radius: 20px;
     border-top-left-radius: 20px;
   }
 
-  .el-input__inner {
+  .login-container .el-input__inner {
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
   }
 
-  .el-form-item__error {
+  .login-container .el-form-item__error {
     margin-left: 55px;
   }
 
@@ -125,6 +125,7 @@
                   message: res.msg,
                   type: 'error'
                 });
+                this.$refs[formName].clearValidate();
               }
             })
           } else {

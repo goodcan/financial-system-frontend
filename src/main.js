@@ -5,12 +5,15 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 import store from './store'
+import { currency } from "./util/currency";
 
 import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.use(ElementUI);
 
 Vue.config.productionTip = false;
+
+Vue.filter('currency', currency);
 
 /* eslint-disable no-new */
 new Vue({
