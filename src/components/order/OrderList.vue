@@ -154,9 +154,7 @@
     methods: {
       init() {
         console.log('user: ' + this.$store.state.userObj);
-        axios.post('/api/orderList', {
-          userId: this.$store.state.userObj.userId
-        }).then((response) => {
+        axios.post('/api/orderList').then((response) => {
           let res = response.data;
           if (res.code === 1) {
             this.orders = res.result;
