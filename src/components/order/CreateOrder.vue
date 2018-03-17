@@ -165,13 +165,13 @@
                 if (res.code === 1) {
                   this.$refs[formName].resetFields();
                   this.$notify({
-                    title: '成功',
+                    title: '创建成功',
                     message: '新的订单已经创建',
                     type: 'success'
                   });
                 } else {
                   this.$notify.error({
-                    title: '失败',
+                    title: '创建失败',
                     message: res.msg
                   });
                   this.$refs[formName].clearValidate();

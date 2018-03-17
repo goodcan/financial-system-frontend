@@ -8,18 +8,28 @@
       background-color="#545c64"
       text-color="#fff"
       active-text-color="#ffd04b">
-      <el-submenu index="1" v-if="isLogin" style="float: right;">
+      <span class="nav-title">十字星外包管理系统</span>
+      <el-submenu index="2" v-if="isLogin" style="float: right;">
         <template slot="title">{{user.username}}</template>
-        <el-menu-item index="1-1" @click="logout">Sign out</el-menu-item>
+        <el-menu-item index="2-1" @click="logout">Sign out</el-menu-item>
       </el-submenu>
-        <el-menu-item index="2" @click="toRegister" v-if="!isLogin"
+        <el-menu-item index="3" @click="toRegister" v-if="!isLogin"
                       style="float: right">Sign up</el-menu-item>
-        <el-menu-item index="3" @click="toLogin" v-if="!isLogin"
+        <el-menu-item index="4" @click="toLogin" v-if="!isLogin"
                       style="float: right">Sign in</el-menu-item>
     </el-menu>
   </el-row>
 
 </template>
+
+<style>
+  .nav-title {
+    color: white;
+    margin-left: 30px;
+    height: 60px;
+    line-height: 60px;
+  }
+</style>
 
 <script>
   // import { registerApi } from '../api/userApi'
@@ -76,7 +86,3 @@
     }
   }
 </script>
-
-<style scoped>
-
-</style>

@@ -58,6 +58,7 @@
           style="width: 100%;margin: 5px auto">
           重置
         </el-button>
+        <router-link href="javascript:" to="/login">已有账号去登录</router-link>
       </div>
     </el-form>
   </div>

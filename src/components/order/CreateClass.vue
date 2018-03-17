@@ -52,13 +52,13 @@
                 this.$refs[formName].resetFields();
                 this.classForm.classes = [{name: '', time: Date.now()}];
                 this.$notify({
-                  title: '成功',
+                  title: '添加成功',
                   message: '新的类目添加成功',
                   type: 'success'
                 });
               } else {
                 this.$notify.error({
-                  title: '失败',
+                  title: '添加失败',
                   message: res.msg
                 });
               }

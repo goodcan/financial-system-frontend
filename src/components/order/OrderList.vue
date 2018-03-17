@@ -245,14 +245,14 @@
             let res = response.data;
             if (res.code === 1) {
               this.$notify({
-                title: '成功',
+                title: '操作成功',
                 message: res.msg,
                 type: 'success'
               });
               this.init();
             } else {
               this.$notify.error({
-                title: '失败',
+                title: '操作失败',
                 message: res.msg
               });
             }
