@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Main from '../views/Main'
-import CreateOrder from '../components/orders/CreateOrder'
-import OrderList from '../components/orders/OrderList'
+import CreateOrder from '../components/order/CreateOrder'
+import OrderList from '../components/order/OrderList'
 import Register from '../components/user/Register'
 import Login from '../components/user/Login'
-import CreateClass from '../components/orders/CreateClass'
-import CreateCustomer from '../components/orders/CreateCustomer'
-import CreateDpt from '../components/orders/CreateDpt'
-import CreateContact from '../components/orders/CreateContact'
+import CreateClass from '../components/order/CreateClass'
+import CreateCustomer from '../components/order/CreateCustomer'
+import CreateDpt from '../components/order/CreateDpt'
+import CreateContact from '../components/order/CreateContact'
 
 Vue.use(Router);
 

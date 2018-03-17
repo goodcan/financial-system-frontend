@@ -58,19 +58,23 @@
       </el-table-column>
       <el-table-column
         label="订单 ID"
-        prop="orderId">
+        prop="orderId"
+        width="170px">
       </el-table-column>
       <el-table-column
         label="创建时间"
-        prop="createTime">
+        prop="createTime"
+        width="170px">
       </el-table-column>
       <el-table-column
         label="创建人"
-        prop="createUser">
+        prop="createUser"
+        width="150px">
       </el-table-column>
       <el-table-column
         prop="tag"
-        label="状态">
+        label="状态"
+        width="80px">
         <template slot-scope="scope">
           <el-tag
             :type="orderStatus(scope.row.status)"
@@ -81,13 +85,25 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <!--<el-button-->
-          <!--size="mini"-->
-          <!--@click="handleEdit(scope.$index, scope.row)">编辑</el-button>-->
           <el-button
             size="mini"
             type="danger"
             @click="delOrder(scope.row)">删除
+          </el-button>
+          <el-button
+            size="mini"
+            v-if="scope.row.status !== 1"
+            @click="editOrderStatus(scope.row, 1)">重新制作
+          </el-button>
+          <el-button
+            size="mini"
+            v-if="scope.row.status !== 2"
+            @click="editOrderStatus(scope.row, 2)">制作完成
+          </el-button>
+          <el-button
+            size="mini"
+            v-if="scope.row.status !== 3"
+            @click="editOrderStatus(scope.row, 3)">完成付款
           </el-button>
         </template>
       </el-table-column>
@@ -194,11 +210,33 @@
         if (status === 1) {
           return '制作中'
         } else if (status === 2) {
-          return '代付款'
+          return '待付款'
         } else if (status === 3) {
           return '已付款'
         }
-      }
+      },
+      editOrderStatus(order, status) {
+        axios.post('/api/editOrderStatus', {
+          status: status,
+          userId: order.userId,
+          orderId: order.orderId
+        }).then((response) => {
+          let res = response.data;
+          if (res.code === 1) {
+            this.$notify({
+              title: '成功',
+              message: res.msg,
+              type: 'success'
+            });
+            this.init();
+          } else {
+            this.$notify.error({
+              title: '失败',
+              message: res.msg
+            });
+          }
+        })
+      },
     }
   }
 </script>
