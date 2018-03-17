@@ -1,0 +1,93 @@
+<template>
+  <el-table
+    :data="users"
+    style="width: 100%">
+    <el-table-column type="expand">
+      <template slot-scope="props">
+        <el-form label-position="left" class="table-expand">
+          <el-col :span="12">
+            <el-form-item label="用户ID：">
+              <span>{{ props.row.userId }}</span>
+            </el-form-item>
+            <el-form-item label="用户名：">
+              <span>{{ props.row.username }}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="创建时间">
+              <span>{{ props.row.createTime }}</span>
+            </el-form-item>
+            <el-form-item label="上次登录：">
+              <span>{{ props.row.lastLogin }}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="部门：">
+              <span>{{ props.row.department? props.row.department: '未设置' }}</span>
+            </el-form-item>
+            <el-form-item label="手机号码：">
+              <span>{{ props.row.tel? props.row.tel: '未设置' }}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="QQ：">
+              <span>{{ props.row.qq? props.row.qq: '未设置' }}</span>
+            </el-form-item>
+            <el-form-item label="邮箱：">
+              <span>{{ props.row.email? props.row.email: '未设置' }}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="权限：">
+              <span>{{ props.row.permission }}</span>
+            </el-form-item>
+          </el-col>
+        </el-form>
+      </template>
+    </el-table-column>
+    <el-table-column
+      label="用户ID"
+      prop="userId">
+    </el-table-column>
+    <el-table-column
+      label="用户名"
+      prop="username">
+    </el-table-column>
+    <el-table-column
+      label="上次登录"
+      prop="lastLogin">
+    </el-table-column>
+  </el-table>
+</template>
+
+<style>
+  .table-expand label {
+    width: 90px;
+    color: #99a9bf;
+  }
+</style>
+
+<script>
+  import axios from '../../axios'
+
+  export default {
+    data() {
+      return {
+        users: []
+      }
+    },
+    mounted() {
+      this.init();
+    },
+    methods: {
+      init() {
+        axios.post('/api/userList').then(response => {
+          let res = response.data;
+          if (res.code === 1) {
+            this.users = res.result;
+          }
+        })
+      }
+    }
+  }
+</script>

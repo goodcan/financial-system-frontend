@@ -9,6 +9,7 @@ import CreateClass from '../components/order/CreateClass'
 import CreateCustomer from '../components/order/CreateCustomer'
 import CreateDpt from '../components/order/CreateDpt'
 import CreateContact from '../components/order/CreateContact'
+import UserList from '../components/user/UserList'
 
 Vue.use(Router);
 
@@ -49,6 +50,11 @@ export default new Router({
           path: '/createDpt',
           name: 'CreateDpt',
           component: CreateDpt
+        },
+        {
+          path: '/userList',
+          name: 'UserList',
+          component: UserList
         }
       ]
     },
