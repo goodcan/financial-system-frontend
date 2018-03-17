@@ -1,6 +1,7 @@
 <template>
   <el-table
     :data="users"
+    :stripe="true"
     style="width: 100%">
     <el-table-column type="expand">
       <template slot-scope="props">
@@ -65,13 +66,6 @@
     </el-table-column>
   </el-table>
 </template>
-
-<style>
-  .table-expand label {
-    width: 90px;
-    color: #99a9bf;
-  }
-</style>
 
 <script>
   import axios from '../../axios'

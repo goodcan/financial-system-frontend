@@ -17,6 +17,8 @@
   import NavFooter from '../components/nav/NavFooter'
   import NavBar from '../components/nav/NavBar'
 
+  import '../assets/csss/base.css'
+
   export default {
     data() {
       return {}

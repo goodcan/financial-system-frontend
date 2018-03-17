@@ -1,3 +1,8 @@
-body {
+.add-option-title-h3 {
+  text-align: center
+}
 
+.table-expand label {
+  width: 90px;
+  color: #99a9bf;
 }

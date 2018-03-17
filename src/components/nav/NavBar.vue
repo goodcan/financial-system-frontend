@@ -44,7 +44,7 @@
         <el-menu-item index="/createDpt">部门管理</el-menu-item>
         <el-menu-item index="/createClass">类目管理</el-menu-item>
         <el-menu-item index="/createCustomer">客户管理</el-menu-item>
-        <el-menu-item index="/createContact">联系人管理</el-menu-item>
+        <el-menu-item index="/createContact">对接人管理</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
   </el-menu>

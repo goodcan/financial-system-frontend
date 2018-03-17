@@ -1,44 +1,98 @@
 <template>
-  <el-form
-    :model="contactForm"
-    ref="contactForm"
-    :status-icon="true"
-    label-width="100px">
-    <div v-for="(contact, index) in contactForm.contacts">
-      <el-form-item
-        :label="'姓名' + index"
-        :prop="'contacts.' + index + '.name'"
-        :rules="{required: true, message: '姓名不能为空', trigger: 'blur'}">
-        <el-input v-model="contact.name"/>
-      </el-form-item>
-      <el-form-item
-        :label="'电话'"
-        :prop="'contacts.' + index + '.tel'">
-        <!--:rules="{required: true, message: '类目名不能为空', trigger: 'blur'}">-->
-        <el-input v-model="contact.tel"/>
-      </el-form-item>
-      <el-form-item
-        :label="'邮箱'"
-        :prop="'contacts.' + index + '.email'">
-        <!--:rules="{required: true, message: '类目名不能为空', trigger: 'blur'}">-->
-        <el-input v-model="contact.email"/>
-      </el-form-item>
-      <el-form-item
-        :label="'QQ'"
-        :prop="'contacts.' + index + '.qq'">
-        <!--:rules="{required: true, message: '类目名不能为空', trigger: 'blur'}">-->
-        <el-input v-model="contact.qq"/>
-      </el-form-item>
+  <el-row>
+    <h3 class="add-option-title-h3">当前已有对接人</h3>
+    <el-table
+      :data="contacts"
+      :stripe="true"
+      width="100%">
+      <el-table-column type="expand">
+        <template slot-scope="props">
+          <el-form label-position="left" class="table-expand">
+            <el-col :span="12">
+              <el-form-item label="姓名：">
+                <span>{{ props.row.name }}</span>
+              </el-form-item>
+              <el-form-item label="创建时间">
+                <span>{{ props.row.createTime }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="手机号码：">
+                <span>{{ props.row.tel? props.row.tel: '未设置' }}</span>
+              </el-form-item>
+              <el-form-item label="QQ：">
+                <span>{{ props.row.qq? props.row.qq: '未设置' }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="邮箱：">
+                <span>{{ props.row.email? props.row.email: '未设置' }}</span>
+              </el-form-item>
+            </el-col>
+          </el-form>
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="姓名"
+        prop="name">
+      </el-table-column>
+      <el-table-column
+        label="添加时间"
+        prop="createTime">
+      </el-table-column>
+      <el-table-column
+        label="添加人"
+        prop="createUser">
+      </el-table-column>
+      <el-table-column label="操作" width="300px">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="danger"
+            @click="delOrderOption(scope.row)">删除
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <h3 class="add-option-title-h3">添加新的对接人</h3>
+    <el-form
+      :model="contactForm"
+      ref="contactForm"
+      :status-icon="true"
+      label-width="100px">
+      <div v-for="(contact, index) in contactForm.contacts">
+        <el-form-item
+          :label="'姓名' + index"
+          :prop="'contacts.' + index + '.name'"
+          :rules="{required: true, message: '姓名不能为空', trigger: 'blur'}">
+          <el-input v-model="contact.name"/>
+        </el-form-item>
+        <el-form-item
+          :label="'电话'"
+          :prop="'contacts.' + index + '.tel'">
+          <el-input v-model="contact.tel"/>
+        </el-form-item>
+        <el-form-item
+          :label="'邮箱'"
+          :prop="'contacts.' + index + '.email'">
+          <el-input v-model="contact.email"/>
+        </el-form-item>
+        <el-form-item
+          :label="'QQ'"
+          :prop="'contacts.' + index + '.qq'">
+          <el-input v-model="contact.qq"/>
+        </el-form-item>
+        <el-form-item>
+          <el-button @click.prevent="removeContact(contact)" v-if="index > 0">删除</el-button>
+        </el-form-item>
+      </div>
       <el-form-item>
-        <el-button @click.prevent="removeContact(contact)" v-if="index > 0">删除</el-button>
+        <el-button type="primary" @click="addOrderOption('contactForm')">提交</el-button>
+        <el-button @click="addContact">新增类目</el-button>
+        <el-button @click="resetForm('contactForm')">重置</el-button>
       </el-form-item>
-    </div>
-    <el-form-item>
-      <el-button type="primary" @click="submitForm('contactForm')">提交</el-button>
-      <el-button @click="addContact">新增类目</el-button>
-      <el-button @click="resetForm('contactForm')">重置</el-button>
-    </el-form-item>
-  </el-form>
+    </el-form>
+  </el-row>
 </template>
 
 <script>
@@ -56,14 +110,62 @@
             qq: '',
             time: Date.now()
           }],
-        }
+        },
+        contacts: [],
+        optionType: 'contacts'
       };
     },
+    mounted() {
+      this.init();
+    },
     methods: {
-      submitForm(formName) {
+      init() {
+        axios.post('/api/orderOptionInitData', {
+          optionType: this.optionType
+        }).then(response => {
+          let res = response.data;
+          if (res.code === 1) {
+            this.contacts = res.result;
+          }
+        })
+      },
+      delOrderOption(option) {
+        this.$confirm('此操作将永久删除该对接人, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          center: true
+        }).then(() => {
+          axios.post('/api/delOrderOption', {
+            optionType: this.optionType,
+            name: option.name
+          }).then(response => {
+            let res = response.data;
+            if (res.code === 1) {
+              this.$message({
+                showClose: true,
+                message: '删除成功!',
+                type: 'success'
+              });
+              this.init();
+            } else {
+              this.$message({
+                showClose: true,
+                message: res.msg,
+                type: 'error'
+              });
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        })
+      },
+      addOrderOption(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            // alert('submit!');
             axios.post('/api/addOrderContact', {
               contacts: this.contactForm.contacts,
               createUser: this.$store.state.userObj.username
@@ -77,6 +179,7 @@
                   message: '新的联系人添加成功',
                   type: 'success'
                 });
+                this.init();
               } else {
                 this.$notify.error({
                   title: '添加失败',
