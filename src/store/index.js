@@ -6,7 +6,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     userObj: null,
-    token: window.sessionStorage.getItem('token')
+    token: window.sessionStorage.getItem('token'),
+    userPms: {} // 用户权限
   },
   mutations: {
     updateToken(state, token) {
@@ -15,6 +16,9 @@ export default new Vuex.Store({
     },
     updateUserObj(state, userObj) {
       this.state.userObj = userObj;
+      if (userObj) {
+        this.state.userPms = userObj.permissions
+      }
     }
-  }
+  },
 })

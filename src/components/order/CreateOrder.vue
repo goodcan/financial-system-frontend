@@ -5,7 +5,7 @@
     :rules="rules"
     :status-icon="true"
     label-width="100px">
-    <el-form-item label="部门" prop="selectClass">
+    <el-form-item label="部门" prop="selectDpt">
       <el-select
         v-model="form.selectDpt"
         placeholder="请选择部门">
@@ -75,8 +75,10 @@
       </el-col>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="createOrder('form')">创建订单</el-button>
-      <el-button type="primary" @click="resetForm('form')">重置</el-button>
+      <el-col :span="12">
+        <el-button type="primary" @click="createOrder('form')">创建订单</el-button>
+        <el-button type="primary" @click="resetForm('form')">重置</el-button>
+      </el-col>
     </el-form-item>
   </el-form>
 </template>
@@ -136,40 +138,50 @@
         )
       },
       createOrder(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            axios.post('/api/createOrder', {
-              userId: this.$store.state.userObj.userId,
-              createUser: this.$store.state.userObj.username,
-              userType: this.$store.state.userObj.userType,
-              department: this.form.selectDpt,
-              className: this.form.selectClass,
-              customerName: this.form.selectCustomer,
-              contactName: this.form.selectContact,
-              expectDate: this.form.expectDate,
-              price: parseInt(this.form.price),
-              desc: this.form.desc
-            }).then((response) => {
-              let res = response.data;
-              if (res.code === 1) {
-                this.$refs[formName].resetFields();
-                this.$notify({
-                  title: '成功',
-                  message: '新的订单已经创建',
-                  type: 'success'
-                });
-              } else {
-                this.$notify.error({
-                  title: '失败',
-                  message: res.msg
-                });
-                this.$refs[formName].clearValidate();
-              }
-            })
-          } else {
-            return false
-          }
-        });
+        if (this.$store.state.userPms.createOrder !== 1) {
+          this.$confirm('没有权限，请联系管理员TXT', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'error',
+            center: true
+          }).catch(() => {
+          });
+        } else {
+          this.$refs[formName].validate((valid) => {
+            if (valid) {
+              axios.post('/api/createOrder', {
+                userId: this.$store.state.userObj.userId,
+                createUser: this.$store.state.userObj.username,
+                userType: this.$store.state.userObj.userType,
+                department: this.form.selectDpt,
+                className: this.form.selectClass,
+                customerName: this.form.selectCustomer,
+                contactName: this.form.selectContact,
+                expectDate: this.form.expectDate,
+                price: parseInt(this.form.price),
+                desc: this.form.desc
+              }).then((response) => {
+                let res = response.data;
+                if (res.code === 1) {
+                  this.$refs[formName].resetFields();
+                  this.$notify({
+                    title: '成功',
+                    message: '新的订单已经创建',
+                    type: 'success'
+                  });
+                } else {
+                  this.$notify.error({
+                    title: '失败',
+                    message: res.msg
+                  });
+                  this.$refs[formName].clearValidate();
+                }
+              })
+            } else {
+              return false
+            }
+          });
+        }
       }
     }
   }

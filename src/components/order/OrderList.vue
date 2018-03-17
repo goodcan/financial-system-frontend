@@ -58,23 +58,25 @@
       </el-table-column>
       <el-table-column
         label="订单 ID"
-        prop="orderId"
-        width="170px">
+        prop="orderId">
       </el-table-column>
       <el-table-column
         label="创建时间"
-        prop="createTime"
-        width="170px">
+        prop="createTime">
       </el-table-column>
       <el-table-column
         label="创建人"
-        prop="createUser"
-        width="150px">
+        width="100px"
+        prop="createUser">
+      </el-table-column>
+      <el-table-column
+        label="部门"
+        width="80px"
+        prop="department">
       </el-table-column>
       <el-table-column
         prop="tag"
-        label="状态"
-        width="80px">
+        label="状态">
         <template slot-scope="scope">
           <el-tag
             :type="orderStatus(scope.row.status)"
@@ -83,7 +85,7 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="300px">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -122,6 +124,7 @@
   import axios from '../../axios'
 
   export default {
+    props: ['orderListType'],
     data() {
       return {
         orders: []
@@ -154,7 +157,9 @@
     methods: {
       init() {
         console.log('user: ' + this.$store.state.userObj);
-        axios.post('/api/orderList').then((response) => {
+        axios.post('/api/orderList', {
+          orderListType: this.orderListType
+        }).then((response) => {
           let res = response.data;
           if (res.code === 1) {
             this.orders = res.result;
@@ -162,38 +167,48 @@
         })
       },
       delOrder(order) {
-        this.$confirm('此操作将永久删除该订单, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning',
-          center: true
-        }).then(() => {
-          axios.post('/api/delOrder', {
-            userId: order.userId,
-            orderId: order.orderId
-          }).then((response) => {
-            let res = response.data;
-            if (res.code === 1) {
-              this.$message({
-                showClose: true,
-                message: '删除成功!',
-                type: 'success'
-              });
-              this.init();
-            } else {
-              this.$message({
-                showClose: true,
-                message: res.msg,
-                type: 'error'
-              });
-            }
-          })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
+        if (this.$store.state.userPms.createOrder !== 1) {
+          this.$confirm('没有权限，请联系管理员TXT', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'error',
+            center: true
+          }).catch(() => {
           });
-        });
+        } else {
+          this.$confirm('此操作将永久删除该订单, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+            center: true
+          }).then(() => {
+            axios.post('/api/delOrder', {
+              userId: order.userId,
+              orderId: order.orderId
+            }).then((response) => {
+              let res = response.data;
+              if (res.code === 1) {
+                this.$message({
+                  showClose: true,
+                  message: '删除成功!',
+                  type: 'success'
+                });
+                this.init();
+              } else {
+                this.$message({
+                  showClose: true,
+                  message: res.msg,
+                  type: 'error'
+                });
+              }
+            })
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            });
+          });
+        }
       },
       orderStatus(status) {
         if (status === 1) {
@@ -214,26 +229,35 @@
         }
       },
       editOrderStatus(order, status) {
-        axios.post('/api/editOrderStatus', {
-          status: status,
-          userId: order.userId,
-          orderId: order.orderId
-        }).then((response) => {
-          let res = response.data;
-          if (res.code === 1) {
-            this.$notify({
-              title: '成功',
-              message: res.msg,
-              type: 'success'
-            });
-            this.init();
-          } else {
-            this.$notify.error({
-              title: '失败',
-              message: res.msg
-            });
-          }
-        })
+        if (this.$store.state.userPms.createOrder !== 1) {
+          this.$confirm('没有权限，请联系管理员TXT', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'error',
+            center: true
+          }).catch(() => {
+          });
+        } else {
+          axios.post('/api/editOrderStatus', {
+            status: status,
+            orderId: order.orderId
+          }).then((response) => {
+            let res = response.data;
+            if (res.code === 1) {
+              this.$notify({
+                title: '成功',
+                message: res.msg,
+                type: 'success'
+              });
+              this.init();
+            } else {
+              this.$notify.error({
+                title: '失败',
+                message: res.msg
+              });
+            }
+          })
+        }
       },
     }
   }
