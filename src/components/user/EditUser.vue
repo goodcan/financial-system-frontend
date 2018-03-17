@@ -13,15 +13,17 @@
         </el-col>
       </el-form-item>
       <el-form-item label="部门：" prop="department">
-        <el-select
-          v-model="user.department"
-          placeholder="请选择部门">
-          <el-option
-            v-for="item in departments"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"/>
-        </el-select>
+        <el-col :span="12">
+          <el-select
+            v-model="user.department"
+            placeholder="请选择部门">
+            <el-option
+              v-for="item in departments"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"/>
+          </el-select>
+        </el-col>
       </el-form-item>
       <el-form-item label="电话：" prop="tel">
         <el-col :span="12">
@@ -66,7 +68,7 @@
         departments: [],
         transferData: [],
         nowPermissions: [],
-        transferTitles: ["没有的权限", "已拥有的权限"],
+        transferTitles: ["没有的权限", "拥有的权限"],
         rules: {
           department: [
             {required: true, message: '部门不能为空', trigger: 'blur'},
@@ -94,7 +96,27 @@
       submitForm(formName) {
         this.$refs[formName].validate(valid => {
           if (valid) {
-
+            axios.post('/api/editUser', this.user).then(response => {
+              let res = response.data;
+              if (res.code === 1) {
+                this.init();
+                this.$refs[formName].clearValidate();
+                if (this.user._id === this.$store.state.userObj.userId) {
+                  this.$store.commit('updateUserObj', res.result.userObj)
+                }
+                this.$notify({
+                  title: '成功',
+                  message: res.msg,
+                  type: 'success'
+                });
+              } else {
+                this.$notify.error({
+                  title: '失败',
+                  message: res.msg
+                });
+                this.$refs[formName].clearValidate();
+              }
+            })
           } else {
             return false
           }

@@ -25,14 +25,13 @@
         <el-menu-item index="2-2">支付订单汇总</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
-    <el-submenu index="3">
+    <el-submenu index="3" v-if="userPermissions.editUser === 1">
       <template slot="title">
         <i class="el-icon-setting"></i>
-        <span>人员信息</span>
+        <span>管理系统人员</span>
       </template>
       <el-menu-item-group>
-        <el-menu-item index="/userList">所有人员</el-menu-item>
-        <el-menu-item index="3-2">修改</el-menu-item>
+        <el-menu-item index="/userList">人员列表</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
     <el-submenu index="4" v-if="userPermissions.editOrderOption === 1">
