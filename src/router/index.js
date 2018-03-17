@@ -10,6 +10,7 @@ import CreateCustomer from '../components/order/CreateCustomer'
 import CreateDpt from '../components/order/CreateDpt'
 import CreateContact from '../components/order/CreateContact'
 import UserList from '../components/user/UserList'
+import EditUser from '../components/user/EditUser'
 
 Vue.use(Router);
 
@@ -21,6 +22,11 @@ export default new Router({
       name: 'Main',
       component: Main,
       children: [
+        {
+          path: '/editUser/:userId',
+          name: 'EditUser',
+          component: EditUser
+        },
         {
           path: '/createOrder',
           name: 'CreateOrder',

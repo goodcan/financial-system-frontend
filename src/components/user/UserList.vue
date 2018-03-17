@@ -57,6 +57,12 @@
       label="上次登录"
       prop="lastLogin">
     </el-table-column>
+    <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button size="mini" @click="toEditUser(scope.row.userId)">编辑
+          </el-button>
+        </template>
+    </el-table-column>
   </el-table>
 </template>
 
@@ -86,6 +92,11 @@
           if (res.code === 1) {
             this.users = res.result;
           }
+        })
+      },
+      toEditUser(userId) {
+        this.$router.push({
+          path: '/editUser/' + userId
         })
       }
     }
