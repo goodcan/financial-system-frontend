@@ -8,6 +8,9 @@
       :status-icon="true"
       label-width="100px"
       class="create-form-size">
+      <el-form-item label="名称" prop="title">
+        <el-input placeholder="请输入订单名称" v-model="form.title"/>
+      </el-form-item>
       <el-form-item label="部门" prop="selectDpt">
         <el-select
           v-model="form.selectDpt"
@@ -90,6 +93,7 @@
     data() {
       return {
         form: {
+          title: '',
           price: '',
           selectDpt: '',
           selectClass: '',
@@ -103,6 +107,10 @@
         contacts: '',
         departments: '',
         rules: {
+          title: [
+            {required: true, message: '名称不能为空', trigger: 'blur'},
+            {max: 25, message: '名称不能超过30个字符', trigger: 'blur'},
+          ],
           price: [
             {required: true, message: '类目不能为空', trigger: 'blur'},
           ],
@@ -136,6 +144,7 @@
               this.customers = res.result.customers;
               this.contacts = res.result.contacts;
               this.departments = res.result.departments;
+              this.form.selectDpt = this.$store.state.userObj.department
             }
           }
         )
@@ -155,7 +164,7 @@
               axios.post('/api/createOrder', {
                 userId: this.$store.state.userObj.userId,
                 createUser: this.$store.state.userObj.username,
-                userType: this.$store.state.userObj.userType,
+                title: this.form.title,
                 department: this.form.selectDpt,
                 className: this.form.selectClass,
                 customerName: this.form.selectCustomer,
@@ -189,7 +198,3 @@
     }
   }
 </script>
-
-<style scoped>
-
-</style>
