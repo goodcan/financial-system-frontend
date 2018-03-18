@@ -26,34 +26,33 @@
               <el-form-item label="创建时间：">
                 <span>{{ props.row.createTime }}</span>
               </el-form-item>
-            </el-col>
-            <el-col :span="12">
               <el-form-item label="创建人：">
                 <span>{{ props.row.createUser }}</span>
               </el-form-item>
               <el-form-item label="部门类别：">
                 <span>{{ props.row.department }}</span>
               </el-form-item>
-            </el-col>
-            <el-col :span="12">
               <el-form-item label="订单类目：">
                 <span>{{ props.row.className }}</span>
               </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item label="客户名称：">
                 <span>{{ props.row.customerName }}</span>
               </el-form-item>
-            </el-col>
-            <el-col :span="12">
               <el-form-item label="对接人员：">
                 <span>{{ props.row.contactName }}</span>
               </el-form-item>
               <el-form-item label="佣金：">
                 <span>{{ props.row.price | currency('￥') }}</span>
               </el-form-item>
+              <el-form-item label="预计完成：">
+                <span>{{ props.row.expectDate? props.row.expectDate: '未设置' }}</span>
+              </el-form-item>
+              <el-form-item label="备注：">
+                <span>{{ props.row.desc? props.row.desc: '未设置' }}</span>
+              </el-form-item>
             </el-col>
-            <el-form-item label="备注：" v-if="props.row.desc">
-              <span>{{ props.row.desc }}</span>
-            </el-form-item>
           </el-form>
         </template>
       </el-table-column>
@@ -243,7 +242,8 @@
                 message: res.msg,
                 type: 'success'
               });
-              this.init();
+              // this.init();
+              order.status = status;
             } else {
               this.$notify.error({
                 title: '操作失败',

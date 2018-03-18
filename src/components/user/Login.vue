@@ -2,7 +2,7 @@
   <div class="login-container">
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <h3 class="login-title">登录</h3>
+    <h3 class="login-title">十字星外包管理系统</h3>
     <el-form
       :model="form"
       ref="form"
@@ -32,7 +32,7 @@
           type="success"
           round plain
           @click="login('form')"
-          style="width: 100%;margin: 5px auto">
+          style="width: 100%;margin: 5px auto;">
           登录
         </el-button>
         <el-button
