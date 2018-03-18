@@ -38,9 +38,14 @@
               <span>{{ props.row.email? props.row.email: '未设置' }}</span>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="24">
             <el-form-item label="权限：">
-              <span>{{ props.row.permission }}</span>
+              <span v-if="props.row.pmsListName.length !== 0" v-for="each in props.row.pmsListName">
+                <el-tag style="margin-right: 5px">{{each}}</el-tag>
+              </span>
+              <span v-if="props.row.pmsListName.length === 0">
+                没有任何权限
+              </span>
             </el-form-item>
           </el-col>
         </el-form>
@@ -93,7 +98,7 @@
         this.$router.push({
           path: '/editUser/' + userId
         })
-      }
+      },
     }
   }
 </script>
