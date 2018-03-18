@@ -1,18 +1,18 @@
 <template>
-  <div>
+  <el-row>
     <order-list v-bind:orderListType="orderListType">
-        <h3 slot="title" class="my-title-h3">我创建的订单列表</h3>
+      <h3 slot="title" class="my-title-h3">所有订单列表</h3>
     </order-list>
-  </div>
+  </el-row>
 </template>
 
 <script>
-  import OrderList from './OrderList'
+  import OrderList from '../order/OrderList'
 
   export default {
     data() {
       return {
-        orderListType: 'self'
+        orderListType: 'summary'
       }
     },
     components: {
@@ -21,6 +21,3 @@
   }
 </script>
 
-<style scoped>
-
-</style>

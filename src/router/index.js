@@ -12,6 +12,7 @@ import CreateDpt from '../components/order/CreateDpt'
 import CreateContact from '../components/order/CreateContact'
 import UserList from '../components/user/UserList'
 import EditUser from '../components/user/EditUser'
+import SummaryAllOrder from '../components/summaryOrder/SummaryAllorder'
 
 Vue.use(Router);
 
@@ -23,6 +24,11 @@ export default new Router({
       name: 'Main',
       component: Main,
       children: [
+        {
+          path: '/summaryAllOrder',
+          name: 'SummaryAllOrder',
+          component: SummaryAllOrder
+        },
         {
           path: '/editUser/:userId',
           name: 'EditUser',

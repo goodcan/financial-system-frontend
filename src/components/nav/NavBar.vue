@@ -13,7 +13,11 @@
       <el-menu-item-group>
         <el-menu-item index="/createOrder">创建订单</el-menu-item>
         <el-menu-item index="/selfOrderList">我创建的订单</el-menu-item>
-        <el-menu-item index="/dptOrderList">我部门的订单</el-menu-item>
+        <el-menu-item
+          index="/dptOrderList"
+          v-if="this.$store.state.userPms.readDptOrder === 1">
+          我部门的订单
+        </el-menu-item>
       </el-menu-item-group>
     </el-submenu>
     <el-submenu index="2" v-if="this.$store.state.userPms.summaryOrder === 1">

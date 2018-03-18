@@ -1,9 +1,21 @@
 <template>
   <div>
-    <el-row style="text-align: center;margin-bottom: 15px">
-      <span>需要支出：{{payStatus.need | currency('￥')}}</span> |
-      <span>预计支出：{{payStatus.expect | currency('￥')}}</span> |
-      <span>已经支出：{{payStatus.had | currency('￥')}}</span>
+    <slot name="title"/>
+    <el-row style="margin: 15px auto;text-align: center">
+      <el-badge :value="payStatus.expect.expectNum" :max="99" class="my-badge-item">
+        <el-tag type="primary">未完成</el-tag>
+      </el-badge>
+      <el-badge :value="payStatus.need.needNum" :max="99" class="my-badge-item">
+        <el-tag type="warning">需要支付</el-tag>
+      </el-badge>
+      <el-badge :value="payStatus.had.hadNum" :max="99" class="my-badge-item">
+        <el-tag type="success">已支付</el-tag>
+      </el-badge>
+    </el-row>
+    <el-row style="margin: 15px auto;text-align: center">
+      <span>预计支出：{{payStatus.expect.expectPay | currency('￥')}}</span> |
+      <span>需要支出：{{payStatus.need.needPay | currency('￥')}}</span> |
+      <span>已经支出：{{payStatus.had.hadPay | currency('￥')}}</span>
     </el-row>
     <el-table
       :data="orders"
@@ -75,6 +87,10 @@
         prop="department">
       </el-table-column>
       <el-table-column
+        label="佣金"
+        prop="price">
+      </el-table-column>
+      <el-table-column
         prop="tag"
         label="状态">
         <template slot-scope="scope">
@@ -115,6 +131,7 @@
 
 <script>
   import axios from '../../axios'
+  import {currency} from "../../util/currency";
 
   export default {
     props: ['orderListType'],
@@ -126,21 +143,36 @@
     computed: {
       payStatus() {
         let needPay = 0;
+        let needNum = 0;
         let hadPay = 0;
+        let hadNum = 0;
         let expectPay = 0;
+        let expectNum = 0;
         this.orders.forEach((item) => {
           if (item.status === 1) {
             expectPay += item.price;
+            expectNum += 1;
           } else if (item.status === 2) {
-            needPay += item.price
+            needPay += item.price;
+            needNum += 1
           } else if (item.status === 3) {
-            hadPay += item.price
+            hadPay += item.price;
+            hadNum += 1;
           }
         });
         return {
-          need: needPay,
-          had: hadPay,
-          expect: expectPay
+          need: {
+            needPay,
+            needNum
+          },
+          had: {
+            hadPay,
+            hadNum
+          },
+          expect: {
+            expectPay,
+            expectNum
+          }
         }
       }
     },
@@ -157,18 +189,22 @@
           if (res.code === 1) {
             this.orders = res.result;
           }
+          this.orders.forEach(item => {
+            item.price = currency(item.price, '￥')
+          })
         })
       },
+      getEditPms(order) {
+        let user =  this.$store.state.userObj;
+        let editSelf = this.$store.state.userPms.editSelfOrder;
+        let editDpt = this.$store.state.userPms.editDptOrder;
+        if (editDpt === 1 && order.department === user.department) {
+          return true
+        }
+        return editSelf === 1 && order.userId === user.userId
+      },
       delOrder(order) {
-        if (this.$store.state.userPms.createOrder !== 1) {
-          this.$confirm('没有权限，请联系管理员TXT', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'error',
-            center: true
-          }).catch(() => {
-          });
-        } else {
+        if (this.getEditPms(order)) {
           this.$confirm('此操作将永久删除该订单, 是否继续?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
@@ -201,6 +237,14 @@
               message: '已取消删除'
             });
           });
+        } else {
+          this.$confirm('没有权限，请联系管理员TXT', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'error',
+            center: true
+          }).catch(() => {
+          });
         }
       },
       orderStatus(status) {
@@ -222,15 +266,7 @@
         }
       },
       editOrderStatus(order, status) {
-        if (this.$store.state.userPms.createOrder !== 1) {
-          this.$confirm('没有权限，请联系管理员TXT', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'error',
-            center: true
-          }).catch(() => {
-          });
-        } else {
+        if (this.getEditPms(order)) {
           axios.post('/api/editOrderStatus', {
             status: status,
             orderId: order.orderId
@@ -251,6 +287,14 @@
               });
             }
           })
+        } else {
+          this.$confirm('没有权限，请联系管理员TXT', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'error',
+            center: true
+          }).catch(() => {
+          });
         }
       },
     }
