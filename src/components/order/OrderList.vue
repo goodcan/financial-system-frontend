@@ -1,7 +1,7 @@
 <template>
   <div>
     <slot name="title"/>
-    <el-row style="margin: 15px auto;text-align: center">
+    <el-row class="my-center-row">
       <el-badge :value="payStatus.expect.expectNum" :max="99" class="my-badge-item">
         <el-tag type="primary">未完成</el-tag>
       </el-badge>
@@ -12,11 +12,12 @@
         <el-tag type="success">已支付</el-tag>
       </el-badge>
     </el-row>
-    <el-row style="margin: 15px auto;text-align: center">
+    <el-row class="my-center-row">
       <span>预计支出：{{payStatus.expect.expectPay | currency('￥')}}</span> |
       <span>需要支出：{{payStatus.need.needPay | currency('￥')}}</span> |
       <span>已经支出：{{payStatus.had.hadPay | currency('￥')}}</span>
     </el-row>
+    <slot name="download"/>
     <el-table
       v-loading="loading"
       :data="orders"
@@ -36,6 +37,9 @@
               <el-form-item label="订单ID：">
                 <span>{{ props.row.orderId }}</span>
               </el-form-item>
+              <el-form-item label="订单名称：">
+                <span>{{ props.row.title }}</span>
+              </el-form-item>
               <el-form-item label="创建时间：">
                 <span>{{ props.row.createTime }}</span>
               </el-form-item>
@@ -45,11 +49,11 @@
               <el-form-item label="部门类别：">
                 <span>{{ props.row.department }}</span>
               </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item label="订单类目：">
                 <span>{{ props.row.className }}</span>
               </el-form-item>
-            </el-col>
-            <el-col :span="12">
               <el-form-item label="客户名称：">
                 <span>{{ props.row.customerName }}</span>
               </el-form-item>
@@ -62,6 +66,8 @@
               <el-form-item label="预计完成：">
                 <span>{{ props.row.expectDate? props.row.expectDate: '未设置' }}</span>
               </el-form-item>
+            </el-col>
+            <el-col :span="24">
               <el-form-item label="备注：">
                 <span>{{ props.row.desc? props.row.desc: '未设置' }}</span>
               </el-form-item>

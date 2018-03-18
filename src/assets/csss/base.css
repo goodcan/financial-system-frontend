@@ -16,3 +16,8 @@
   margin-top: 10px;
   margin-right: 40px;
 }
+
+.my-center-row {
+  margin: 15px auto;
+  text-align: center
+}
