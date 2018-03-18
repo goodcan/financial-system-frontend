@@ -1,5 +1,5 @@
-.add-option-title-h3 {
-  text-align: center
+.my-title-h3 {
+  text-align: center;
 }
 
 .table-expand label {
@@ -10,4 +10,9 @@
 .create-form-size {
   width: 80%;
   margin: 0 auto
+}
+
+.my-badge-item {
+  margin-top: 10px;
+  margin-right: 40px;
 }

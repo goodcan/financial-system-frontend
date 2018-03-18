@@ -1,6 +1,6 @@
 <template>
   <el-row>
-    <h3 class="add-option-title-h3">当前已有部门</h3>
+    <h3 class="my-title-h3">当前已有部门</h3>
     <el-table
       :data="departments"
       :stripe="true"
@@ -28,7 +28,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <h3 class="add-option-title-h3">添加新的部门</h3>
+    <h3 class="my-title-h3">添加新的部门</h3>
     <el-form
       :model="dptForm"
       ref="dptForm"

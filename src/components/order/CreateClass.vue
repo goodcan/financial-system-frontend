@@ -1,6 +1,6 @@
 <template>
   <el-row>
-    <h3 class="add-option-title-h3">当前已有类目</h3>
+    <h3 class="my-title-h3">当前已有类目</h3>
     <el-table
       :data="classes"
       :stripe="true"
@@ -28,7 +28,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <h3 class="add-option-title-h3">添加新的类目</h3>
+    <h3 class="my-title-h3">添加新的类目</h3>
     <el-form
       :model="classForm"
       ref="classForm"

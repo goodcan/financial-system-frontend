@@ -1,6 +1,6 @@
 <template>
   <el-row>
-    <h3 class="add-option-title-h3">当前已有对接人</h3>
+    <h3 class="my-title-h3">当前已有对接人</h3>
     <el-table
       :data="contacts"
       :stripe="true"
@@ -55,7 +55,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <h3 class="add-option-title-h3">添加新的对接人</h3>
+    <h3 class="my-title-h3">添加新的对接人</h3>
     <el-form
       :model="contactForm"
       ref="contactForm"

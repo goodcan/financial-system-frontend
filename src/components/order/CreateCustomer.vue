@@ -1,6 +1,6 @@
 <template>
   <el-row>
-    <h3 class="add-option-title-h3">当前已有客户</h3>
+    <h3 class="my-title-h3">当前已有客户</h3>
     <el-table
       :data="customers"
       :stripe="true"
@@ -28,7 +28,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <h3 class="add-option-title-h3">添加新的客户</h3>
+    <h3 class="my-title-h3">添加新的客户</h3>
     <el-form
       :model="customerForm"
       ref="customerForm"

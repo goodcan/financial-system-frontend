@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="add-option-title-h3">正在设置<span style="color: red">{{this.user.username}}</span>的信息</h3>
+    <h3 class="my-title-h3">正在设置<span style="color: red">{{this.user.username}}</span>的信息</h3>
     <el-form :model="user" ref="user" :rules="rules" label-width="80px" class="create-form-size">
       <el-form-item label="用户ID：">
           <el-input type="text" v-model="user._id" disabled/>
