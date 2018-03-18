@@ -18,6 +18,7 @@
       <span>已经支出：{{payStatus.had.hadPay | currency('￥')}}</span>
     </el-row>
     <el-table
+      v-loading="loading"
       :data="orders"
       :stripe="true"
       style="width: 100%">
@@ -88,7 +89,7 @@
       </el-table-column>
       <el-table-column
         label="佣金"
-        prop="price">
+        prop="showPrice">
       </el-table-column>
       <el-table-column
         prop="tag"
@@ -137,7 +138,8 @@
     props: ['orderListType'],
     data() {
       return {
-        orders: []
+        orders: [],
+        loading: false
       }
     },
     computed: {
@@ -181,6 +183,7 @@
     },
     methods: {
       init() {
+        this.loading = true;
         console.log('user: ' + this.$store.state.userObj);
         axios.post('/api/orderList', {
           orderListType: this.orderListType
@@ -190,18 +193,20 @@
             this.orders = res.result;
           }
           this.orders.forEach(item => {
-            item.price = currency(item.price, '￥')
-          })
+            item.showPrice = currency(item.price, '￥')
+          });
+          this.loading = false;
         })
       },
       getEditPms(order) {
-        let user =  this.$store.state.userObj;
-        let editSelf = this.$store.state.userPms.editSelfOrder;
-        let editDpt = this.$store.state.userPms.editDptOrder;
-        if (editDpt === 1 && order.department === user.department) {
+        let user = this.$store.state.userObj;
+        if (this.$store.state.userPms.editAllOrder === 1) {
           return true
+        } else if (this.$store.state.userPms.editDptOrder === 1 && order.department === user.department) {
+          return true
+        } else {
+          return this.$store.state.userPms.editSelfOrder === 1 && order.userId === user.userId
         }
-        return editSelf === 1 && order.userId === user.userId
       },
       delOrder(order) {
         if (this.getEditPms(order)) {
