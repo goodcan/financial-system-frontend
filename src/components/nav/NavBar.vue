@@ -22,8 +22,7 @@
         <span>订单汇总</span>
       </template>
       <el-menu-item-group>
-        <el-menu-item index="2-1">预算订单汇总</el-menu-item>
-        <el-menu-item index="2-2">支付订单汇总</el-menu-item>
+        <el-menu-item index="/summaryAllOrder">所有订单</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
     <el-submenu index="3" v-if="this.$store.state.userPms.editUser === 1">

@@ -89,11 +89,6 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            type="danger"
-            @click="delOrder(scope.row)">删除
-          </el-button>
-          <el-button
-            size="mini"
             v-if="scope.row.status !== 1"
             @click="editOrderStatus(scope.row, 1)">重新制作
           </el-button>
@@ -106,6 +101,11 @@
             size="mini"
             v-if="scope.row.status !== 3"
             @click="editOrderStatus(scope.row, 3)">完成付款
+          </el-button>
+          <el-button
+            size="mini"
+            type="danger"
+            @click="delOrder(scope.row)"><i class="el-icon-delete"></i>
           </el-button>
         </template>
       </el-table-column>

@@ -60,7 +60,8 @@
     </el-table-column>
     <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button size="mini" @click="toEditUser(scope.row.userId)">编辑
+          <el-button size="mini" @click="toEditUser(scope.row.userId)">
+            <i class="el-icon-edit"></i>
           </el-button>
         </template>
     </el-table-column>
