@@ -57,11 +57,11 @@
               <el-form-item label="客户名称：">
                 <span>{{ props.row.customerName }}</span>
               </el-form-item>
-              <el-form-item label="对接人员：">
+              <el-form-item label="外包人员：">
                 <span>{{ props.row.contactName }}</span>
               </el-form-item>
-              <el-form-item label="佣金：">
-                <span>{{ props.row.price | currency('￥') }}</span>
+              <el-form-item label="预计佣金：">
+                <span>{{showExpectTax(props.row)}} | {{props.row.expectPrice | currency('￥') }}</span>
               </el-form-item>
               <el-form-item label="预计完成：">
                 <span>{{ props.row.expectDate? props.row.expectDate: '未设置' }}</span>
@@ -308,6 +308,13 @@
           });
         }
       },
+      showExpectTax(order) {
+        if (order.expectTax === 'preTax') {
+          return '税前'
+        } else if (order.expectTax === 'afterTax') {
+          return '税后'
+        }
+      }
     }
   }
 </script>

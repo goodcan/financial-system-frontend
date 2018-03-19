@@ -47,7 +47,7 @@
             :value="item.value"/>
         </el-select>
       </el-form-item>
-      <el-form-item label="对接人员" prop="selectContact">
+      <el-form-item label="外包人员" prop="selectContact">
         <el-select
           v-model="form.selectContact"
           placeholder="请选择对接人员"
@@ -67,10 +67,25 @@
           value-format="yyyy-MM-dd"
           style="width: 100%;"/>
       </el-form-item>
-      <el-form-item label="佣金" prop="price">
-        <el-input placeholder="请输入金额" v-model="form.price">
+      <el-form-item label="单价类型" prop="selectTax">
+        <el-select
+          v-model="form.selectTax"
+          placeholder="请选择类型"
+          style="width: 100%">
+          <el-option label="税前" value="preTax"/>
+          <el-option label="税后" value="afterTax"/>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="单价" prop="price">
+        <el-input placeholder="请输入金额" v-model="form.price" class="input-with-select">
           <template slot="prepend">￥</template>
         </el-input>
+      </el-form-item>
+      <el-form-item label="数量">
+        <el-input-number
+          v-model="form.num"
+          :min="1"
+          label="字数/页数"/>
       </el-form-item>
       <el-form-item label="备注" prop="desc">
         <el-input
@@ -95,11 +110,13 @@
         form: {
           title: '',
           price: '',
+          num: '',
           selectDpt: '',
           selectClass: '',
           selectCustomer: '',
           selectContact: '',
           expectDate: '',
+          selectTax: '',
           desc: '',
         },
         classes: '',
@@ -124,6 +141,9 @@
             {required: true, message: '对接人员不能为空', trigger: 'blur'},
           ],
           selectContact: [
+            {required: true, message: '佣金不能为空', trigger: 'blur'},
+          ],
+          selectTax: [
             {required: true, message: '佣金不能为空', trigger: 'blur'},
           ],
         }
@@ -171,6 +191,8 @@
                 contactName: this.form.selectContact,
                 expectDate: this.form.expectDate,
                 price: parseInt(this.form.price),
+                tax: this.form.selectTax,
+                num: this.form.num,
                 desc: this.form.desc
               }).then((response) => {
                 let res = response.data;
