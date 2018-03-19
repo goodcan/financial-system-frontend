@@ -81,6 +81,15 @@
           <template slot="prepend">￥</template>
         </el-input>
       </el-form-item>
+       <el-form-item label="单位类型" prop="selectUnit">
+        <el-select
+          v-model="form.selectUnit"
+          placeholder="请选择类型"
+          style="width: 100%">
+          <el-option label="页" value="page"/>
+          <el-option label="字" value="character"/>
+        </el-select>
+      </el-form-item>
       <el-form-item label="数量">
         <el-input-number
           v-model="form.num"
@@ -117,6 +126,7 @@
           selectContact: '',
           expectDate: '',
           selectTax: '',
+          selectUnit: '',
           desc: '',
         },
         classes: '',
@@ -141,10 +151,13 @@
             {required: true, message: '对接人员不能为空', trigger: 'blur'},
           ],
           selectContact: [
-            {required: true, message: '佣金不能为空', trigger: 'blur'},
+            {required: true, message: '外包人员不能为空', trigger: 'blur'},
           ],
           selectTax: [
-            {required: true, message: '佣金不能为空', trigger: 'blur'},
+            {required: true, message: '单价类型不能为空', trigger: 'blur'},
+          ],
+          selectUnit: [
+            {required: true, message: '单价单位类型不能为空', trigger: 'blur'},
           ],
         }
       }
@@ -193,6 +206,7 @@
                 price: parseInt(this.form.price),
                 tax: this.form.selectTax,
                 num: this.form.num,
+                unit: this.form.selectUnit,
                 desc: this.form.desc
               }).then((response) => {
                 let res = response.data;

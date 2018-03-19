@@ -49,22 +49,28 @@
               <el-form-item label="部门类别：">
                 <span>{{ props.row.department }}</span>
               </el-form-item>
-            </el-col>
-            <el-col :span="12">
               <el-form-item label="订单类目：">
                 <span>{{ props.row.className }}</span>
               </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item label="客户名称：">
                 <span>{{ props.row.customerName }}</span>
               </el-form-item>
               <el-form-item label="外包人员：">
                 <span>{{ props.row.contactName }}</span>
               </el-form-item>
-              <el-form-item label="预计佣金：">
-                <span>{{showExpectTax(props.row)}} | {{props.row.expectPrice | currency('￥') }}</span>
-              </el-form-item>
               <el-form-item label="预计完成：">
-                <span>{{ props.row.expectDate? props.row.expectDate: '未设置' }}</span>
+                <span>{{ props.row.expect.date? props.row.expect.date: '未设置' }}</span>
+              </el-form-item>
+              <el-form-item label="计划单价：">
+                <span>{{showExpectTax(props.row)}} | {{props.row.expect.price | currency('￥') }}</span>
+              </el-form-item>
+              <el-form-item label="计划数量：">
+                <span>{{props.row.expect.num}} {{showExpectUnit(props.row)}}</span>
+              </el-form-item>
+              <el-form-item label="计划佣金：">
+                <span>{{(props.row.expect.num * props.row.expect.price) | currency('￥')}}</span>
               </el-form-item>
             </el-col>
             <el-col :span="24">
@@ -133,6 +139,69 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-dialog
+      :title="dialogTitle"
+      :visible.sync="dialogShow"
+      width="80%">
+      <el-form label-position="left" :model="dialogData">
+        <el-form-item>
+          <el-steps :active="dialogData.status" finish-status="success">
+            <el-step title="创建订单"/>
+            <el-step title="制作完成"/>
+            <el-step title="结算完成"/>
+          </el-steps>
+        </el-form-item>
+        <el-col :span="12">
+          <el-form-item label="订单ID：">
+            <span>{{ dialogData.orderId }}</span>
+          </el-form-item>
+          <el-form-item label="订单名称：">
+            <span>{{ dialogData.title }}</span>
+          </el-form-item>
+          <el-form-item label="创建时间：">
+            <span>{{ dialogData.createTime }}</span>
+          </el-form-item>
+          <el-form-item label="创建人：">
+            <span>{{ dialogData.createUser }}</span>
+          </el-form-item>
+          <el-form-item label="部门类别：">
+            <span>{{ dialogData.department }}</span>
+          </el-form-item>
+          <el-form-item label="订单类目：">
+            <span>{{ dialogData.className }}</span>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="客户名称：">
+            <span>{{ dialogData.customerName }}</span>
+          </el-form-item>
+          <el-form-item label="外包人员：">
+            <span>{{ dialogData.contactName }}</span>
+          </el-form-item>
+          <el-form-item label="预计完成：">
+            <span>{{ dialogData.expect.date? dialogData.expect.date: '未设置' }}</span>
+          </el-form-item>
+          <el-form-item label="计划单价：">
+            <span>{{showExpectTax(dialogData)}} | {{dialogData.expect.price | currency('￥') }}</span>
+          </el-form-item>
+          <el-form-item label="计划数量：">
+            <span>{{dialogData.expect.num}} {{showExpectUnit(dialogData)}}</span>
+          </el-form-item>
+          <el-form-item label="计划佣金：">
+            <span>{{(dialogData.expect.price * dialogData.expect.num) | currency('￥') }}</span>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item label="备注：">
+            <span>{{ dialogData.desc? dialogData.desc: '未设置' }}</span>
+          </el-form-item>
+        </el-col>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogShow = false">取 消</el-button>
+        <el-button type="primary" @click="dialogShow = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -145,7 +214,10 @@
     data() {
       return {
         orders: [],
-        loading: false
+        loading: false,
+        dialogTitle: '',
+        dialogShow: false,
+        dialogData: {'expect': {}},
       }
     },
     computed: {
@@ -278,6 +350,11 @@
       },
       editOrderStatus(order, status) {
         if (this.getEditPms(order)) {
+          if (status === 2) {
+            this.dialogTitle = '请确认订单制作完成并申请付款';
+            this.dialogData = order;
+            this.dialogShow = true
+          }
           axios.post('/api/editOrderStatus', {
             status: status,
             orderId: order.orderId
@@ -309,10 +386,17 @@
         }
       },
       showExpectTax(order) {
-        if (order.expectTax === 'preTax') {
+        if (order.expect.tax === 'preTax') {
           return '税前'
-        } else if (order.expectTax === 'afterTax') {
+        } else if (order.expect.tax === 'afterTax') {
           return '税后'
+        }
+      },
+      showExpectUnit(order) {
+        if (order.expect.unit === 'page') {
+          return '页'
+        } else if (order.expect.unit === 'character') {
+          return '字'
         }
       }
     }
