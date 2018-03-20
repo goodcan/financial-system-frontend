@@ -21,3 +21,12 @@
   margin: 15px auto;
   text-align: center
 }
+
+.input-with-prepend .el-form-item__error {
+  margin-left: 55px;
+}
+
+.payment-num {
+  color: red;
+  font-size: 25px
+}

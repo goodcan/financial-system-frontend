@@ -76,8 +76,8 @@
           <el-option label="税后" value="afterTax"/>
         </el-select>
       </el-form-item>
-      <el-form-item label="单价" prop="price">
-        <el-input placeholder="请输入金额" v-model="form.price" class="input-with-select">
+      <el-form-item label="单价" prop="price" class="input-with-prepend">
+        <el-input placeholder="请输入金额" v-model="form.price">
           <template slot="prepend">￥</template>
         </el-input>
       </el-form-item>
@@ -101,6 +101,9 @@
           type="textarea"
           :autosize="{ minRows: 2, maxRows: 4}"
           placeholder="请输入备注" v-model="form.desc"/>
+      </el-form-item>
+      <el-form-item label="预算总金额：">
+        <span class="payment-num">{{(form.num * form.price) | currency('￥')}}</span>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="createOrder('form')">创建订单</el-button>
@@ -184,7 +187,7 @@
       },
       createOrder(formName) {
         if (this.$store.state.userPms.createOrder !== 1) {
-          this.$confirm('没有权限，请联系管理员TXT', '提示', {
+          this.$confirm('没有权限，请联系管理员!', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'error',

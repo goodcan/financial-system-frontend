@@ -18,6 +18,9 @@
       <span>已经支出：{{payStatus.had.hadPay | currency('￥')}}</span>
     </el-row>
     <slot name="download"/>
+    <el-form :model="">
+
+    </el-form>
     <el-table
       v-loading="loading"
       :data="orders"
@@ -25,14 +28,15 @@
       style="width: 100%">
       <el-table-column type="expand">
         <template slot-scope="props">
-          <el-form label-position="left" class="table-expand">
-            <el-form-item>
-              <el-steps :active="props.row.status" finish-status="success">
-                <el-step title="创建订单"/>
-                <el-step title="制作完成"/>
-                <el-step title="结算完成"/>
-              </el-steps>
-            </el-form-item>
+          <el-steps
+            :active="props.row.status"
+            finish-status="success"
+            style="margin: 15px 15px">
+            <el-step title="创建订单"/>
+            <el-step title="制作完成"/>
+            <el-step title="结算完成"/>
+          </el-steps>
+          <el-form label-position="right" label-width="120px" class="table-expand">
             <el-col :span="12">
               <el-form-item label="订单ID：">
                 <span>{{ props.row.orderId }}</span>
@@ -61,15 +65,15 @@
                 <span>{{ props.row.contactName }}</span>
               </el-form-item>
               <el-form-item label="预计完成：">
-                <span>{{ props.row.expect.date? props.row.expect.date: '未设置' }}</span>
+                <span>{{ props.row.expectDate? props.row.expectDate: '未设置' }}</span>
               </el-form-item>
-              <el-form-item label="计划单价：">
-                <span>{{showExpectTax(props.row)}} | {{props.row.expect.price | currency('￥') }}</span>
+              <el-form-item label="预算单价：">
+                <span>{{showExpectTax(props.row.expect)}} | {{props.row.expect.price | currency('￥') }}</span>
               </el-form-item>
-              <el-form-item label="计划数量：">
-                <span>{{props.row.expect.num}} {{showExpectUnit(props.row)}}</span>
+              <el-form-item label="预算数量：">
+                <span>{{props.row.expect.num}} {{showExpectUnit(props.row.expect)}}</span>
               </el-form-item>
-              <el-form-item label="计划佣金：">
+              <el-form-item label="预算总金额：">
                 <span>{{(props.row.expect.num * props.row.expect.price) | currency('￥')}}</span>
               </el-form-item>
             </el-col>
@@ -77,6 +81,17 @@
               <el-form-item label="备注：">
                 <span>{{ props.row.desc? props.row.desc: '未设置' }}</span>
               </el-form-item>
+              <div v-if="props.row.status === 2">
+                <el-form-item label="结算单价：">
+                  <span>{{showExpectTax(props.row)}} | {{props.row.price | currency('￥') }}</span>
+                </el-form-item>
+                <el-form-item label="结算数量：">
+                  <span>{{props.row.num}} {{showExpectUnit(props.row)}}</span>
+                </el-form-item>
+                <el-form-item label="结算金额：">
+                  <span class="payment-num">{{(props.row.num * props.row.price) | currency('￥')}}</span>
+                </el-form-item>
+              </div>
             </el-col>
           </el-form>
         </template>
@@ -119,17 +134,17 @@
           <el-button
             size="mini"
             v-if="scope.row.status !== 1"
-            @click="editOrderStatus(scope.row, 1)">重新制作
+            @click="confirmOrder(scope.row, 1)">重新制作
           </el-button>
           <el-button
             size="mini"
             v-if="scope.row.status !== 2"
-            @click="editOrderStatus(scope.row, 2)">制作完成
+            @click="confirmOrder(scope.row, 2)">制作完成
           </el-button>
           <el-button
             size="mini"
             v-if="scope.row.status !== 3"
-            @click="editOrderStatus(scope.row, 3)">完成付款
+            @click="confirmOrder(scope.row, 3)">完成付款
           </el-button>
           <el-button
             size="mini"
@@ -140,66 +155,187 @@
       </el-table-column>
     </el-table>
     <el-dialog
-      :title="dialogTitle"
-      :visible.sync="dialogShow"
-      width="80%">
-      <el-form label-position="left" :model="dialogData">
-        <el-form-item>
-          <el-steps :active="dialogData.status" finish-status="success">
-            <el-step title="创建订单"/>
-            <el-step title="制作完成"/>
-            <el-step title="结算完成"/>
-          </el-steps>
-        </el-form-item>
-        <el-col :span="12">
-          <el-form-item label="订单ID：">
-            <span>{{ dialogData.orderId }}</span>
+      :title="confirmTitle"
+      :visible.sync="confirmShow"
+      width="60%">
+      <el-steps
+        :active="confirmStatus"
+        finish-status="success"
+        style="margin: 15px 15px">
+        <el-step title="创建订单"/>
+        <el-step title="制作完成"/>
+        <el-step title="结算完成"/>
+      </el-steps>
+      <el-form
+        :model="confirmData"
+        ref="confirmData"
+        label-width="125px"
+        label-position="right"
+        :rules="rules"
+        :status-icon="true">
+        <div v-if="confirmStatus !== 1">
+          <el-col :span="12">
+            <el-form-item label="订单ID：">
+              <span>{{ confirmData.orderId }}</span>
+            </el-form-item>
+            <el-form-item label="订单名称：">
+              <span>{{ confirmData.title }}</span>
+            </el-form-item>
+            <el-form-item label="创建时间：">
+              <span>{{ confirmData.createTime }}</span>
+            </el-form-item>
+            <el-form-item label="创建人：">
+              <span>{{ confirmData.createUser }}</span>
+            </el-form-item>
+            <el-form-item label="部门类别：">
+              <span>{{ confirmData.department }}</span>
+            </el-form-item>
+            <el-form-item label="订单类目：">
+              <span>{{ confirmData.className }}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="客户名称：">
+              <span>{{ confirmData.customerName }}</span>
+            </el-form-item>
+            <el-form-item label="外包人员：">
+              <span>{{ confirmData.contactName }}</span>
+            </el-form-item>
+            <el-form-item label="预计完成：">
+              <span>{{ confirmData.expectDate? confirmData.expectDate: '未设置' }}</span>
+            </el-form-item>
+            <el-form-item label="预算单价：">
+              <span>{{showExpectTax(confirmData)}} | {{confirmData.expect.price | currency('￥') }}</span>
+            </el-form-item>
+            <el-form-item label="预算数量：">
+              <span>{{confirmData.expect.num}} {{showExpectUnit(confirmData)}}</span>
+            </el-form-item>
+            <el-form-item label="预算总金额：">
+              <span>{{(confirmData.expect.price * confirmData.expect.num) | currency('￥') }}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="备注：">
+              <span>{{ confirmData.desc? confirmData.desc: '未设置' }}</span>
+            </el-form-item>
+          </el-col>
+        </div>
+        <div v-else>
+          <el-col :span="12">
+            <el-form-item label="订单ID：">
+              <span>{{ confirmData.orderId }}</span>
+            </el-form-item>
+            <el-form-item label="订单名称：">
+              <span>{{ confirmData.title }}</span>
+            </el-form-item>
+            <el-form-item label="创建时间：">
+              <span>{{ confirmData.createTime }}</span>
+            </el-form-item>
+            <el-form-item label="创建人：">
+              <span>{{ confirmData.createUser }}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="部门类别：">
+              <span>{{ confirmData.department }}</span>
+            </el-form-item>
+            <el-form-item label="订单类目：">
+              <span>{{ confirmData.className }}</span>
+            </el-form-item>
+            <el-form-item label="客户名称：">
+              <span>{{ confirmData.customerName }}</span>
+            </el-form-item>
+            <el-form-item label="外包人员：">
+              <span>{{ confirmData.contactName }}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="备注：">
+              <span>{{ confirmData.desc? confirmData.desc: '未设置' }}</span>
+            </el-form-item>
+            <el-form-item label="预算单价类型" prop="tax">
+              <el-select
+                v-model="confirmData.tax"
+                placeholder="请选择类型"
+                style="width: 100%;">
+                <el-option label="税前" value="preTax"/>
+                <el-option label="税后" value="afterTax"/>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="预算单价：" prop="price" class="input-with-prepend">
+              <el-input placeholder="请输入金额" v-model="confirmData.price">
+                <template slot="prepend">￥</template>
+              </el-input>
+            </el-form-item>
+            <el-form-item label="预算单价单位：" prop="unit">
+              <el-select
+                v-model="confirmData.unit"
+                placeholder="请选择类型："
+                style="width: 100%;">
+                <el-option label="页" value="page"/>
+                <el-option label="字" value="character"/>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="预算数量：">
+              <el-input-number
+                v-model="confirmData.num"
+                :min="1"
+                label="字数/页数"/>
+            </el-form-item>
+            <el-form-item label="预算总金额：">
+              <span class="payment-num">{{(confirmData.price * confirmData.num) | currency('￥')}}</span>
+            </el-form-item>
+          </el-col>
+        </div>
+        <div v-if="confirmStatus === 2">
+          <el-form-item label="结算单价类型" prop="tax">
+            <el-select
+              v-model="confirmData.tax"
+              placeholder="请选择类型"
+              style="width: 100%;">
+              <el-option label="税前" value="preTax"/>
+              <el-option label="税后" value="afterTax"/>
+            </el-select>
           </el-form-item>
-          <el-form-item label="订单名称：">
-            <span>{{ dialogData.title }}</span>
+          <el-form-item label="结算单价：" prop="price" class="input-with-prepend">
+            <el-input placeholder="请输入金额" v-model="confirmData.price">
+              <template slot="prepend">￥</template>
+            </el-input>
           </el-form-item>
-          <el-form-item label="创建时间：">
-            <span>{{ dialogData.createTime }}</span>
+          <el-form-item label="结算单价单位：" prop="unit">
+            <el-select
+              v-model="confirmData.unit"
+              placeholder="请选择类型："
+              style="width: 100%;">
+              <el-option label="页" value="page"/>
+              <el-option label="字" value="character"/>
+            </el-select>
           </el-form-item>
-          <el-form-item label="创建人：">
-            <span>{{ dialogData.createUser }}</span>
+          <el-form-item label="结算数量：">
+            <el-input-number
+              v-model="confirmData.num"
+              :min="1"
+              label="字数/页数"/>
           </el-form-item>
-          <el-form-item label="部门类别：">
-            <span>{{ dialogData.department }}</span>
+          <el-form-item label="结算金额：">
+            <span class="payment-num">{{(confirmData.price * confirmData.num) | currency('￥')}}</span>
           </el-form-item>
-          <el-form-item label="订单类目：">
-            <span>{{ dialogData.className }}</span>
+        </div>
+        <div v-else-if="confirmStatus === 3">
+          <el-form-item label="结算单价：">
+            <span>{{showExpectTax(confirmData)}} | {{confirmData.price | currency('￥') }}</span>
           </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="客户名称：">
-            <span>{{ dialogData.customerName }}</span>
+          <el-form-item label="结算数量：">
+            <span>{{confirmData.num}} {{showExpectUnit(confirmData)}}</span>
           </el-form-item>
-          <el-form-item label="外包人员：">
-            <span>{{ dialogData.contactName }}</span>
+          <el-form-item label="结算总金额：">
+            <span class="payment-num">{{(confirmData.price * confirmData.num) | currency('￥') }}</span>
           </el-form-item>
-          <el-form-item label="预计完成：">
-            <span>{{ dialogData.expect.date? dialogData.expect.date: '未设置' }}</span>
-          </el-form-item>
-          <el-form-item label="计划单价：">
-            <span>{{showExpectTax(dialogData)}} | {{dialogData.expect.price | currency('￥') }}</span>
-          </el-form-item>
-          <el-form-item label="计划数量：">
-            <span>{{dialogData.expect.num}} {{showExpectUnit(dialogData)}}</span>
-          </el-form-item>
-          <el-form-item label="计划佣金：">
-            <span>{{(dialogData.expect.price * dialogData.expect.num) | currency('￥') }}</span>
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <el-form-item label="备注：">
-            <span>{{ dialogData.desc? dialogData.desc: '未设置' }}</span>
-          </el-form-item>
-        </el-col>
+        </div>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogShow = false">取 消</el-button>
-        <el-button type="primary" @click="dialogShow = false">确 定</el-button>
+        <el-button @click="closeConfirmOrder()">取 消</el-button>
+        <el-button type="primary" @click="editOrderStatus('confirmData', confirmData, confirmStatus)">{{confirmBtn}}</el-button>
       </span>
     </el-dialog>
   </div>
@@ -213,11 +349,30 @@
     props: ['orderListType'],
     data() {
       return {
+        search: {
+          startDate: '',
+          endDate: '',
+          createUser: 'all',
+          status: -1,
+        },
         orders: [],
         loading: false,
-        dialogTitle: '',
-        dialogShow: false,
-        dialogData: {'expect': {}},
+        confirmTitle: '',
+        confirmShow: false,
+        confirmStatus: 0,
+        confirmBtn: '',
+        confirmData: {'expect': {}},
+        rules: {
+          price: [
+            {required: true, message: '单价不能为空', trigger: 'blur'},
+          ],
+          tax: [
+            {required: true, message: '单价类型不能为空', trigger: 'blur'},
+          ],
+          unit: [
+            {required: true, message: '单价单位类型不能为空', trigger: 'blur'},
+          ],
+        }
       }
     },
     computed: {
@@ -321,7 +476,7 @@
             });
           });
         } else {
-          this.$confirm('没有权限，请联系管理员TXT', '提示', {
+          this.$confirm('没有权限，请联系管理员!', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'error',
@@ -348,54 +503,102 @@
           return '已付款'
         }
       },
-      editOrderStatus(order, status) {
-        if (this.getEditPms(order)) {
-          if (status === 2) {
-            this.dialogTitle = '请确认订单制作完成并申请付款';
-            this.dialogData = order;
-            this.dialogShow = true
+      confirmOrder(order, status) {
+        this.confirmStatus = status;
+        if (status === 1) {
+          this.confirmTitle = '请确认重新制作的订单信息';
+          this.confirmBtn = '确认重做';
+          this.confirmData = order;
+          this.confirmShow = true
+        } else if (status === 2) {
+          this.confirmTitle = '请确认订单制作完成并申请付款';
+          this.confirmBtn = '申请付款';
+          this.confirmData = order;
+          this.confirmShow = true
+        } else if (status === 3) {
+          if (this.$store.state.userPms.summaryOrder !== 1) {
+            this.$confirm('没有权限，请联系管理员!', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'error',
+              center: true
+            }).catch(() => {
+            });
+          } else {
+            this.confirmTitle = '请确认订单并完成支付';
+            this.confirmBtn = '确认付款';
+            this.confirmData = order;
+            this.confirmShow = true
           }
-          axios.post('/api/editOrderStatus', {
-            status: status,
-            orderId: order.orderId
-          }).then((response) => {
-            let res = response.data;
-            if (res.code === 1) {
-              this.$notify({
-                title: '操作成功',
-                message: res.msg,
-                type: 'success'
-              });
-              // this.init();
-              order.status = status;
-            } else {
-              this.$notify.error({
-                title: '操作失败',
-                message: res.msg
-              });
-            }
-          })
-        } else {
-          this.$confirm('没有权限，请联系管理员TXT', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'error',
-            center: true
-          }).catch(() => {
-          });
         }
       },
+      closeConfirmOrder() {
+        this.confirmStatus = 0;
+        this.confirmData = {'expect': {}};
+        this.confirmShow = false
+      },
+      editOrderStatus(formName, order, status) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            if (this.getEditPms(order)) {
+              axios.post('/api/editOrderStatus', {
+                status: status,
+                orderId: order.orderId,
+                price: order.price,
+                tax: order.tax,
+                unit: order.unit,
+                num: order.num,
+                desc: order.desc
+              }).then((response) => {
+                let res = response.data;
+                if (res.code === 1) {
+                  this.$notify({
+                    title: '操作成功',
+                    message: res.msg,
+                    type: 'success'
+                  });
+                  // this.init();
+                  order.status = status;
+                  if (status === 1) {
+                    order.expect.tax = order.tax;
+                    order.expect.price = order.price;
+                    order.expect.num = order.num;
+                    order.expect.unit = order.unit;
+                  }
+                  this.confirmShow = false;
+                } else {
+                  this.$notify.error({
+                    title: '操作失败',
+                    message: res.msg
+                  });
+                }
+              });
+              this.$refs[formName].clearValidate();
+            } else {
+              this.$confirm('没有权限，请联系管理员!', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'error',
+                center: true
+              }).catch(() => {
+              });
+            }
+          } else {
+            return false
+          }
+        })
+      },
       showExpectTax(order) {
-        if (order.expect.tax === 'preTax') {
+        if (order.tax === 'preTax') {
           return '税前'
-        } else if (order.expect.tax === 'afterTax') {
+        } else if (order.tax === 'afterTax') {
           return '税后'
         }
       },
       showExpectUnit(order) {
-        if (order.expect.unit === 'page') {
+        if (order.unit === 'page') {
           return '页'
-        } else if (order.expect.unit === 'character') {
+        } else if (order.unit === 'character') {
           return '字'
         }
       }
