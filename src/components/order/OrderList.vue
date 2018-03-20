@@ -18,9 +18,20 @@
       <span>已经支出：{{payStatus.had.hadPay | currency('￥')}}</span>
     </el-row>
     <slot name="download"/>
-    <el-form :model="">
-
-    </el-form>
+    <el-row class="my-center-row">
+      <el-form inline :model="search">
+        <el-form-item label="创建日期：">
+          <el-date-picker
+            v-model="search.date"
+            value-format="yyyy-MM-dd"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期">
+          </el-date-picker>
+        </el-form-item>
+      </el-form>
+    </el-row>
     <el-table
       v-loading="loading"
       :data="orders"
@@ -335,7 +346,8 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="closeConfirmOrder()">取 消</el-button>
-        <el-button type="primary" @click="editOrderStatus('confirmData', confirmData, confirmStatus)">{{confirmBtn}}</el-button>
+        <el-button type="primary"
+                   @click="editOrderStatus('confirmData', confirmData, confirmStatus)">{{confirmBtn}}</el-button>
       </span>
     </el-dialog>
   </div>
@@ -344,14 +356,15 @@
 <script>
   import axios from '../../axios'
   import {currency} from "../../util/currency";
+  import ElRow from "element-ui/packages/row/src/row";
 
   export default {
+    components: {ElRow},
     props: ['orderListType'],
     data() {
       return {
         search: {
-          startDate: '',
-          endDate: '',
+          date: [],
           createUser: 'all',
           status: -1,
         },
@@ -419,11 +432,13 @@
         this.loading = true;
         console.log('user: ' + this.$store.state.userObj);
         axios.post('/api/orderList', {
-          orderListType: this.orderListType
+          orderListType: this.orderListType,
+          search: this.search
         }).then((response) => {
           let res = response.data;
           if (res.code === 1) {
-            this.orders = res.result;
+            this.orders = res.result.orders;
+            this.search.date = res.result.searchDate
           }
           this.orders.forEach(item => {
             item.showPrice = currency(item.price, '￥')
