@@ -2,10 +2,10 @@
   <el-row>
     <nav-header/>
     <el-row :gutter="15" style="margin-top: 15px">
-      <el-col :span="4">
+      <el-col style="width: 15%;">
         <nav-bar/>
       </el-col>
-      <el-col :span="20">
+      <el-col style="width: 85%;">
           <router-view/>
       </el-col>
     </el-row>
