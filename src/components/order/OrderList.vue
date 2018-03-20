@@ -20,7 +20,7 @@
     <slot name="download"/>
     <el-row class="my-center-row">
       <el-form inline :model="search">
-        <el-form-item label="创建日期：">
+        <el-form-item label="创建日期">
           <el-date-picker
             v-model="search.date"
             value-format="yyyy-MM-dd"
@@ -29,6 +29,20 @@
             start-placeholder="开始日期"
             end-placeholder="结束日期">
           </el-date-picker>
+        </el-form-item>
+        <el-form-item label="订单状态">
+          <el-select
+            v-model="search.status"
+            placeholder="请选择类型"
+          style="width: 100px">
+            <el-option label="不区分" :value="-1"/>
+            <el-option label="未完成" :value="1"/>
+            <el-option label="需付款" :value="2"/>
+            <el-option label="已支付" :value="3"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="init"><i class="el-icon-search">搜索</i></el-button>
         </el-form-item>
       </el-form>
     </el-row>
@@ -126,11 +140,12 @@
         prop="department">
       </el-table-column>
       <el-table-column
-        label="佣金"
-        prop="showPrice">
+        label="总金额">
+        <template slot-scope="scope">
+          {{(scope.row.price * scope.row.num) | currency('￥')}}
+        </template>
       </el-table-column>
       <el-table-column
-        prop="tag"
         label="状态">
         <template slot-scope="scope">
           <el-tag
@@ -433,7 +448,7 @@
         console.log('user: ' + this.$store.state.userObj);
         axios.post('/api/orderList', {
           orderListType: this.orderListType,
-          search: this.search
+          search: this.search,
         }).then((response) => {
           let res = response.data;
           if (res.code === 1) {
