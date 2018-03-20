@@ -3,9 +3,21 @@
     <order-list v-bind:orderListType="orderListType">
       <h3 slot="title" class="my-title-h3">所有订单列表</h3>
       <el-row slot="download" class="my-center-row">
-        <el-button type="primary" plain @click="downloadTable('summaryAll')">下载总汇总表</el-button>
-        <el-button type="primary" plain @click="downloadTable('summaryExpect')">下载预算汇总表</el-button>
-        <el-button type="primary" plain @click="downloadTable('summaryPayment')">下载支出汇总表</el-button>
+        <el-button
+          type="primary"
+          plain
+          size="small"
+          @click="downloadTable('summaryAll')">下载总汇总表</el-button>
+        <el-button
+          type="primary"
+          plain
+          size="small"
+          @click="downloadTable('summaryExpect')">下载预算汇总表</el-button>
+        <el-button
+          type="primary"
+          plain
+          size="small"
+          @click="downloadTable('summaryPayment')">下载支出汇总表</el-button>
       </el-row>
     </order-list>
   </el-row>

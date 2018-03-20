@@ -34,7 +34,7 @@
           <el-select
             v-model="search.status"
             placeholder="请选择类型"
-          style="width: 100px">
+            style="width: 100px">
             <el-option label="不区分" :value="-1"/>
             <el-option label="未完成" :value="1"/>
             <el-option label="需付款" :value="2"/>
@@ -106,18 +106,32 @@
               <el-form-item label="备注：">
                 <span>{{ props.row.desc? props.row.desc: '未设置' }}</span>
               </el-form-item>
-              <div v-if="props.row.status === 2">
+            </el-col>
+            <div v-if="props.row.status !== 1">
+              <el-col :span="12">
                 <el-form-item label="结算单价：">
                   <span>{{showExpectTax(props.row)}} | {{props.row.price | currency('￥') }}</span>
-                </el-form-item>
-                <el-form-item label="结算数量：">
-                  <span>{{props.row.num}} {{showExpectUnit(props.row)}}</span>
                 </el-form-item>
                 <el-form-item label="结算金额：">
                   <span class="payment-num">{{(props.row.num * props.row.price) | currency('￥')}}</span>
                 </el-form-item>
-              </div>
-            </el-col>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="结算数量：">
+                  <span>{{props.row.num}} {{showExpectUnit(props.row)}}</span>
+                </el-form-item>
+                <el-form-item label="评价外包：">
+                  <div style="padding: 5px;font-size: 25px">
+                    <el-rate
+                      v-model="props.row.evaluation"
+                      disabled
+                      :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
+                      show-text>
+                    </el-rate>
+                  </div>
+                </el-form-item>
+              </el-col>
+            </div>
           </el-form>
         </template>
       </el-table-column>
@@ -346,17 +360,40 @@
           <el-form-item label="结算金额：">
             <span class="payment-num">{{(confirmData.price * confirmData.num) | currency('￥')}}</span>
           </el-form-item>
+          <el-form-item label="评价外包：">
+            <div style="padding: 5px;font-size: 25px">
+              <el-rate
+                v-model="confirmData.evaluation"
+                :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
+                show-text>
+              </el-rate>
+            </div>
+          </el-form-item>
         </div>
         <div v-else-if="confirmStatus === 3">
-          <el-form-item label="结算单价：">
-            <span>{{showExpectTax(confirmData)}} | {{confirmData.price | currency('￥') }}</span>
-          </el-form-item>
-          <el-form-item label="结算数量：">
-            <span>{{confirmData.num}} {{showExpectUnit(confirmData)}}</span>
-          </el-form-item>
-          <el-form-item label="结算总金额：">
-            <span class="payment-num">{{(confirmData.price * confirmData.num) | currency('￥') }}</span>
-          </el-form-item>
+          <el-col :span="12">
+            <el-form-item label="结算单价：">
+              <span>{{showExpectTax(confirmData)}} | {{confirmData.price | currency('￥') }}</span>
+            </el-form-item>
+            <el-form-item label="结算总金额：">
+              <span class="payment-num">{{(confirmData.price * confirmData.num) | currency('￥') }}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="结算数量：">
+              <span>{{confirmData.num}} {{showExpectUnit(confirmData)}}</span>
+            </el-form-item>
+            <el-form-item label="评价外包：">
+              <div style="padding: 5px;font-size: 25px">
+                <el-rate
+                  v-model="confirmData.evaluation"
+                  disabled
+                  :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
+                  show-text>
+                </el-rate>
+              </div>
+            </el-form-item>
+          </el-col>
         </div>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -578,7 +615,7 @@
                 tax: order.tax,
                 unit: order.unit,
                 num: order.num,
-                desc: order.desc
+                evaluation: order.evaluation
               }).then((response) => {
                 let res = response.data;
                 if (res.code === 1) {
@@ -594,6 +631,7 @@
                     order.expect.price = order.price;
                     order.expect.num = order.num;
                     order.expect.unit = order.unit;
+                    order.evaluation = 0
                   }
                   this.confirmShow = false;
                 } else {
