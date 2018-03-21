@@ -81,7 +81,7 @@
           <template slot="prepend">￥</template>
         </el-input>
       </el-form-item>
-       <el-form-item label="单位类型" prop="selectUnit">
+      <el-form-item label="单位类型" prop="selectUnit">
         <el-select
           v-model="form.selectUnit"
           placeholder="请选择类型"
@@ -105,9 +105,12 @@
       <el-form-item label="预算总金额：">
         <span class="payment-num">{{(form.num * form.price) | currency('￥')}}</span>
       </el-form-item>
-      <el-form-item>
+      <el-form-item style="float: right">
         <el-button type="primary" @click="createOrder('form')">创建订单</el-button>
         <el-button type="primary" @click="resetForm('form')">重置</el-button>
+        <el-button type="primary" @click="helpContent">
+          <i class="el-icon-question">帮助</i>
+        </el-button>
       </el-form-item>
     </el-form>
   </el-row>
@@ -233,6 +236,12 @@
             }
           });
         }
+      },
+      helpContent() {
+        this.$alert('这是一段内容<br/>下一段内容', '帮助信息', {
+          dangerouslyUseHTMLString: true,
+          confirmButtonText: '确定',
+        });
       }
     }
   }

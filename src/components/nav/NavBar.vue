@@ -48,6 +48,7 @@
         <el-menu-item index="/createClass">类目管理</el-menu-item>
         <el-menu-item index="/createCustomer">客户管理</el-menu-item>
         <el-menu-item index="/createContact">对接人管理</el-menu-item>
+        <el-menu-item index="/createHelp">帮助信息</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
   </el-menu>
