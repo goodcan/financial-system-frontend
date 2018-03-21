@@ -583,32 +583,43 @@
         }
       },
       confirmOrder(order, status) {
-        this.confirmStatus = status;
-        if (status === 1) {
-          this.confirmTitle = '请确认重新制作的订单信息';
-          this.confirmBtn = '确认重做';
-          this.confirmData = order;
-          this.confirmShow = true
-        } else if (status === 2) {
-          this.confirmTitle = '请确认订单制作完成并申请付款';
-          this.confirmBtn = '申请付款';
-          this.confirmData = order;
-          this.confirmShow = true
-        } else if (status === 3) {
-          if (this.$store.state.userPms.summaryOrder !== 1) {
-            this.$confirm('没有权限，请联系管理员!', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'error',
-              center: true
-            }).catch(() => {
-            });
-          } else {
-            this.confirmTitle = '请确认订单并完成支付';
-            this.confirmBtn = '确认付款';
+
+        if (this.getEditPms(order)) {
+          this.confirmStatus = status;
+          if (status === 1) {
+            this.confirmTitle = '请确认重新制作的订单信息';
+            this.confirmBtn = '确认重做';
             this.confirmData = order;
             this.confirmShow = true
+          } else if (status === 2) {
+            this.confirmTitle = '请确认订单制作完成并申请付款';
+            this.confirmBtn = '申请付款';
+            this.confirmData = order;
+            this.confirmShow = true
+          } else if (status === 3) {
+            if (this.$store.state.userPms.summaryOrder !== 1) {
+              this.$confirm('没有权限，请联系管理员!', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'error',
+                center: true
+              }).catch(() => {
+              });
+            } else {
+              this.confirmTitle = '请确认订单并完成支付';
+              this.confirmBtn = '确认付款';
+              this.confirmData = order;
+              this.confirmShow = true
+            }
           }
+        } else {
+          this.$confirm('没有权限，请联系管理员!', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'error',
+            center: true
+          }).catch(() => {
+          });
         }
       },
       closeConfirmOrder() {
@@ -619,50 +630,40 @@
       editOrderStatus(formName, order, status) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            if (this.getEditPms(order)) {
-              axios.post('/api/editOrderStatus', {
-                status: status,
-                orderId: order.orderId,
-                price: order.price,
-                tax: order.tax,
-                unit: order.unit,
-                num: order.num,
-                evaluation: order.evaluation
-              }).then((response) => {
-                let res = response.data;
-                if (res.code === 1) {
-                  this.$notify({
-                    title: '操作成功',
-                    message: res.msg,
-                    type: 'success'
-                  });
-                  // this.init();
-                  order.status = status;
-                  if (status === 1) {
-                    order.expect.tax = order.tax;
-                    order.expect.price = order.price;
-                    order.expect.num = order.num;
-                    order.expect.unit = order.unit;
-                    order.evaluation = 0
-                  }
-                  this.confirmShow = false;
-                } else {
-                  this.$notify.error({
-                    title: '操作失败',
-                    message: res.msg
-                  });
+            axios.post('/api/editOrderStatus', {
+              status: status,
+              orderId: order.orderId,
+              price: order.price,
+              tax: order.tax,
+              unit: order.unit,
+              num: order.num,
+              evaluation: order.evaluation
+            }).then((response) => {
+              let res = response.data;
+              if (res.code === 1) {
+                this.$notify({
+                  title: '操作成功',
+                  message: res.msg,
+                  type: 'success'
+                });
+                // this.init();
+                order.status = status;
+                if (status === 1) {
+                  order.expect.tax = order.tax;
+                  order.expect.price = order.price;
+                  order.expect.num = order.num;
+                  order.expect.unit = order.unit;
+                  order.evaluation = 0
                 }
-              });
-              this.$refs[formName].clearValidate();
-            } else {
-              this.$confirm('没有权限，请联系管理员!', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'error',
-                center: true
-              }).catch(() => {
-              });
-            }
+                this.confirmShow = false;
+              } else {
+                this.$notify.error({
+                  title: '操作失败',
+                  message: res.msg
+                });
+              }
+            });
+            this.$refs[formName].clearValidate();
           } else {
             return false
           }
