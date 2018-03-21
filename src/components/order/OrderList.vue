@@ -23,6 +23,7 @@
         <el-form-item label="创建日期">
           <el-date-picker
             v-model="search.date"
+            @change="init"
             value-format="yyyy-MM-dd"
             type="daterange"
             range-separator="至"
@@ -33,6 +34,7 @@
         <el-form-item label="订单状态">
           <el-select
             v-model="search.status"
+            @change="init"
             placeholder="请选择类型"
             style="width: 100px">
             <el-option label="不区分" :value="-1"/>
@@ -42,7 +44,7 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="init"><i class="el-icon-search">搜索</i></el-button>
+          <el-button type="primary" @click="init"><i class="el-icon-refresh">刷新</i></el-button>
         </el-form-item>
       </el-form>
     </el-row>
@@ -99,7 +101,7 @@
                 <span>{{props.row.expect.num}} {{showExpectUnit(props.row.expect)}}</span>
               </el-form-item>
               <el-form-item label="预算总金额：">
-                <span>{{(props.row.expect.num * props.row.expect.price) | currency('￥')}}</span>
+                <span :class="{'payment-num': props.row.status === 1}">{{(props.row.expect.num * props.row.expect.price) | currency('￥')}}</span>
               </el-form-item>
             </el-col>
             <el-col :span="24">
@@ -121,7 +123,9 @@
                   <span>{{props.row.num}} {{showExpectUnit(props.row)}}</span>
                 </el-form-item>
                 <el-form-item label="评价外包：">
-                  <div style="padding: 5px;font-size: 25px">
+                  <div
+                    v-if="props.row.evaluation !== 0"
+                    style="padding: 5px;font-size: 25px">
                     <el-rate
                       v-model="props.row.evaluation"
                       disabled
@@ -129,6 +133,9 @@
                       show-text>
                     </el-rate>
                   </div>
+                  <span v-else>
+                      未评价
+                    </span>
                 </el-form-item>
               </el-col>
             </div>
@@ -178,12 +185,12 @@
           </el-button>
           <el-button
             size="mini"
-            v-if="scope.row.status !== 2"
+            v-if="scope.row.status === 1"
             @click="confirmOrder(scope.row, 2)">制作完成
           </el-button>
           <el-button
             size="mini"
-            v-if="scope.row.status !== 3"
+            v-if="scope.row.status === 2"
             @click="confirmOrder(scope.row, 3)">完成付款
           </el-button>
           <el-button
@@ -384,7 +391,9 @@
               <span>{{confirmData.num}} {{showExpectUnit(confirmData)}}</span>
             </el-form-item>
             <el-form-item label="评价外包：">
-              <div style="padding: 5px;font-size: 25px">
+              <div
+                v-if="confirmData.evaluation !== 0"
+                style="padding: 5px;font-size: 25px">
                 <el-rate
                   v-model="confirmData.evaluation"
                   disabled
@@ -392,6 +401,9 @@
                   show-text>
                 </el-rate>
               </div>
+              <span v-else>
+                未评价
+              </span>
             </el-form-item>
           </el-col>
         </div>

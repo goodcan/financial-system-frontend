@@ -11,12 +11,12 @@
       <span class="nav-title">十字星外包管理系统</span>
       <el-submenu index="2" v-if="isLogin" style="float: right;">
         <template slot="title">{{user.username}}</template>
-        <el-menu-item index="2-1" @click="logout">Sign out</el-menu-item>
+        <el-menu-item index="2-1" @click="logout">退出</el-menu-item>
       </el-submenu>
         <el-menu-item index="3" @click="toRegister" v-if="!isLogin"
-                      style="float: right">Sign up</el-menu-item>
+                      style="float: right">注册</el-menu-item>
         <el-menu-item index="4" @click="toLogin" v-if="!isLogin"
-                      style="float: right">Sign in</el-menu-item>
+                      style="float: right">登录</el-menu-item>
     </el-menu>
   </el-row>
 
