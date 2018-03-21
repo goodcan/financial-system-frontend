@@ -139,6 +139,7 @@
         customers: '',
         contacts: '',
         departments: '',
+        helpInfo: '',
         rules: {
           title: [
             {required: true, message: '名称不能为空', trigger: 'blur'},
@@ -183,6 +184,7 @@
               this.customers = res.result.customers;
               this.contacts = res.result.contacts;
               this.departments = res.result.departments;
+              this.helpInfo = res.result.helpInfo;
               this.form.selectDpt = this.$store.state.userObj.department
             }
           }
@@ -238,7 +240,7 @@
         }
       },
       helpContent() {
-        this.$alert('这是一段内容<br/>下一段内容', '帮助信息', {
+        this.$alert(this.helpInfo, '帮助信息', {
           dangerouslyUseHTMLString: true,
           confirmButtonText: '确定',
         });
