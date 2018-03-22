@@ -113,6 +113,18 @@
         </el-button>
       </el-form-item>
     </el-form>
+    <el-dialog
+      title="帮助信息"
+      :visible.sync="helpShow">
+      <pre style="margin: 0 0">{{helpInfo? helpInfo: '暂无帮助信息'}}</pre>
+      <div slot="footer" class="dialog-footer">
+        <el-button
+          type="primary"
+          size="small"
+          @click="helpShow = false">知道了
+        </el-button>
+      </div>
+    </el-dialog>
   </el-row>
 </template>
 
@@ -135,6 +147,7 @@
           selectUnit: '',
           desc: '',
         },
+        helpShow: false,
         classes: '',
         customers: '',
         contacts: '',
@@ -184,7 +197,7 @@
               this.customers = res.result.customers;
               this.contacts = res.result.contacts;
               this.departments = res.result.departments;
-              this.helpInfo = res.result.helpInfo;
+              this.helpInfo = res.result.helpInfo[0]['content'];
               this.form.selectDpt = this.$store.state.userObj.department
             }
           }
@@ -240,10 +253,7 @@
         }
       },
       helpContent() {
-        this.$alert(this.helpInfo, '帮助信息', {
-          dangerouslyUseHTMLString: true,
-          confirmButtonText: '确定',
-        });
+        this.helpShow = true;
       }
     }
   }
