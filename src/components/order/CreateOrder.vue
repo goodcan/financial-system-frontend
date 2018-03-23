@@ -76,11 +76,6 @@
           <el-option label="税后" value="afterTax"/>
         </el-select>
       </el-form-item>
-      <el-form-item label="单价" prop="price" class="input-with-prepend">
-        <el-input placeholder="请输入金额" v-model="form.price">
-          <template slot="prepend">￥</template>
-        </el-input>
-      </el-form-item>
       <el-form-item label="单位类型" prop="selectUnit">
         <el-select
           v-model="form.selectUnit"
@@ -90,11 +85,30 @@
           <el-option label="字" value="character"/>
         </el-select>
       </el-form-item>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="单价" prop="price" class="input-with-prepend">
+            <el-input placeholder="请输入金额" v-model="form.price">
+              <template slot="prepend">￥</template>
+            </el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="单价对应" v-if="form.selectUnit">
+            <el-input-number
+              v-model="form.unitNum"
+              :min="1"
+              label="单价对应"/>
+            <span style="margin-left: 5px">{{showUnit(form.selectUnit)}}</span>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-form-item label="数量">
         <el-input-number
           v-model="form.num"
           :min="1"
           label="字数/页数"/>
+        <span style="margin-left: 5px">{{showUnit(form.selectUnit)}}</span>
       </el-form-item>
       <el-form-item label="备注" prop="desc">
         <el-input
@@ -103,7 +117,7 @@
           placeholder="请输入备注" v-model="form.desc"/>
       </el-form-item>
       <el-form-item label="预算总金额：">
-        <span class="payment-num">{{(form.num * form.price) | currency('￥')}}</span>
+        <span class="payment-num">{{(form.num / form.unitNum * form.price) | currency('￥')}}</span>
       </el-form-item>
       <el-form-item style="float: right">
         <el-button type="primary" @click="createOrder('form')">创建订单</el-button>
@@ -137,6 +151,7 @@
         form: {
           title: '',
           price: '',
+          unitNum: '',
           num: '',
           selectDpt: '',
           selectClass: '',
@@ -228,6 +243,7 @@
                 tax: this.form.selectTax,
                 num: this.form.num,
                 unit: this.form.selectUnit,
+                unitNum: this.form.unitNum,
                 desc: this.form.desc
               }).then((response) => {
                 let res = response.data;
@@ -254,6 +270,13 @@
       },
       helpContent() {
         this.helpShow = true;
+      },
+      showUnit(unit) {
+        if (unit === 'page') {
+          return '页'
+        } else if (unit === 'character') {
+          return '字'
+        }
       }
     }
   }
