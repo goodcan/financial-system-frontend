@@ -95,13 +95,13 @@
                 <span>{{ props.row.expectDate? props.row.expectDate: '未设置' }}</span>
               </el-form-item>
               <el-form-item label="预算单价：">
-                <span>{{showExpectTax(props.row.expect)}} | {{props.row.expect.price | currency('￥') }}</span>
+                <span>{{showExpectTax(props.row.expect)}} | {{props.row.expect.unitNum}}{{showUnit(props.row.expect.unit)}} | {{props.row.expect.price | currency('￥') }}</span>
               </el-form-item>
               <el-form-item label="预算数量：">
                 <span>{{props.row.expect.num}} {{showExpectUnit(props.row.expect)}}</span>
               </el-form-item>
               <el-form-item label="预算总金额：">
-                <span :class="{'payment-num': props.row.status === 1}">{{(props.row.expect.num * props.row.expect.price) | currency('￥')}}</span>
+                <span :class="{'payment-num': props.row.status === 1}">{{(props.row.expect.num / props.row.expect.unitNum * props.row.expect.price) | currency('￥')}}</span>
               </el-form-item>
             </el-col>
             <el-col :span="24">
@@ -112,10 +112,11 @@
             <div v-if="props.row.status !== 1">
               <el-col :span="12">
                 <el-form-item label="结算单价：">
-                  <span>{{showExpectTax(props.row)}} | {{props.row.price | currency('￥') }}</span>
+                  <span>{{showExpectTax(props.row)}} | {{props.row.unitNum}}{{showUnit(props.row.unit)}} | {{props.row.price | currency('￥') }}</span>
                 </el-form-item>
                 <el-form-item label="结算金额：">
-                  <span class="payment-num">{{(props.row.num * props.row.price) | currency('￥')}}</span>
+                  <span
+                    class="payment-num">{{(props.row.num / props.row.unitNum * props.row.price) | currency('￥')}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -163,7 +164,7 @@
       <el-table-column
         label="总金额">
         <template slot-scope="scope">
-          {{(scope.row.price * scope.row.num) | currency('￥')}}
+          {{(scope.row.num / scope.row.unitNum * scope.row.price) | currency('￥')}}
         </template>
       </el-table-column>
       <el-table-column
@@ -252,13 +253,13 @@
               <span>{{ confirmData.expectDate? confirmData.expectDate: '未设置' }}</span>
             </el-form-item>
             <el-form-item label="预算单价：">
-              <span>{{showExpectTax(confirmData)}} | {{confirmData.expect.price | currency('￥') }}</span>
+              <span>{{showExpectTax(confirmData)}} | {{confirmData.expect.unitNUm}}{{showUnit(confirmData.expect.unit)}} | {{confirmData.expect.price | currency('￥') }}</span>
             </el-form-item>
             <el-form-item label="预算数量：">
               <span>{{confirmData.expect.num}} {{showExpectUnit(confirmData)}}</span>
             </el-form-item>
             <el-form-item label="预算总金额：">
-              <span>{{(confirmData.expect.price * confirmData.expect.num) | currency('￥') }}</span>
+              <span>{{(confirmData.expect.num / confirmData.expect.unitNum * confirmData.expect.price) | currency('￥') }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -309,11 +310,6 @@
                 <el-option label="税后" value="afterTax"/>
               </el-select>
             </el-form-item>
-            <el-form-item label="预算单价：" prop="price" class="input-with-prepend">
-              <el-input placeholder="请输入金额" v-model="confirmData.price">
-                <template slot="prepend">￥</template>
-              </el-input>
-            </el-form-item>
             <el-form-item label="预算单价单位：" prop="unit">
               <el-select
                 v-model="confirmData.unit"
@@ -323,6 +319,24 @@
                 <el-option label="字" value="character"/>
               </el-select>
             </el-form-item>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="预算单价：" prop="price" class="input-with-prepend">
+                  <el-input placeholder="请输入金额" v-model="confirmData.price">
+                    <template slot="prepend">￥</template>
+                  </el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="单价对应" v-if="confirmData.unit">
+                  <el-input-number
+                    v-model="confirmData.unitNum"
+                    :min="1"
+                    label="单价对应"/>
+                  <span style="margin-left: 5px">{{showUnit(confirmData.unit)}}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
             <el-form-item label="预算数量：">
               <el-input-number
                 v-model="confirmData.num"
@@ -330,7 +344,8 @@
                 label="字数/页数"/>
             </el-form-item>
             <el-form-item label="预算总金额：">
-              <span class="payment-num">{{(confirmData.price * confirmData.num) | currency('￥')}}</span>
+              <span
+                class="payment-num">{{(confirmData.num / confirmData.unitNum * confirmData.price) | currency('￥')}}</span>
             </el-form-item>
           </el-col>
         </div>
@@ -344,11 +359,6 @@
               <el-option label="税后" value="afterTax"/>
             </el-select>
           </el-form-item>
-          <el-form-item label="结算单价：" prop="price" class="input-with-prepend">
-            <el-input placeholder="请输入金额" v-model="confirmData.price">
-              <template slot="prepend">￥</template>
-            </el-input>
-          </el-form-item>
           <el-form-item label="结算单价单位：" prop="unit">
             <el-select
               v-model="confirmData.unit"
@@ -358,6 +368,24 @@
               <el-option label="字" value="character"/>
             </el-select>
           </el-form-item>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="结算单价：" prop="price" class="input-with-prepend">
+                <el-input placeholder="请输入金额" v-model="confirmData.price">
+                  <template slot="prepend">￥</template>
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="单价对应" v-if="confirmData.unit">
+                <el-input-number
+                  v-model="confirmData.unitNum"
+                  :min="1"
+                  label="单价对应"/>
+                <span style="margin-left: 5px">{{showUnit(confirmData.unit)}}</span>
+              </el-form-item>
+            </el-col>
+          </el-row>
           <el-form-item label="结算数量：">
             <el-input-number
               v-model="confirmData.num"
@@ -365,7 +393,7 @@
               label="字数/页数"/>
           </el-form-item>
           <el-form-item label="结算金额：">
-            <span class="payment-num">{{(confirmData.price * confirmData.num) | currency('￥')}}</span>
+            <span class="payment-num">{{(confirmData.num / confirmData.unitNum * confirmData.price) | currency('￥')}}</span>
           </el-form-item>
           <el-form-item label="评价外包：">
             <div style="padding: 5px;font-size: 25px">
@@ -380,10 +408,10 @@
         <div v-else-if="confirmStatus === 3">
           <el-col :span="12">
             <el-form-item label="结算单价：">
-              <span>{{showExpectTax(confirmData)}} | {{confirmData.price | currency('￥') }}</span>
+              <span>{{showExpectTax(confirmData)}} | {{confirmData.unitNum}}{{showUnit(confirmData.unit)}} | {{confirmData.price | currency('￥') }}</span>
             </el-form-item>
             <el-form-item label="结算总金额：">
-              <span class="payment-num">{{(confirmData.price * confirmData.num) | currency('￥') }}</span>
+              <span class="payment-num">{{(confirmData.num / confirmData.unitNum * confirmData.price) | currency('￥') }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -637,6 +665,8 @@
               tax: order.tax,
               unit: order.unit,
               num: order.num,
+              unitNum: order.unitNum,
+              sumPrice: order.num / order.unitNum * order.price,
               evaluation: order.evaluation
             }).then((response) => {
               let res = response.data;
@@ -680,6 +710,13 @@
         if (order.unit === 'page') {
           return '页'
         } else if (order.unit === 'character') {
+          return '字'
+        }
+      },
+      showUnit(unit) {
+        if (unit === 'page') {
+          return '页'
+        } else if (unit === 'character') {
           return '字'
         }
       }
