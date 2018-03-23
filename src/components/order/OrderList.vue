@@ -181,7 +181,7 @@
           <el-button
             size="mini"
             v-if="scope.row.status !== 1"
-            @click="confirmOrder(scope.row, 1)">重新制作
+            @click="confirmOrder(scope.row, 1)">修改订单
           </el-button>
           <el-button
             size="mini"
