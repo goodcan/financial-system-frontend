@@ -15,21 +15,22 @@
               <el-form-item label="创建时间">
                 <span>{{ props.row.createTime }}</span>
               </el-form-item>
-              <el-form-item label="手机号码：">
-                <span>{{ props.row.tel? props.row.tel: '未设置' }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="QQ：">
-                <span>{{ props.row.qq? props.row.qq: '未设置' }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="邮箱：">
-                <span>{{ props.row.email? props.row.email: '未设置' }}</span>
+              <el-form-item label="技能：">
+                <span>{{ props.row.workClass }}</span>
               </el-form-item>
               <el-form-item label="付款信息：">
                 <span>{{ props.row.payInfo }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="手机号码：">
+                <span>{{ props.row.tel? props.row.tel: '未设置' }}</span>
+              </el-form-item>
+              <el-form-item label="QQ：">
+                <span>{{ props.row.qq? props.row.qq: '未设置' }}</span>
+              </el-form-item>
+              <el-form-item label="邮箱：">
+                <span>{{ props.row.email? props.row.email: '未设置' }}</span>
               </el-form-item>
             </el-col>
           </el-form>
@@ -72,6 +73,27 @@
           <el-input v-model="contact.name"/>
         </el-form-item>
         <el-form-item
+          :label="'付款信息'"
+          :prop="'contacts.' + index + '.payInfo'"
+          :rules="{required: true, message: '付款信息不能为空', trigger: 'blur'}">
+          <el-input v-model="contact.payInfo"/>
+        </el-form-item>
+        <el-form-item
+          label="技能"
+          :prop="'contacts.' + index + '.workClass'"
+          :rules="{required: true, message: '技能不能为空', trigger: 'blur'}">
+          <el-select
+            v-model="contact.workClass"
+            placeholder="请选择订单客户"
+            style="width: 100%;">
+            <el-option
+              v-for="item in workClasses"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item
           :label="'电话'"
           :prop="'contacts.' + index + '.tel'">
           <el-input v-model="contact.tel"/>
@@ -85,12 +107,6 @@
           :label="'QQ'"
           :prop="'contacts.' + index + '.qq'">
           <el-input v-model="contact.qq"/>
-        </el-form-item>
-        <el-form-item
-          :label="'付款信息'"
-          :prop="'contacts.' + index + '.payInfo'"
-          :rules="{required: true, message: '付款信息不能为空', trigger: 'blur'}">
-          <el-input v-model="contact.payInfo"/>
         </el-form-item>
         <el-form-item>
           <el-button @click.prevent="removeContact(contact)" v-if="index > 0">
@@ -121,10 +137,12 @@
             email: '',
             qq: '',
             payInfo: '',
+            workClass: '',
             time: Date.now()
           }],
         },
         contacts: [],
+        workClasses: '',
         optionType: 'contacts'
       };
     },
@@ -138,12 +156,13 @@
         }).then(response => {
           let res = response.data;
           if (res.code === 1) {
-            this.contacts = res.result;
+            this.contacts = res.result.contacts;
+            this.workClasses = res.result.workClasses
           }
         })
       },
       delOrderOption(option) {
-        this.$confirm('此操作将永久删除'+option.name+'对接人, 是否继续?', '提示', {
+        this.$confirm('此操作将永久删除' + option.name + '对接人, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning',
