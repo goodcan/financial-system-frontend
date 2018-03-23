@@ -224,7 +224,7 @@
                 customerName: this.form.selectCustomer,
                 contactName: this.form.selectContact,
                 expectDate: this.form.expectDate,
-                price: parseInt(this.form.price),
+                price: parseFloat(this.form.price),
                 tax: this.form.selectTax,
                 num: this.form.num,
                 unit: this.form.selectUnit,
