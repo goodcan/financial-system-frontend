@@ -14,6 +14,7 @@ import UserList from '../components/user/UserList'
 import EditUser from '../components/user/EditUser'
 import SummaryAllOrder from '../components/summaryOrder/SummaryAllorder'
 import CreateHelp from '../components/order/CreateHelp'
+import CreateWorkClass from '../components/order/CreateWorkClass'
 
 Vue.use(Router);
 
@@ -25,6 +26,11 @@ export default new Router({
       name: 'Main',
       component: Main,
       children: [
+        {
+          path: '/createWorkClass',
+          name: 'CreateWorkClass',
+          component: CreateWorkClass
+        },
         {
           path: '/createHelp',
           name: 'CreateHelp',

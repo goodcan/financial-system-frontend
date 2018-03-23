@@ -48,6 +48,7 @@
         <el-menu-item index="/createClass">类目</el-menu-item>
         <el-menu-item index="/createCustomer">客户</el-menu-item>
         <el-menu-item index="/createContact">外包人员</el-menu-item>
+        <el-menu-item index="/createWorkClass">外包技能</el-menu-item>
         <el-menu-item index="/createHelp">帮助信息</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
