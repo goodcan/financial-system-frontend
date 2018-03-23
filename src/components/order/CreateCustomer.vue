@@ -5,6 +5,31 @@
       :data="customers"
       :stripe="true"
       width="100%">
+      <el-table-column type="expand">
+        <template slot-scope="props">
+          <el-form label-position="left" class="table-expand">
+            <el-col :span="12">
+              <el-form-item label="客户名称：">
+                <span>{{ props.row.name }}</span>
+              </el-form-item>
+              <el-form-item label="创建时间：">
+                <span>{{ props.row.createTime }}</span>
+              </el-form-item>
+              <el-form-item label="创建人：">
+                <span>{{ props.row.createUser }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="开票信息：">
+                <span>{{ props.row.billInfo }}</span>
+              </el-form-item>
+              <el-form-item label="邮寄地址：">
+                <span>{{ props.row.mailAddress }}</span>
+              </el-form-item>
+            </el-col>
+          </el-form>
+        </template>
+      </el-table-column>
       <el-table-column
         label="名称"
         prop="name">
@@ -41,6 +66,18 @@
           :rules="{required: true, message: '客户名不能为空', trigger: 'blur'}">
           <el-input v-model="customer.name"/>
         </el-form-item>
+        <el-form-item
+          :label="'开票信息'"
+          :prop="'customers.' + index + '.billInfo'"
+          :rules="{required: true, message: '开票信息不能为空', trigger: 'blur'}">
+          <el-input v-model="customer.billInfo"/>
+        </el-form-item>
+        <el-form-item
+          :label="'邮寄地址'"
+          :prop="'customers.' + index + '.mailAddress'"
+          :rules="{required: true, message: '邮寄地址不能为空', trigger: 'blur'}">
+          <el-input v-model="customer.mailAddress"/>
+        </el-form-item>
         <el-form-item>
           <el-button @click.prevent="removeCustomer(customer)" v-if="index > 0">
             <i class="el-icon-delete"></i>
@@ -66,6 +103,8 @@
         customerForm: {
           customers: [{
             name: '',
+            billInfo: '',
+            mailAddress: '',
             time: Date.now()
           }],
         },
@@ -88,7 +127,7 @@
         })
       },
       delOrderOption(option) {
-        this.$confirm('此操作将永久删除'+option.name+'客户, 是否继续?', '提示', {
+        this.$confirm('此操作将永久删除' + option.name + '客户, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning',
