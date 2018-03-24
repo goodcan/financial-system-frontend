@@ -244,6 +244,7 @@
                 num: this.form.num,
                 unit: this.form.selectUnit,
                 unitNum: this.form.unitNum,
+                sumPrice: this.form.num / this.form.unitNum * this.form.price,
                 desc: this.form.desc
               }).then((response) => {
                 let res = response.data;

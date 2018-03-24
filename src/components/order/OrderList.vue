@@ -683,6 +683,7 @@
                   order.expect.price = order.price;
                   order.expect.num = order.num;
                   order.expect.unit = order.unit;
+                  order.expect.unitNum = order.unitNum;
                   order.evaluation = 0
                 }
                 this.confirmShow = false;
