@@ -490,13 +490,13 @@
         let expectNum = 0;
         this.orders.forEach((item) => {
           if (item.status === 1) {
-            expectPay += item.price;
+            expectPay += item.expect.num / item.expect.unitNum * item.expect.price;
             expectNum += 1;
           } else if (item.status === 2) {
-            needPay += item.price;
+            needPay += item.num / item.unitNum * item.price;
             needNum += 1
           } else if (item.status === 3) {
-            hadPay += item.price;
+            hadPay += item.num / item.unitNum * item.price;
             hadNum += 1;
           }
         });
