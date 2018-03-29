@@ -7,22 +7,25 @@
       width="100%">
       <el-table-column type="expand">
         <template slot-scope="props">
-          <el-form label-position="left" class="table-expand">
+          <el-form label-position="right" class="table-expand">
             <el-col :span="12">
               <el-form-item label="姓名：">
                 <span>{{ props.row.name }}</span>
               </el-form-item>
-              <el-form-item label="创建时间">
+              <el-form-item label="创建时间：">
                 <span>{{ props.row.createTime }}</span>
               </el-form-item>
-              <el-form-item label="技能：">
-                <span>{{ props.row.workClass }}</span>
+              <el-form-item label="创建人：">
+                <span>{{ props.row.createUser }}</span>
               </el-form-item>
               <el-form-item label="付款信息：">
-                <span>{{ props.row.payInfo }}</span>
+                <p style="margin: 0;white-space: pre-wrap;padding-left: 85px">{{ props.row.payInfo }}</p>
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item label="技能：">
+                <span>{{ props.row.workClass }}</span>
+              </el-form-item>
               <el-form-item label="手机号码：">
                 <span>{{ props.row.tel? props.row.tel: '未设置' }}</span>
               </el-form-item>
@@ -41,15 +44,16 @@
         prop="name">
       </el-table-column>
       <el-table-column
-        label="添加时间"
-        prop="createTime">
-      </el-table-column>
-      <el-table-column
-        label="添加人"
-        prop="createUser">
+        label="技能"
+        prop="workClass">
       </el-table-column>
       <el-table-column label="操作" width="300px">
         <template slot-scope="scope">
+          <el-button
+            size="mini"
+            @click="confirmEdit(scope.row)">
+            <i class="el-icon-edit"></i>
+          </el-button>
           <el-button
             size="mini"
             type="danger"
@@ -76,7 +80,11 @@
           :label="'付款信息'"
           :prop="'contacts.' + index + '.payInfo'"
           :rules="{required: true, message: '付款信息不能为空', trigger: 'blur'}">
-          <el-input v-model="contact.payInfo"/>
+          <el-input
+            type="textarea"
+            :autosize="{ minRows: 2, maxRows: 4}"
+            placeholder="请填写付款信息"
+            v-model="contact.payInfo"/>
         </el-form-item>
         <el-form-item
           label="技能"
@@ -120,6 +128,66 @@
         <el-button @click="resetForm('contactForm')">重置</el-button>
       </el-form-item>
     </el-form>
+    <el-dialog
+      :title="editTitle"
+      :visible.sync="editShow"
+      width="60%">
+     <el-form
+      :model="editContact"
+      ref="editContact"
+      :status-icon="true"
+      label-width="100px">
+        <el-form-item
+          label="姓名"
+          prop="name">
+          <el-input type="text" disabled v-model="editContact.name"/>
+        </el-form-item>
+        <el-form-item
+          label="付款信息"
+          prop="payInfo"
+          :rules="{required: true, message: '付款信息不能为空', trigger: 'blur'}">
+          <el-input
+            type="textarea"
+            :autosize="{ minRows: 2, maxRows: 4}"
+            placeholder="请填写付款信息"
+            v-model="editContact.payInfo"/>
+        </el-form-item>
+        <el-form-item
+          label="技能"
+          prop="workClass"
+          :rules="{required: true, message: '技能不能为空', trigger: 'blur'}">
+          <el-select
+            v-model="editContact.workClass"
+            placeholder="请选择订单客户"
+            style="width: 100%;">
+            <el-option
+              v-for="item in workClasses"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item
+          label="电话"
+          prop="tel">
+          <el-input type="text" v-model="editContact.tel"/>
+        </el-form-item>
+        <el-form-item
+          label="邮箱"
+          prop="email">
+          <el-input type="text" v-model="editContact.email"/>
+        </el-form-item>
+        <el-form-item
+          label="QQ"
+          prop="qq">
+          <el-input type="text" v-model="editContact.qq"/>
+        </el-form-item>
+    </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="closeConfirmOrder('editContact')">取 消</el-button>
+        <el-button type="primary" @click="editOrderOption('editContact')">提交</el-button>
+      </span>
+    </el-dialog>
   </el-row>
 </template>
 
@@ -130,6 +198,9 @@
   export default {
     data() {
       return {
+        editTitle: '外包人员信息修改',
+        editShow: false,
+        editContact: '',
         contactForm: {
           contacts: [{
             name: '',
@@ -208,7 +279,7 @@
                 this.contactForm.contacts = [{name: '', tel: '', email: '', qq: '', time: Date.now()}];
                 this.$notify({
                   title: '添加成功',
-                  message: '新的联系人添加成功',
+                  message: '新的外包人员添加成功',
                   type: 'success'
                 });
                 this.init();
@@ -245,6 +316,47 @@
           qq: '',
           time: Date.now()
         });
+      },
+      confirmEdit(option) {
+        this.editContact = option;
+        this.editShow = true
+      },
+      closeConfirmOrder(formName) {
+        this.$refs[formName].resetFields();
+        this.editContact = {};
+        this.editShow = false;
+      },
+      editOrderOption(formName) {
+        this.$refs[formName].validate(valid => {
+          if (valid) {
+            axios.post('/api/editOrderOption',{
+              option: this.editContact,
+              optionType: 'contacts'
+            }).then(response => {
+              let res = response.data;
+              if (res.code === 1) {
+                this.$refs[formName].resetFields();
+                this.contactForm.contacts = [{name: '', tel: '', email: '', qq: '', time: Date.now()}];
+                this.$notify({
+                  title: '修改成功',
+                  message: '外包人员信息修改成功',
+                  type: 'success'
+                });
+                this.editContact = {};
+                this.editShow = false;
+                this.init();
+              } else {
+                this.$notify.error({
+                  title: '添加失败',
+                  message: res.msg
+                });
+              }
+            })
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        })
       }
     }
   }
