@@ -30,3 +30,9 @@
   color: red;
   font-size: 25px
 }
+
+.custom-p {
+  margin: 0;
+  white-space: pre-wrap;
+  padding-left: 85px
+}

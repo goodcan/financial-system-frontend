@@ -7,7 +7,7 @@
       width="100%">
       <el-table-column type="expand">
         <template slot-scope="props">
-          <el-form label-position="left" class="table-expand">
+          <el-form label-position="right" class="table-expand">
             <el-col :span="12">
               <el-form-item label="客户名称：">
                 <span>{{ props.row.name }}</span>
@@ -21,10 +21,10 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="开票信息：">
-                <span>{{ props.row.billInfo }}</span>
+                <p class="custom-p">{{ props.row.billInfo }}</p>
               </el-form-item>
               <el-form-item label="邮寄地址：">
-                <span>{{ props.row.mailAddress }}</span>
+                <p class="custom-p">{{ props.row.mailAddress }}</p>
               </el-form-item>
             </el-col>
           </el-form>
@@ -46,6 +46,11 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
+            @click="confirmEdit(scope.row)">
+            <i class="el-icon-edit"></i>
+          </el-button>
+          <el-button
+            size="mini"
             type="danger"
             @click="delOrderOption(scope.row)">
             <i class="el-icon-delete"></i>
@@ -64,19 +69,30 @@
           :label="'客户名称'+ index"
           :prop="'customers.' + index + '.name'"
           :rules="{required: true, message: '客户名不能为空', trigger: 'blur'}">
-          <el-input v-model="customer.name"/>
+          <el-input
+            type="text"
+            placeholder="请填写客户名称"
+            v-model="customer.name"/>
         </el-form-item>
         <el-form-item
           :label="'开票信息'"
           :prop="'customers.' + index + '.billInfo'"
           :rules="{required: true, message: '开票信息不能为空', trigger: 'blur'}">
-          <el-input v-model="customer.billInfo"/>
+          <el-input
+            type="textarea"
+            :autosize="{ minRows: 4, maxRows: 6}"
+            placeholder="请填写开票信息"
+            v-model="customer.billInfo"/>
         </el-form-item>
         <el-form-item
           :label="'邮寄地址'"
           :prop="'customers.' + index + '.mailAddress'"
           :rules="{required: true, message: '邮寄地址不能为空', trigger: 'blur'}">
-          <el-input v-model="customer.mailAddress"/>
+          <el-input
+            type="textarea"
+            :autosize="{ minRows: 4, maxRows: 6}"
+            placeholder="请填写寄件地址"
+            v-model="customer.mailAddress"/>
         </el-form-item>
         <el-form-item>
           <el-button @click.prevent="removeCustomer(customer)" v-if="index > 0">
@@ -90,6 +106,46 @@
         <el-button @click="resetForm('customerForm')">重置</el-button>
       </el-form-item>
     </el-form>
+    <el-dialog
+      :title="editTitle"
+      :visible.sync="editShow"
+      width="60%">
+      <el-form
+        :model="editCustomer"
+        ref="editCustomer"
+        :status-icon="true"
+        label-width="100px">
+        <el-form-item
+          label="客户名称"
+          prop="name">
+          <el-input type="text" disabled v-model="editCustomer.name"/>
+        </el-form-item>
+        <el-form-item
+          label="开票信息"
+          prop="billInfo"
+          :rules="{required: true, message: '开票信息不能为空', trigger: 'blur'}">
+          <el-input
+            type="textarea"
+            :autosize="{ minRows: 4, maxRows: 6}"
+            placeholder="请填写开票信息"
+            v-model="editCustomer.billInfo"/>
+        </el-form-item>
+        <el-form-item
+          label="邮寄地址"
+          prop="mailAddress"
+          :rules="{required: true, message: '邮寄地址不能为空', trigger: 'blur'}">
+          <el-input
+            type="textarea"
+            :autosize="{ minRows: 4, maxRows: 6}"
+            placeholder="请填写寄件地址"
+            v-model="editCustomer.mailAddress"/>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="closeConfirmOrder('editCustomer')">取 消</el-button>
+        <el-button type="primary" @click="editOrderOption('editCustomer')">提交</el-button>
+      </span>
+    </el-dialog>
   </el-row>
 </template>
 
@@ -100,6 +156,9 @@
   export default {
     data() {
       return {
+        editTitle: '修改客户信息',
+        editShow: false,
+        editCustomer: '',
         customerForm: {
           customers: [{
             name: '',
@@ -207,6 +266,47 @@
           value: '',
           time: Date.now()
         });
+      },
+      confirmEdit(option) {
+        this.editCustomer = option;
+        this.editShow = true
+      },
+      closeConfirmOrder(formName) {
+        this.$refs[formName].resetFields();
+        this.editCustomer = {};
+        this.editShow = false;
+      },
+      editOrderOption(formName) {
+        this.$refs[formName].validate(valid => {
+          if (valid) {
+            axios.post('/api/editOrderOption', {
+              option: this.editCustomer,
+              createUser: this.$store.state.userObj.username,
+              optionType: 'customers'
+            }).then(response => {
+              let res = response.data;
+              if (res.code === 1) {
+                this.$refs[formName].resetFields();
+                this.$notify({
+                  title: '修改成功',
+                  message: '客户信息修改成功',
+                  type: 'success'
+                });
+                this.editCustomer = {};
+                this.editShow = false;
+                this.init();
+              } else {
+                this.$notify.error({
+                  title: '修改失败',
+                  message: res.msg
+                });
+              }
+            })
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        })
       }
     }
   }

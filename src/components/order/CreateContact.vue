@@ -19,7 +19,7 @@
                 <span>{{ props.row.createUser }}</span>
               </el-form-item>
               <el-form-item label="付款信息：">
-                <p style="margin: 0;white-space: pre-wrap;padding-left: 85px">{{ props.row.payInfo }}</p>
+                <p class="custom-p">{{ props.row.payInfo }}</p>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -74,7 +74,10 @@
           :label="'姓名' + index"
           :prop="'contacts.' + index + '.name'"
           :rules="{required: true, message: '姓名不能为空', trigger: 'blur'}">
-          <el-input v-model="contact.name"/>
+          <el-input
+            type="text"
+            placeholder="请填写姓名"
+            v-model="contact.name"/>
         </el-form-item>
         <el-form-item
           :label="'付款信息'"
@@ -104,17 +107,26 @@
         <el-form-item
           :label="'电话'"
           :prop="'contacts.' + index + '.tel'">
-          <el-input v-model="contact.tel"/>
+          <el-input
+            type="text"
+            placeholder="请填写电话号码"
+            v-model="contact.tel"/>
         </el-form-item>
         <el-form-item
           :label="'邮箱'"
           :prop="'contacts.' + index + '.email'">
-          <el-input v-model="contact.email"/>
+          <el-input
+            type="text"
+            placeholder="请填写邮箱地址"
+            v-model="contact.email"/>
         </el-form-item>
         <el-form-item
           :label="'QQ'"
           :prop="'contacts.' + index + '.qq'">
-          <el-input v-model="contact.qq"/>
+          <el-input
+            type="text"
+            placeholder="请填写QQ号码"
+            v-model="contact.qq"/>
         </el-form-item>
         <el-form-item>
           <el-button @click.prevent="removeContact(contact)" v-if="index > 0">
@@ -170,17 +182,26 @@
         <el-form-item
           label="电话"
           prop="tel">
-          <el-input type="text" v-model="editContact.tel"/>
+          <el-input
+            type="text"
+            placeholder="请填写电话号码"
+            v-model="editContact.tel"/>
         </el-form-item>
         <el-form-item
           label="邮箱"
           prop="email">
-          <el-input type="text" v-model="editContact.email"/>
+          <el-input
+            type="text"
+            placeholder="请填写邮箱地址"
+            v-model="editContact.email"/>
         </el-form-item>
         <el-form-item
           label="QQ"
           prop="qq">
-          <el-input type="text" v-model="editContact.qq"/>
+          <el-input
+            type="text"
+            placeholder="请填写QQ号码"
+            v-model="editContact.qq"/>
         </el-form-item>
     </el-form>
       <span slot="footer" class="dialog-footer">
@@ -198,7 +219,7 @@
   export default {
     data() {
       return {
-        editTitle: '外包人员信息修改',
+        editTitle: '修改外包人员信息',
         editShow: false,
         editContact: '',
         contactForm: {
@@ -331,12 +352,12 @@
           if (valid) {
             axios.post('/api/editOrderOption',{
               option: this.editContact,
+              createUser: this.$store.state.userObj.username,
               optionType: 'contacts'
             }).then(response => {
               let res = response.data;
               if (res.code === 1) {
                 this.$refs[formName].resetFields();
-                this.contactForm.contacts = [{name: '', tel: '', email: '', qq: '', time: Date.now()}];
                 this.$notify({
                   title: '修改成功',
                   message: '外包人员信息修改成功',
@@ -347,7 +368,7 @@
                 this.init();
               } else {
                 this.$notify.error({
-                  title: '添加失败',
+                  title: '修改失败',
                   message: res.msg
                 });
               }
