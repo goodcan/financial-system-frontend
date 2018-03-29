@@ -111,6 +111,11 @@
             </el-col>
             <div v-if="props.row.status !== 1">
               <el-col :span="12">
+                <div v-if="props.row.status >= 2">
+                  <el-form-item label="申请付款时间：">
+                    <span>{{props.row.completeTime}}</span>
+                  </el-form-item>
+                </div>
                 <el-form-item label="结算单价：">
                   <span>{{showExpectTax(props.row)}} | {{props.row.unitNum}}{{showUnit(props.row.unit)}} | {{props.row.price | currency('￥') }}</span>
                 </el-form-item>
@@ -120,6 +125,11 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <div v-if="props.row.status >= 3">
+                  <el-form-item label="完成付款时间：">
+                    <span>{{props.row.paymentTime}}</span>
+                  </el-form-item>
+                </div>
                 <el-form-item label="结算数量：">
                   <span>{{props.row.num}} {{showExpectUnit(props.row)}}</span>
                 </el-form-item>
