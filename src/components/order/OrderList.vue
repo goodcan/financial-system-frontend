@@ -269,39 +269,115 @@
           </el-col>
         </div>
         <div v-else>
-          <el-col :span="12">
-            <el-form-item label="订单ID：">
-              <span>{{ confirmData.orderId }}</span>
-            </el-form-item>
-            <el-form-item label="订单名称：">
-              <span>{{ confirmData.title }}</span>
-            </el-form-item>
-            <el-form-item label="创建时间：">
-              <span>{{ confirmData.createTime }}</span>
-            </el-form-item>
-            <el-form-item label="创建人：">
-              <span>{{ confirmData.createUser }}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="部门类别：">
-              <span>{{ confirmData.department }}</span>
-            </el-form-item>
-            <el-form-item label="订单类目：">
-              <span>{{ confirmData.className }}</span>
-            </el-form-item>
-            <el-form-item label="客户名称：">
-              <span>{{ confirmData.customerName }}</span>
-            </el-form-item>
-            <el-form-item label="外包人员：">
-              <span>{{ confirmData.contactName }}</span>
-            </el-form-item>
-          </el-col>
+          <div v-if="this.$store.state.userPms.editOrderMoreParam === 1">
+            <el-col :span="24">
+              <el-form-item label="订单ID：">
+                <span>{{ confirmData.orderId }}</span>
+              </el-form-item>
+              <el-form-item label="创建时间：">
+                <span>{{ confirmData.createTime }}</span>
+              </el-form-item>
+              <el-form-item label="创建人：">
+                <span>{{ confirmData.createUser }}</span>
+              </el-form-item>
+              <el-form-item label="名称：" prop="title">
+                <el-input placeholder="请输入订单名称" v-model="confirmData.title"/>
+              </el-form-item>
+              <el-form-item label="部门：" prop="department">
+                <el-select
+                  v-model="confirmData.department"
+                  placeholder="请选择部门"
+                  style="width: 100%">
+                  <el-option
+                    v-for="item in departments"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"/>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="订单类目：" prop="className">
+                <el-select
+                  v-model="confirmData.className"
+                  placeholder="请选择订单类目"
+                  style="width: 100%">
+                  <el-option
+                    v-for="item in classes"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"/>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="订单客户：" prop="customerName">
+                <el-select
+                  v-model="confirmData.customerName"
+                  placeholder="请选择订单客户"
+                  style="width: 100%;">
+                  <el-option
+                    v-for="item in customers"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"/>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="外包人员：" prop="contactName">
+                <el-select
+                  v-model="confirmData.contactName"
+                  placeholder="请选择对接人员"
+                  style="width: 100%">
+                  <el-option
+                    v-for="item in contacts"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"/>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="预计完成时间：" prop="expectDate">
+                <el-date-picker
+                  type="date"
+                  placeholder="选择日期"
+                  v-model="confirmData.expectDate"
+                  value-format="yyyy-MM-dd"
+                  style="width: 100%;"/>
+              </el-form-item>
+            </el-col>
+          </div>
+          <div v-else>
+            <el-col :span="12">
+              <el-form-item label="订单ID：">
+                <span>{{ confirmData.orderId }}</span>
+              </el-form-item>
+              <el-form-item label="订单名称：">
+                <span>{{ confirmData.title }}</span>
+              </el-form-item>
+              <el-form-item label="创建时间：">
+                <span>{{ confirmData.createTime }}</span>
+              </el-form-item>
+              <el-form-item label="创建人：">
+                <span>{{ confirmData.createUser }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="部门类别：">
+                <span>{{ confirmData.department }}</span>
+              </el-form-item>
+              <el-form-item label="订单类目：">
+                <span>{{ confirmData.className }}</span>
+              </el-form-item>
+              <el-form-item label="客户名称：">
+                <span>{{ confirmData.customerName }}</span>
+              </el-form-item>
+              <el-form-item label="外包人员：">
+                <span>{{ confirmData.contactName }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-form-item label="备注：">
+                <span>{{ confirmData.desc? confirmData.desc: '未设置' }}</span>
+              </el-form-item>
+            </el-col>
+          </div>
           <el-col :span="24">
-            <el-form-item label="备注：">
-              <span>{{ confirmData.desc? confirmData.desc: '未设置' }}</span>
-            </el-form-item>
-            <el-form-item label="预算单价类型" prop="tax">
+            <el-form-item label="预算单价类型：" prop="tax">
               <el-select
                 v-model="confirmData.tax"
                 placeholder="请选择类型"
@@ -328,7 +404,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="单价对应" v-if="confirmData.unit">
+                <el-form-item label="单价对应：" v-if="confirmData.unit">
                   <el-input-number
                     v-model="confirmData.unitNum"
                     :min="1"
@@ -343,9 +419,16 @@
                 :min="1"
                 label="字数/页数"/>
             </el-form-item>
+            <el-form-item label="备注：" prop="desc" v-if="this.$store.state.userPms.editOrderMoreParam === 1">
+              <el-input
+                type="textarea"
+                :autosize="{ minRows: 2, maxRows: 4}"
+                placeholder="请输入备注" v-model="confirmData.desc"/>
+            </el-form-item>
             <el-form-item label="预算总金额：">
               <span
-                class="payment-num">{{(confirmData.num / confirmData.unitNum * confirmData.price) | currency('￥')}}</span>
+                class="payment-num">{{(confirmData.num / confirmData.unitNum * confirmData.price) | currency('￥')}}
+              </span>
             </el-form-item>
           </el-col>
         </div>
@@ -393,7 +476,8 @@
               label="字数/页数"/>
           </el-form-item>
           <el-form-item label="结算金额：">
-            <span class="payment-num">{{(confirmData.num / confirmData.unitNum * confirmData.price) | currency('￥')}}</span>
+            <span
+              class="payment-num">{{(confirmData.num / confirmData.unitNum * confirmData.price) | currency('￥')}}</span>
           </el-form-item>
           <el-form-item label="评价外包：">
             <div style="padding: 5px;font-size: 25px">
@@ -411,7 +495,8 @@
               <span>{{showExpectTax(confirmData)}} | {{confirmData.unitNum}}{{showUnit(confirmData.unit)}} | {{confirmData.price | currency('￥') }}</span>
             </el-form-item>
             <el-form-item label="结算总金额：">
-              <span class="payment-num">{{(confirmData.num / confirmData.unitNum * confirmData.price) | currency('￥') }}</span>
+              <span
+                class="payment-num">{{(confirmData.num / confirmData.unitNum * confirmData.price) | currency('￥') }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -477,7 +562,11 @@
           unit: [
             {required: true, message: '单价单位类型不能为空', trigger: 'blur'},
           ],
-        }
+        },
+        classes: '',
+        customers: '',
+        contacts: '',
+        departments: '',
       }
     },
     computed: {
@@ -521,6 +610,16 @@
     },
     methods: {
       init() {
+        axios.post('/api/orderInitData').then((response) => {
+            let res = response.data;
+            if (res.code === 1) {
+              this.classes = res.result.classes;
+              this.customers = res.result.customers;
+              this.contacts = res.result.contacts;
+              this.departments = res.result.departments;
+            }
+          }
+        );
         this.loading = true;
         console.log('user: ' + this.$store.state.userObj);
         axios.post('/api/orderList', {
@@ -658,7 +757,7 @@
       editOrderStatus(formName, order, status) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            axios.post('/api/editOrderStatus', {
+            let setParams = {
               status: status,
               orderId: order.orderId,
               price: order.price,
@@ -668,7 +767,20 @@
               unitNum: order.unitNum,
               sumPrice: order.num / order.unitNum * order.price,
               evaluation: order.evaluation
-            }).then((response) => {
+            };
+
+            // 订单用户修改订单其他信息
+            if (status === 1 && this.$store.state.userPms.editOrderMoreParam === 1) {
+              setParams.title = order.title;
+              setParams.className = order.className;
+              setParams.department = order.department;
+              setParams.customerName = order.customerName;
+              setParams.contactName = order.contactName;
+              setParams.desc = order.desc;
+              setParams.isCanEdit = this.$store.state.userPms.editOrderMoreParam
+            }
+
+            axios.post('/api/editOrderStatus', setParams).then((response) => {
               let res = response.data;
               if (res.code === 1) {
                 this.$notify({

@@ -6,12 +6,12 @@
       :model="form"
       :rules="rules"
       :status-icon="true"
-      label-width="100px"
+      label-width="110px"
       class="create-form-size">
-      <el-form-item label="名称" prop="title">
+      <el-form-item label="名称：" prop="title">
         <el-input placeholder="请输入订单名称" v-model="form.title"/>
       </el-form-item>
-      <el-form-item label="部门" prop="selectDpt">
+      <el-form-item label="部门：" prop="selectDpt">
         <el-select
           v-model="form.selectDpt"
           placeholder="请选择部门"
@@ -23,7 +23,7 @@
             :value="item.value"/>
         </el-select>
       </el-form-item>
-      <el-form-item label="订单类目" prop="selectClass">
+      <el-form-item label="订单类目：" prop="selectClass">
         <el-select
           v-model="form.selectClass"
           placeholder="请选择订单类目"
@@ -35,7 +35,7 @@
             :value="item.value"/>
         </el-select>
       </el-form-item>
-      <el-form-item label="订单客户" prop="selectCustomer">
+      <el-form-item label="订单客户：" prop="selectCustomer">
         <el-select
           v-model="form.selectCustomer"
           placeholder="请选择订单客户"
@@ -47,7 +47,7 @@
             :value="item.value"/>
         </el-select>
       </el-form-item>
-      <el-form-item label="外包人员" prop="selectContact">
+      <el-form-item label="外包人员：" prop="selectContact">
         <el-select
           v-model="form.selectContact"
           placeholder="请选择对接人员"
@@ -59,7 +59,7 @@
             :value="item.value"/>
         </el-select>
       </el-form-item>
-      <el-form-item label="预计完成时间" prop="expectDate">
+      <el-form-item label="预计完成时间：" prop="expectDate">
         <el-date-picker
           type="date"
           placeholder="选择日期"
@@ -67,7 +67,7 @@
           value-format="yyyy-MM-dd"
           style="width: 100%;"/>
       </el-form-item>
-      <el-form-item label="单价类型" prop="selectTax">
+      <el-form-item label="单价类型：" prop="selectTax">
         <el-select
           v-model="form.selectTax"
           placeholder="请选择类型"
@@ -76,7 +76,7 @@
           <el-option label="税后" value="afterTax"/>
         </el-select>
       </el-form-item>
-      <el-form-item label="单位类型" prop="selectUnit">
+      <el-form-item label="单位类型：" prop="selectUnit">
         <el-select
           v-model="form.selectUnit"
           placeholder="请选择类型"
@@ -87,14 +87,14 @@
       </el-form-item>
       <el-row>
         <el-col :span="12">
-          <el-form-item label="单价" prop="price" class="input-with-prepend">
+          <el-form-item label="单价：" prop="price" class="input-with-prepend">
             <el-input placeholder="请输入金额" v-model="form.price">
               <template slot="prepend">￥</template>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="单价对应" v-if="form.selectUnit">
+          <el-form-item label="单价对应：" v-if="form.selectUnit">
             <el-input-number
               v-model="form.unitNum"
               :min="1"
@@ -103,14 +103,14 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-form-item label="数量">
+      <el-form-item label="数量：">
         <el-input-number
           v-model="form.num"
           :min="1"
           label="字数/页数"/>
         <span style="margin-left: 5px">{{showUnit(form.selectUnit)}}</span>
       </el-form-item>
-      <el-form-item label="备注" prop="desc">
+      <el-form-item label="备注：" prop="desc">
         <el-input
           type="textarea"
           :autosize="{ minRows: 2, maxRows: 4}"
