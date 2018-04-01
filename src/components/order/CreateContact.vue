@@ -63,6 +63,17 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <div class="pagination-style">
+      <el-pagination
+        @current-change="init()"
+        layout="prev, pager, next, total"
+        :current-page.sync="page"
+        :page-size="pageSize"
+        :total="totalCount">
+      </el-pagination>
+    </div>
+
     <h3 class="my-title-h3">添加新的外包人员</h3>
     <el-form
       :model="contactForm"
@@ -144,11 +155,11 @@
       :title="editTitle"
       :visible.sync="editShow"
       width="60%">
-     <el-form
-      :model="editContact"
-      ref="editContact"
-      :status-icon="true"
-      label-width="100px">
+      <el-form
+        :model="editContact"
+        ref="editContact"
+        :status-icon="true"
+        label-width="100px">
         <el-form-item
           label="姓名"
           prop="name">
@@ -203,7 +214,7 @@
             placeholder="请填写QQ号码"
             v-model="editContact.qq"/>
         </el-form-item>
-    </el-form>
+      </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="closeConfirmOrder('editContact')">取 消</el-button>
         <el-button type="primary" @click="editOrderOption('editContact')">提交</el-button>
@@ -219,6 +230,9 @@
   export default {
     data() {
       return {
+        page: 1,
+        pageSize: 0,
+        totalCount: 0,
         editTitle: '修改外包人员信息',
         editShow: false,
         editContact: '',
@@ -244,12 +258,15 @@
     methods: {
       init() {
         axios.post('/api/orderOptionInitData', {
-          optionType: this.optionType
+          optionType: this.optionType,
+          page: this.page,
         }).then(response => {
           let res = response.data;
           if (res.code === 1) {
             this.contacts = res.result.contacts;
-            this.workClasses = res.result.workClasses
+            this.workClasses = res.result.workClasses;
+            this.totalCount = res.result.totalCount;
+            this.pageSize = res.result.pageSize
           }
         })
       },
@@ -303,6 +320,7 @@
                   message: '新的外包人员添加成功',
                   type: 'success'
                 });
+                this.page = 1;
                 this.init();
               } else {
                 this.$notify.error({
@@ -350,7 +368,7 @@
       editOrderOption(formName) {
         this.$refs[formName].validate(valid => {
           if (valid) {
-            axios.post('/api/editOrderOption',{
+            axios.post('/api/editOrderOption', {
               option: this.editContact,
               createUser: this.$store.state.userObj.username,
               optionType: 'contacts'
