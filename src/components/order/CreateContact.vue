@@ -1,6 +1,31 @@
 <template>
   <el-row>
     <h3 class="my-title-h3">当前已有外包人员</h3>
+    <el-row class="my-center-row">
+      <el-form inline v-model="searchForm">
+        <el-form-item label="姓名" prop="keyName">
+          <el-input
+            v-model="searchForm.keyName"
+            type="text"
+            placeholder="请输入关键字"/>
+        </el-form-item>
+        <el-form-item label="技能" prop="workClass">
+          <el-select
+            v-model="searchForm.workClass"
+            placeholder="请选择类型"
+            style="width: 100px">
+            <el-option
+              v-for="item in workClasses"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="searchContacts"><i class="el-icon-search">搜索</i></el-button>
+        </el-form-item>
+      </el-form>
+    </el-row>
     <el-table
       :data="contacts"
       :stripe="true"
@@ -230,6 +255,10 @@
   export default {
     data() {
       return {
+        searchForm: {
+          keyName: '',
+          workClass: ''
+        },
         page: 1,
         pageSize: 0,
         totalCount: 0,
@@ -260,6 +289,8 @@
         axios.post('/api/orderOptionInitData', {
           optionType: this.optionType,
           page: this.page,
+          keyName: this.searchForm.keyName,
+          workClass: this.searchForm.workClass
         }).then(response => {
           let res = response.data;
           if (res.code === 1) {
@@ -288,6 +319,7 @@
                 message: '删除成功!',
                 type: 'success'
               });
+              this.clearSearch();
               this.init();
             } else {
               this.$message({
@@ -320,7 +352,7 @@
                   message: '新的外包人员添加成功',
                   type: 'success'
                 });
-                this.page = 1;
+                this.clearSearch();
                 this.init();
               } else {
                 this.$notify.error({
@@ -396,6 +428,15 @@
             return false;
           }
         })
+      },
+      searchContacts() {
+        this.page = 1;
+        this.init()
+      },
+      clearSearch() {
+        this.page = 1;
+        this.searchForm.keyName = '';
+        this.searchForm.workClass = '';
       }
     }
   }
