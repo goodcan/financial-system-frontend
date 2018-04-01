@@ -14,6 +14,7 @@
             v-model="searchForm.workClass"
             placeholder="请选择类型"
             style="width: 100px">
+            <el-option key="" label="不区分" value=""/>
             <el-option
               v-for="item in workClasses"
               :key="item.value"
