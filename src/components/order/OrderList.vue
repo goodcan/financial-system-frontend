@@ -543,10 +543,8 @@
 <script>
   import axios from '../../axios'
   import {currency} from "../../util/currency";
-  import ElRow from "element-ui/packages/row/src/row";
 
   export default {
-    components: {ElRow},
     props: ['orderListType'],
     data() {
       return {
