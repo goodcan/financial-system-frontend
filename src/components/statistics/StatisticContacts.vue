@@ -1,5 +1,8 @@
 <template>
-  <div id="container" style="height: 450px"></div>
+  <div>
+    <h3 class="my-title-h3">常用外包人员 - TOP10</h3>
+    <div id="container" style="height: 450px"></div>
+  </div>
 </template>
 
 <script>
@@ -48,7 +51,7 @@
                 axisLine: {show: false},
                 axisLabel: {
                   textStyle: {
-                    color: '#e54035',
+                    color: '#409EFF',
                     // fontSize: 16
                   }
                 }
@@ -76,15 +79,17 @@
                 },
                 data: useNumList,
                 z: 10
-              }, {
-                name: 'glyph',
-                type: 'pictorialBar',
-                barGap: '-100%',
-                symbolPosition: 'end',
-                symbolSize: 10,
-                symbolOffset: [0, '-120%'],
-                data: seriesData
-              }]
+              },
+                // {
+                //   name: 'glyph',
+                //   type: 'pictorialBar',
+                //   barGap: '-100%',
+                //   symbolPosition: 'end',
+                //   symbolSize: 10,
+                //   symbolOffset: [0, '-120%'],
+                //   data: seriesData
+                // }
+              ]
             };
             console.log(option);
             if (option && typeof option === "object") {

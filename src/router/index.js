@@ -15,7 +15,7 @@ import EditUser from '../components/user/EditUser'
 import SummaryAllOrder from '../components/summaryOrder/SummaryAllorder'
 import CreateHelp from '../components/order/CreateHelp'
 import CreateWorkClass from '../components/order/CreateWorkClass'
-import StatisticIndex from '../components/statistics/StatisticsIndex'
+import StatisticContacts from '../components/statistics/StatisticContacts'
 
 Vue.use(Router);
 
@@ -28,9 +28,9 @@ export default new Router({
       component: Main,
       children: [
         {
-          path: '/statisticIndex',
-          name: 'StatisticIndex',
-          component: StatisticIndex
+          path: '/statisticContacts',
+          name: 'StatisticContacts',
+          component: StatisticContacts
         },
         {
           path: '/createWorkClass',
