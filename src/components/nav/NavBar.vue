@@ -40,6 +40,7 @@
       </template>
       <el-menu-item-group>
         <el-menu-item index="/userList">人员列表</el-menu-item>
+        <el-menu-item index="/logList">操作日志</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
     <el-submenu index="4" v-if="this.$store.state.userPms.editOrderOption === 1">

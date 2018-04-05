@@ -16,6 +16,7 @@ import SummaryAllOrder from '../components/summaryOrder/SummaryAllorder'
 import CreateHelp from '../components/order/CreateHelp'
 import CreateWorkClass from '../components/order/CreateWorkClass'
 import StatisticContacts from '../components/statistics/StatisticContacts'
+import LogList from '../components/log/LogList'
 
 Vue.use(Router);
 
@@ -27,6 +28,11 @@ export default new Router({
       name: 'Main',
       component: Main,
       children: [
+        {
+          path: '/logList',
+          name: 'LogList',
+          component: LogList
+        },
         {
           path: '/statisticContacts',
           name: 'StatisticContacts',
