@@ -3,7 +3,7 @@
     <h3 class="my-title-h3">当前已有外包人员</h3>
     <el-row class="my-center-row">
       <el-form inline v-model="searchForm">
-        <el-form-item label="姓名" prop="keyName">
+        <el-form-item label="昵称" prop="keyName">
           <el-input
             v-model="searchForm.keyName"
             type="text"
@@ -35,7 +35,7 @@
         <template slot-scope="props">
           <el-form label-position="right" class="table-expand">
             <el-col :span="12">
-              <el-form-item label="姓名：">
+              <el-form-item label="昵称：">
                 <span>{{ props.row.name }}</span>
               </el-form-item>
               <el-form-item label="创建时间：">
@@ -66,7 +66,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="姓名"
+        label="昵称"
         prop="name">
       </el-table-column>
       <el-table-column
@@ -108,7 +108,7 @@
       label-width="100px">
       <div v-for="(contact, index) in contactForm.contacts">
         <el-form-item
-          :label="'姓名' + index"
+          :label="'昵称' + index"
           :prop="'contacts.' + index + '.name'"
           :rules="{required: true, message: '姓名不能为空', trigger: 'blur'}">
           <el-input
