@@ -52,22 +52,30 @@
       </template>
     </el-table-column>
     <el-table-column
+      align="center"
       label="用户ID"
       prop="userId">
     </el-table-column>
     <el-table-column
+      align="center"
       label="用户名"
       prop="username">
     </el-table-column>
     <el-table-column
-      label="部门"
-      prop="department">
+      align="center"
+      label="部门">
+      <template slot-scope="scope">
+        {{scope.row.department? scope.row.department: '未设置'}}
+      </template>
     </el-table-column>
     <el-table-column
+      align="center"
       label="上次登录"
       prop="lastLogin">
     </el-table-column>
-    <el-table-column label="操作">
+    <el-table-column
+      align="center"
+      label="操作">
       <template slot-scope="scope">
         <el-button size="mini" @click="toEditUser(scope.row.userId)">
           <i class="el-icon-edit"></i>
@@ -96,11 +104,6 @@
           if (res.code === 1) {
             this.users = res.result;
           }
-          this.users.forEach(item => {
-            if (!item.department) {
-              item.department = '未设置'
-            }
-          })
         })
       },
       toEditUser(userId) {

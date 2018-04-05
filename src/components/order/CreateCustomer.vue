@@ -31,18 +31,23 @@
         </template>
       </el-table-column>
       <el-table-column
+        align="center"
         label="名称"
         prop="name">
       </el-table-column>
       <el-table-column
+        align="center"
         label="添加时间"
         prop="createTime">
       </el-table-column>
       <el-table-column
+        align="center"
         label="添加人"
         prop="createUser">
       </el-table-column>
-      <el-table-column label="操作" width="300px">
+      <el-table-column
+        align="center"
+        label="操作">
         <template slot-scope="scope">
           <el-button
             size="mini"

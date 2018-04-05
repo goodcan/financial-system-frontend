@@ -154,30 +154,36 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="订单 ID"
+        align="center"
+        label="订单ID"
+        width="180px"
         prop="orderId">
       </el-table-column>
       <el-table-column
+        align="center"
         label="创建时间"
+        width="200px"
         prop="createTime">
       </el-table-column>
       <el-table-column
+        align="center"
         label="创建人"
-        width="100px"
         prop="createUser">
       </el-table-column>
       <el-table-column
+        align="center"
         label="部门"
-        width="80px"
         prop="department">
       </el-table-column>
       <el-table-column
+        align="center"
         label="总金额">
         <template slot-scope="scope">
           {{(scope.row.num / scope.row.unitNum * scope.row.price) | currency('￥')}}
         </template>
       </el-table-column>
       <el-table-column
+        align="center"
         label="状态">
         <template slot-scope="scope">
           <el-tag
@@ -187,7 +193,10 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="300px">
+      <el-table-column
+        align="center"
+        label="操作"
+        width="300px">
         <template slot-scope="scope">
           <el-button
             size="mini"

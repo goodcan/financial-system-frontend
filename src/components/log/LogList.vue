@@ -1,24 +1,28 @@
 <template>
   <el-row>
-    <h3 class="my-title-h3">用户操作日志列表</h3>
+    <h3 class="my-title-h3">用户操作日志</h3>
     <el-table
       v-loading="loading"
       :data="logs"
       :stripe="true"
       style="width: 100%">
       <el-table-column
+        align="center"
         label="操作时间"
         prop="logTime">
       </el-table-column>
       <el-table-column
+        align="center"
         label="用户ID"
         prop="userId">
       </el-table-column>
       <el-table-column
+        align="center"
         label="用户名"
         prop="username">
       </el-table-column>
       <el-table-column
+        align="center"
         label="操作"
         prop="action">
       </el-table-column>
