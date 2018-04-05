@@ -664,6 +664,7 @@
             center: true
           }).then(() => {
             axios.post('/api/delOrder', {
+              opsUserId: this.$store.state.userObj.userId,
               userId: order.userId,
               orderId: order.orderId
             }).then((response) => {
@@ -766,6 +767,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             let setParams = {
+              opsUserId: this.$store.state.userObj.userId,
               status: status,
               orderId: order.orderId,
               price: order.price,

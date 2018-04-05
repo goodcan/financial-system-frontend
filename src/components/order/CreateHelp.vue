@@ -59,6 +59,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             axios.post('/api/addOrderHelpInfo', {
+              opsUserId: this.$store.state.userObj.userId,
               helpInfo: this.helpContent.content
             }).then(response => {
               let res = response.data;

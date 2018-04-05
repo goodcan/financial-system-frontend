@@ -193,6 +193,7 @@
           center: true
         }).then(() => {
           axios.post('/api/delOrderOption', {
+            opsUserId: this.$store.state.userObj.userId,
             optionType: this.optionType,
             name: option.name
           }).then(response => {
@@ -223,6 +224,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             axios.post('/api/addOrderCustomer', {
+              opsUserId: this.$store.state.userObj.userId,
               customers: this.customerForm.customers,
               createUser: this.$store.state.userObj.username
             }).then((response) => {
@@ -280,6 +282,7 @@
         this.$refs[formName].validate(valid => {
           if (valid) {
             axios.post('/api/editOrderOption', {
+              opsUserId: this.$store.state.userObj.userId,
               option: this.editCustomer,
               createUser: this.$store.state.userObj.username,
               optionType: 'customers'

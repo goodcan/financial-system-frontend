@@ -95,6 +95,7 @@
           center: true
         }).then(() => {
           axios.post('/api/delOrderOption', {
+            opsUserId: this.$store.state.userObj.userId,
             optionType: this.optionType,
             name: option.name
           }).then(response => {
@@ -124,8 +125,8 @@
       addOrderOption(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            // alert('submit!');
             axios.post('/api/addWorkClass', {
+              opsUserId: this.$store.state.userObj.userId,
               workClasses: this.form.workClasses,
               createUser: this.$store.state.userObj.username
             }).then((response) => {

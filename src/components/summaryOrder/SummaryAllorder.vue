@@ -40,8 +40,14 @@
       downloadTable(taleType) {
         axios.get('/api/downloadTable', {
           params: {
+            opsUserId: this.$store.state.userObj.userId,
             tableType: taleType
           }
+        }).then(res => {
+          axios.post('/api/writeDownloadLog', {
+            opsUserId: this.$store.state.userObj.userId,
+            tableType: taleType
+          })
         })
       }
     }

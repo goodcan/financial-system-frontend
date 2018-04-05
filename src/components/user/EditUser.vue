@@ -83,6 +83,7 @@
       submitForm(formName) {
         this.$refs[formName].validate(valid => {
           if (valid) {
+            this.user.opsUserId = this.$store.state.userObj.userId;
             axios.post('/api/editUser', this.user).then(response => {
               let res = response.data;
               if (res.code === 1) {

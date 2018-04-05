@@ -310,6 +310,7 @@
           center: true
         }).then(() => {
           axios.post('/api/delOrderOption', {
+            opsUserId: this.$store.state.userObj.userId,
             optionType: this.optionType,
             name: option.name
           }).then(response => {
@@ -341,6 +342,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             axios.post('/api/addOrderContact', {
+              opsUserId: this.$store.state.userObj.userId,
               contacts: this.contactForm.contacts,
               createUser: this.$store.state.userObj.username
             }).then((response) => {
@@ -402,6 +404,7 @@
         this.$refs[formName].validate(valid => {
           if (valid) {
             axios.post('/api/editOrderOption', {
+              opsUserId: this.$store.state.userObj.userId,
               option: this.editContact,
               createUser: this.$store.state.userObj.username,
               optionType: 'contacts'
