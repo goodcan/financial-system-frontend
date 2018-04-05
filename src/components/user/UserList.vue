@@ -5,7 +5,7 @@
     style="width: 100%">
     <el-table-column type="expand">
       <template slot-scope="props">
-        <el-form label-position="left" class="table-expand">
+        <el-form label-position="right" class="table-expand">
           <el-col :span="12">
             <el-form-item label="用户ID：">
               <span>{{ props.row.userId }}</span>
@@ -60,6 +60,10 @@
       prop="username">
     </el-table-column>
     <el-table-column
+      label="部门"
+      prop="department">
+    </el-table-column>
+    <el-table-column
       label="上次登录"
       prop="lastLogin">
     </el-table-column>
@@ -92,6 +96,11 @@
           if (res.code === 1) {
             this.users = res.result;
           }
+          this.users.forEach(item => {
+            if (!item.department) {
+              item.department = '未设置'
+            }
+          })
         })
       },
       toEditUser(userId) {
