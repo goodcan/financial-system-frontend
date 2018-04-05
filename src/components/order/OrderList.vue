@@ -196,7 +196,7 @@
       <el-table-column
         align="center"
         label="操作"
-        width="300px">
+        width="280px">
         <template slot-scope="scope">
           <el-button
             size="mini"
