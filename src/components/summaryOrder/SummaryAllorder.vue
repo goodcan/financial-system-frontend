@@ -43,7 +43,7 @@
             opsUserId: this.$store.state.userObj.userId,
             tableType: taleType
           }
-        }).then(res => {
+        }).then(() => {
           axios.post('/api/writeDownloadLog', {
             opsUserId: this.$store.state.userObj.userId,
             tableType: taleType
