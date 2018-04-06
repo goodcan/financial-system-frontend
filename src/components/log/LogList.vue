@@ -28,11 +28,14 @@
       </el-table-column>
     </el-table>
 
-    <div class="pagination-style">
+    <div class="pagination-style" style="margin-bottom: 15px">
       <el-pagination
-        @current-change="init()"
-        layout="prev, pager, next, total"
+        @size-change="sizeChange"
+        @current-change="init"
+        layout="sizes, prev, pager, next, total"
         :current-page.sync="page"
+        :size-page.sync="pageSize"
+        :page-sizes="[25, 50, 75, 100]"
         :page-size="pageSize"
         :total="totalCount">
       </el-pagination>
@@ -49,7 +52,7 @@
       return {
         loading: false,
         page: 1,
-        pageSize: 0,
+        pageSize: 10,
         totalCount: 0,
         logs: []
       }
@@ -62,6 +65,7 @@
         this.loading = true;
         axios.post('/api/logList', {
           page: this.page,
+          pageSize: this.pageSize
         }).then(response => {
           let res = response.data;
           if (res.code === 1) {
@@ -74,6 +78,10 @@
 
           }
         })
+      },
+      sizeChange(pageSize) {
+        this.pageSize = pageSize;
+        this.init()
       }
     }
   }
