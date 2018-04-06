@@ -6,7 +6,7 @@
       :model="form"
       :rules="rules"
       :status-icon="true"
-      label-width="110px"
+      label-width="120px"
       class="create-form-size">
       <el-form-item label="名称：" prop="title">
         <el-input placeholder="请输入订单名称" v-model="form.title"/>
