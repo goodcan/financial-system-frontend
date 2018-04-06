@@ -52,7 +52,7 @@
       return {
         loading: false,
         page: 1,
-        pageSize: 10,
+        pageSize: 25,
         totalCount: 0,
         logs: []
       }
