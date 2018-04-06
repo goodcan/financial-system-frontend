@@ -7,6 +7,18 @@
   color: #99a9bf;
 }
 
+.table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 95%;
+}
+
+.dialog-form .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 95%;
+}
+
 .create-form-size {
   width: 80%;
   margin: 0 auto
@@ -40,4 +52,24 @@
 .pagination-style {
   text-align: center;
   margin-top: 5px
+}
+
+.order-list-top-col {
+  border: 1px solid #dcdfe6;
+  border-radius: 15px;
+  padding: 5px 15px;
+  margin: 0 10px;
+}
+
+.order-list-top-col .el-form-item {
+  margin-right: 0;
+  margin-bottom: 10px;
+}
+
+.order-list-top-tag {
+  margin-bottom: 10px
+}
+
+.order-list-download-btn {
+  margin: 10px 0;
 }

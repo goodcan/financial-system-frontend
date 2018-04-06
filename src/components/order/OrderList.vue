@@ -1,52 +1,63 @@
 <template>
   <div>
     <slot name="title"/>
-    <el-row class="my-center-row">
-      <el-badge :value="payStatus.expect.expectNum" :max="99" class="my-badge-item">
-        <el-tag type="primary">未完成</el-tag>
-      </el-badge>
-      <el-badge :value="payStatus.need.needNum" :max="99" class="my-badge-item">
-        <el-tag type="warning">需要支付</el-tag>
-      </el-badge>
-      <el-badge :value="payStatus.had.hadNum" :max="99" class="my-badge-item">
-        <el-tag type="success">已支付</el-tag>
-      </el-badge>
-    </el-row>
-    <el-row class="my-center-row">
-      <span>预计支出：{{payStatus.expect.expectPay | currency('￥')}}</span> |
-      <span>需要支出：{{payStatus.need.needPay | currency('￥')}}</span> |
-      <span>已经支出：{{payStatus.had.hadPay | currency('￥')}}</span>
-    </el-row>
-    <slot name="download"/>
-    <el-row class="my-center-row">
-      <el-form inline :model="search">
-        <el-form-item label="创建日期">
-          <el-date-picker
-            v-model="search.date"
-            @change="init"
-            value-format="yyyy-MM-dd"
-            type="daterange"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="订单状态">
-          <el-select
-            v-model="search.status"
-            @change="init"
-            placeholder="请选择类型"
-            style="width: 100px">
-            <el-option label="不区分" :value="-1"/>
-            <el-option label="未完成" :value="1"/>
-            <el-option label="需付款" :value="2"/>
-            <el-option label="已支付" :value="3"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="init"><i class="el-icon-refresh">刷新</i></el-button>
-        </el-form-item>
-      </el-form>
+    <el-row type="flex" justify="center" style="margin-bottom: 15px">
+      <div class="order-list-top-col">
+        <el-row>
+          <el-badge :value="payStatus.expect.expectNum" :max="99" class="my-badge-item">
+            <el-tag type="primary" class="order-list-top-tag">制作中</el-tag>
+          </el-badge>
+          <span>预计支出：{{payStatus.expect.expectPay | currency('￥')}}</span>
+        </el-row>
+        <el-row>
+          <el-badge :value="payStatus.need.needNum" :max="99" class="my-badge-item">
+            <el-tag type="warning" class="order-list-top-tag">待付款</el-tag>
+          </el-badge>
+          <span>需要支出：{{payStatus.need.needPay | currency('￥')}}</span>
+        </el-row>
+        <el-row>
+          <el-badge :value="payStatus.had.hadNum" :max="99" class="my-badge-item">
+            <el-tag type="success" class="order-list-top-tag">已支付</el-tag>
+          </el-badge>
+          <span>已经支出：{{payStatus.had.hadPay | currency('￥')}}</span>
+        </el-row>
+      </div>
+      <div class="order-list-top-col">
+        <el-form
+          :model="search"
+          label-width="80px">
+          <el-form-item label="创建日期">
+            <el-date-picker
+              v-model="search.date"
+              @change="init"
+              value-format="yyyy-MM-dd"
+              type="daterange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="订单状态">
+            <el-select
+              v-model="search.status"
+              @change="init"
+              placeholder="请选择类型"
+              style="width: 100%">
+              <el-option label="不区分" :value="-1"/>
+              <el-option label="未完成" :value="1"/>
+              <el-option label="需付款" :value="2"/>
+              <el-option label="已支付" :value="3"/>
+            </el-select>
+          </el-form-item>
+          <el-form-item>
+            <el-button
+              type="primary"
+              plain
+              @click="init"><i class="el-icon-refresh">刷新</i></el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+      <slot name="download"/>
     </el-row>
     <el-table
       v-loading="loading"
@@ -815,7 +826,11 @@
                   order.expect.num = order.num;
                   order.expect.unit = order.unit;
                   order.expect.unitNum = order.unitNum;
-                  order.evaluation = 0
+                  order.evaluation = 0;
+                } else if (status === 2) {
+                  order.completeTime = res.result.opsTime;
+                } else if (status === 3) {
+                  order.paymentTime = res.result.opsTime;
                 }
                 this.confirmShow = false;
               } else {
