@@ -2,6 +2,7 @@
   <el-table
     :data="users"
     :stripe="true"
+    size="small"
     style="width: 100%">
     <el-table-column type="expand">
       <template slot-scope="props">

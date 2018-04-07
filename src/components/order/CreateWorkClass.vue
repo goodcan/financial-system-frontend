@@ -4,20 +4,27 @@
     <el-table
       :data="workClasses"
       :stripe="true"
+      size="small"
       width="100%">
       <el-table-column
         label="名称"
+        align="center"
         prop="name">
       </el-table-column>
       <el-table-column
         label="添加时间"
+        align="center"
         prop="createTime">
       </el-table-column>
       <el-table-column
         label="添加人"
+        align="center"
         prop="createUser">
       </el-table-column>
-      <el-table-column label="操作" width="300px">
+      <el-table-column
+        label="操作"
+        align="center"
+        width="300px">
         <template slot-scope="scope">
           <el-button
             size="mini"

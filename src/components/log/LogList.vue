@@ -5,6 +5,7 @@
       v-loading="loading"
       :data="logs"
       :stripe="true"
+      size="small"
       style="width: 100%">
       <el-table-column
         align="center"

@@ -4,6 +4,7 @@
     <el-table
       :data="classes"
       :stripe="true"
+      size="small"
       width="100%">
       <el-table-column
         align="center"

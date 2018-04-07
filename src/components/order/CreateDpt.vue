@@ -4,6 +4,7 @@
     <el-table
       :data="departments"
       :stripe="true"
+      size="small"
       width="100%">
       <el-table-column
         align="center"

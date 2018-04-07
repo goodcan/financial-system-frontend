@@ -4,6 +4,7 @@
     <el-table
       :data="customers"
       :stripe="true"
+      size="small"
       width="100%">
       <el-table-column type="expand">
         <template slot-scope="props">

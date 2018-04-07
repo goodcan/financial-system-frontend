@@ -30,6 +30,7 @@
     <el-table
       :data="contacts"
       :stripe="true"
+      size="small"
       width="100%">
       <el-table-column type="expand">
         <template slot-scope="props">
