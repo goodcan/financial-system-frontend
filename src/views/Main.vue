@@ -1,15 +1,17 @@
 <template>
-  <el-row>
-    <nav-header/>
-    <el-row :gutter="15" style="margin-top: 15px">
-      <el-col style="width: 15%;">
+  <el-container>
+    <el-header style="padding: 0;">
+      <nav-header/>
+    </el-header>
+    <el-container>
+      <el-aside width="15%">
         <nav-bar/>
-      </el-col>
-      <el-col style="width: 85%;">
-          <router-view/>
-      </el-col>
-    </el-row>
-  </el-row>
+      </el-aside>
+      <el-main>
+        <router-view/>
+      </el-main>
+    </el-container>
+  </el-container>
 </template>
 
 <script>
