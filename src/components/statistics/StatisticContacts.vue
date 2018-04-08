@@ -42,7 +42,7 @@
                   type: 'none'
                 },
                 formatter: function (params) {
-                  return params[0].name + ': ' + params[0].value + '次';
+                  return params[0].name + ': ' + params[0].value + '单';
                 }
               },
               xAxis: {

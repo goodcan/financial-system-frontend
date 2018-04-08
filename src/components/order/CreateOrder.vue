@@ -37,6 +37,7 @@
       </el-form-item>
       <el-form-item label="订单客户：" prop="selectCustomer">
         <el-select
+          filterable
           v-model="form.selectCustomer"
           placeholder="请选择订单客户"
           style="width: 100%;">
