@@ -49,8 +49,9 @@
       </el-form-item>
       <el-form-item label="外包人员：" prop="selectContact">
         <el-select
+          filterable
           v-model="form.selectContact"
-          placeholder="请选择对接人员"
+          placeholder="请选择外包人员"
           style="width: 100%">
           <el-option
             v-for="item in contacts"

@@ -45,7 +45,7 @@
               style="width: 100%">
               <el-option label="不区分" :value="-1"/>
               <el-option label="未完成" :value="1"/>
-              <el-option label="需付款" :value="2"/>
+              <el-option label="待付款" :value="2"/>
               <el-option label="已支付" :value="3"/>
             </el-select>
           </el-form-item>
