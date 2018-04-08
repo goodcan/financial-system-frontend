@@ -25,6 +25,7 @@
       </el-form-item>
       <el-form-item label="订单类目：" prop="selectClass">
         <el-select
+          filterable
           v-model="form.selectClass"
           placeholder="请选择订单类目"
           style="width: 100%">

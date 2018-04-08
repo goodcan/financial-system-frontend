@@ -328,6 +328,7 @@
               </el-form-item>
               <el-form-item label="订单类目：" prop="className">
                 <el-select
+                  filterable
                   v-model="confirmData.className"
                   placeholder="请选择订单类目"
                   style="width: 100%">
@@ -340,6 +341,7 @@
               </el-form-item>
               <el-form-item label="订单客户：" prop="customerName">
                 <el-select
+                  filterable
                   v-model="confirmData.customerName"
                   placeholder="请选择订单客户"
                   style="width: 100%;">
@@ -352,6 +354,7 @@
               </el-form-item>
               <el-form-item label="外包人员：" prop="contactName">
                 <el-select
+                  filterable
                   v-model="confirmData.contactName"
                   placeholder="请选择对接人员"
                   style="width: 100%">
