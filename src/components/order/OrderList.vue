@@ -165,11 +165,16 @@
           </el-form>
         </template>
       </el-table-column>
+      <!--<el-table-column-->
+        <!--align="center"-->
+        <!--label="订单ID"-->
+        <!--width="180px"-->
+        <!--prop="orderId">-->
+      <!--</el-table-column>-->
       <el-table-column
         align="center"
-        label="订单ID"
-        width="180px"
-        prop="orderId">
+        label="订单名称"
+        prop="title">
       </el-table-column>
       <el-table-column
         align="center"
