@@ -4,7 +4,7 @@
       <nav-header/>
     </el-header>
     <el-container>
-      <el-aside width="15%">
+      <el-aside width="200px">
         <nav-bar/>
       </el-aside>
       <el-main>
