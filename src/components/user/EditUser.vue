@@ -1,20 +1,32 @@
 <template>
   <div>
     <h3 class="my-title-h3">正在设置<span style="color: red">{{this.user.username}}</span>的信息</h3>
-    <el-form :model="user" ref="user" :rules="rules" label-width="80px" class="create-form-size">
+    <el-form :model="user" ref="user" :rules="rules" label-width="100px" class="create-form-size">
       <el-form-item label="用户ID：">
           <el-input type="text" v-model="user._id" disabled/>
       </el-form-item>
       <el-form-item label="用户名：">
           <el-input type="text" v-model="user.username" disabled/>
       </el-form-item>
-      <el-form-item label="部门：" prop="department">
+      <!--<el-form-item label="部门：" prop="department">-->
+          <!--<el-select-->
+            <!--v-model="user.department"-->
+            <!--placeholder="请选择部门"-->
+            <!--style="width: 100%">-->
+            <!--<el-option-->
+              <!--v-for="item in departments"-->
+              <!--:key="item.value"-->
+              <!--:label="item.label"-->
+              <!--:value="item.value"/>-->
+          <!--</el-select>-->
+      <!--</el-form-item>-->
+       <el-form-item label="所属公司：" prop="company">
           <el-select
-            v-model="user.department"
+            v-model="user.company"
             placeholder="请选择部门"
             style="width: 100%">
             <el-option
-              v-for="item in departments"
+              v-for="item in companies"
               :key="item.value"
               :label="item.label"
               :value="item.value"/>
@@ -52,7 +64,8 @@
     data() {
       return {
         user: {},
-        departments: [],
+        // departments: [],
+        companies: [],
         transferData: [],
         nowPermissions: [],
         transferTitles: ["没有的权限", "拥有的权限"],
@@ -74,7 +87,8 @@
           let res = response.data;
           if (res.code === 1) {
             this.user = res.result.user;
-            this.departments = res.result.departments;
+            // this.departments = res.result.departments;
+            this.companies = res.result.companies;
             this.transferData = res.result.permissions;
             this.nowPermissions = this.user.setPermissions
           }
