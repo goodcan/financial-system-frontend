@@ -706,7 +706,7 @@
         if (this.$store.state.userPms.editAllOrder === 1) {
           return true
         // } else if (this.$store.state.userPms.editDptOrder === 1 && order.department === user.department) {
-        } else if (this.$store.state.userPms.editDptOrder === 1 && order.company === user.company) {
+        } else if (this.$store.state.userPms.editCompanyOrder === 1 && order.company === user.company) {
           return true
         } else {
           return this.$store.state.userPms.editSelfOrder === 1 && order.userId === user.userId

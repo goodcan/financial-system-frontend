@@ -12,10 +12,15 @@
       <el-menu-item-group>
         <el-menu-item index="/createOrder">创建订单</el-menu-item>
         <el-menu-item index="/selfOrderList">我创建的订单</el-menu-item>
+        <!--<el-menu-item-->
+          <!--index="/dptOrderList"-->
+          <!--v-if="this.$store.state.userPms.readDptOrder === 1">-->
+          <!--我部门的订单-->
+        <!--</el-menu-item>-->
         <el-menu-item
-          index="/dptOrderList"
-          v-if="this.$store.state.userPms.readDptOrder === 1">
-          我部门的订单
+          index="/companyOrderList"
+          v-if="this.$store.state.userPms.readCompanyOrder === 1">
+          所属公司的订单
         </el-menu-item>
       </el-menu-item-group>
     </el-submenu>

@@ -3,7 +3,8 @@ import Router from 'vue-router'
 import Main from '../views/Main'
 import CreateOrder from '../components/order/CreateOrder'
 import SelfOrderList from '../components/order/SelfOrderList'
-import DptOrderList from '../components/order/DptOrderList'
+// import DptOrderList from '../components/order/DptOrderList'
+import CompanyOrderList from '../components/order/CompanyOrderList'
 import Register from '../components/user/Register'
 import Login from '../components/user/Login'
 import CreateClass from '../components/order/CreateClass'
@@ -70,10 +71,15 @@ export default new Router({
           component: SelfOrderList
         },
         {
-          path: '/dptOrderList',
-          name: 'DptOrderList',
-          component: DptOrderList
+          path: '/companyOrderList',
+          name: 'CompanyOrderList',
+          component: CompanyOrderList
         },
+        // {
+        //   path: '/dptOrderList',
+        //   name: 'DptOrderList',
+        //   component: DptOrderList
+        // },
         {
           path: '/createClass',
           name: 'CreateClass',
