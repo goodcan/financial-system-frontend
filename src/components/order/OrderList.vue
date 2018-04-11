@@ -25,6 +25,7 @@
       <div class="order-list-top-col">
         <el-form
           :model="search"
+          size="small"
           label-width="80px">
           <el-form-item label="创建日期">
             <el-date-picker
@@ -37,18 +38,37 @@
               end-placeholder="结束日期">
             </el-date-picker>
           </el-form-item>
-          <el-form-item label="订单状态">
-            <el-select
-              v-model="search.status"
-              @change="init"
-              placeholder="请选择类型"
-              style="width: 100%">
-              <el-option label="不区分" :value="-1"/>
-              <el-option label="未完成" :value="1"/>
-              <el-option label="待付款" :value="2"/>
-              <el-option label="已支付" :value="3"/>
-            </el-select>
-          </el-form-item>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="订单状态">
+                <el-select
+                  v-model="search.status"
+                  @change="init"
+                  placeholder="请选择类型"
+                  style="width: 100%">
+                  <el-option label="不区分" :value="-1"/>
+                  <el-option label="未完成" :value="1"/>
+                  <el-option label="待付款" :value="2"/>
+                  <el-option label="已支付" :value="3"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="所属公司">
+                <el-select
+                  v-model="search.company"
+                  @change="init"
+                  placeholder="请选择类型"
+                  style="width: 100%">
+                  <el-option label="不区分" :value="'all'"/>
+                  <el-option
+                    v-for="item in companies"
+                    :label="item.label"
+                    :value="item.value"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
           <el-form-item>
             <el-button
               type="primary"
@@ -90,7 +110,7 @@
                 <span>{{ props.row.createUser }}</span>
               </el-form-item>
               <!--<el-form-item label="部门类别：">-->
-                <!--<span>{{ props.row.department }}</span>-->
+              <!--<span>{{ props.row.department }}</span>-->
               <!--</el-form-item>-->
               <el-form-item label="所属公司：">
                 <span>{{ props.row.company }}</span>
@@ -280,7 +300,7 @@
               <span>{{ confirmData.createUser }}</span>
             </el-form-item>
             <!--<el-form-item label="部门类别：">-->
-              <!--<span>{{ confirmData.department }}</span>-->
+            <!--<span>{{ confirmData.department }}</span>-->
             <!--</el-form-item>-->
             <el-form-item label="所属公司：">
               <span>{{ confirmData.company }}</span>
@@ -331,16 +351,16 @@
                 <el-input placeholder="请输入订单名称" v-model="confirmData.title"/>
               </el-form-item>
               <!--<el-form-item label="部门：" prop="department">-->
-                <!--<el-select-->
-                  <!--v-model="confirmData.department"-->
-                  <!--placeholder="请选择部门"-->
-                  <!--style="width: 100%">-->
-                  <!--<el-option-->
-                    <!--v-for="item in departments"-->
-                    <!--:key="item.value"-->
-                    <!--:label="item.label"-->
-                    <!--:value="item.value"/>-->
-                <!--</el-select>-->
+              <!--<el-select-->
+              <!--v-model="confirmData.department"-->
+              <!--placeholder="请选择部门"-->
+              <!--style="width: 100%">-->
+              <!--<el-option-->
+              <!--v-for="item in departments"-->
+              <!--:key="item.value"-->
+              <!--:label="item.label"-->
+              <!--:value="item.value"/>-->
+              <!--</el-select>-->
               <!--</el-form-item>-->
               <el-form-item label="部门：" prop="company">
                 <el-select
@@ -420,7 +440,7 @@
             </el-col>
             <el-col :span="12">
               <!--<el-form-item label="部门类别：">-->
-                <!--<span>{{ confirmData.department }}</span>-->
+              <!--<span>{{ confirmData.department }}</span>-->
               <!--</el-form-item>-->
               <el-form-item label="所属公司：">
                 <span>{{ confirmData.company }}</span>
@@ -606,6 +626,7 @@
         search: {
           date: [],
           createUser: 'all',
+          company: 'all',
           status: -1,
         },
         orders: [],
@@ -670,10 +691,11 @@
       }
     },
     mounted() {
+      this.initOptionData();
       this.init();
     },
     methods: {
-      init() {
+      initOptionData() {
         axios.post('/api/orderInitData').then((response) => {
             let res = response.data;
             if (res.code === 1) {
@@ -683,7 +705,9 @@
               this.companies = res.result.companies;
             }
           }
-        );
+        )
+      },
+      init() {
         this.loading = true;
         console.log('user: ' + this.$store.state.userObj);
         axios.post('/api/orderList', {
@@ -705,7 +729,7 @@
         let user = this.$store.state.userObj;
         if (this.$store.state.userPms.editAllOrder === 1) {
           return true
-        // } else if (this.$store.state.userPms.editDptOrder === 1 && order.department === user.department) {
+          // } else if (this.$store.state.userPms.editDptOrder === 1 && order.department === user.department) {
         } else if (this.$store.state.userPms.editCompanyOrder === 1 && order.company === user.company) {
           return true
         } else {
