@@ -281,6 +281,20 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <div class="pagination-style" style="margin-bottom: 15px">
+      <el-pagination
+        @size-change="sizeChange"
+        @current-change="init"
+        layout="sizes, prev, pager, next, total"
+        :current-page.sync="page"
+        :size-page.sync="pageSize"
+        :page-sizes="[25, 50, 75, 100]"
+        :page-size="pageSize"
+        :total="totalCount">
+      </el-pagination>
+    </div>
+
     <el-dialog
       :title="confirmTitle"
       :visible.sync="confirmShow"
@@ -640,6 +654,9 @@
     props: ['orderListType'],
     data() {
       return {
+        page: 1,
+        pageSize: 50,
+        totalCount: 0,
         customerDetail: '',
         search: {
           date: [],
@@ -737,13 +754,17 @@
         this.loading = true;
         console.log('user: ' + this.$store.state.userObj);
         axios.post('/api/orderList', {
+          page: this.page,
+          pageSize: this.pageSize,
           orderListType: this.orderListType,
           search: this.search,
         }).then((response) => {
           let res = response.data;
           if (res.code === 1) {
             this.orders = res.result.orders;
-            this.search.date = res.result.searchDate
+            this.search.date = res.result.searchDate;
+            this.pageSize = res.result.pageSize;
+            this.totalCount = res.result.totalCount;
           }
           this.orders.forEach(item => {
             item.showPrice = currency(item.price, '￥')
