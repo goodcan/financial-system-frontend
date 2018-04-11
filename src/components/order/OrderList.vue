@@ -96,7 +96,7 @@
     </el-row>
     <el-table
       v-loading="loading"
-      :data="orders"
+      :data="showOrders"
       :stripe="true"
       size="small"
       style="width: 100%">
@@ -285,7 +285,7 @@
     <div class="pagination-style" style="margin-bottom: 15px">
       <el-pagination
         @size-change="sizeChange"
-        @current-change="init"
+        @current-change="pageChange"
         layout="sizes, prev, pager, next, total"
         :current-page.sync="page"
         :size-page.sync="pageSize"
@@ -655,7 +655,7 @@
     data() {
       return {
         page: 1,
-        pageSize: 50,
+        pageSize: 25,
         totalCount: 0,
         customerDetail: '',
         search: {
@@ -666,6 +666,7 @@
           status: -1,
         },
         orders: [],
+        showOrders: [],
         loading: false,
         confirmTitle: '',
         confirmShow: false,
@@ -754,8 +755,6 @@
         this.loading = true;
         console.log('user: ' + this.$store.state.userObj);
         axios.post('/api/orderList', {
-          page: this.page,
-          pageSize: this.pageSize,
           orderListType: this.orderListType,
           search: this.search,
         }).then((response) => {
@@ -763,12 +762,12 @@
           if (res.code === 1) {
             this.orders = res.result.orders;
             this.search.date = res.result.searchDate;
-            this.pageSize = res.result.pageSize;
             this.totalCount = res.result.totalCount;
           }
           this.orders.forEach(item => {
             item.showPrice = currency(item.price, '￥')
           });
+          this.computedShowOrders();
           this.loading = false;
         })
       },
@@ -976,12 +975,21 @@
           return '字'
         }
       },
-      getCustomerDetail(order) {
-        this.customerDetail = order.customerName
+      pageChange(page) {
+        this.page = page;
+        this.computedShowOrders()
       },
       sizeChange(pageSize) {
         this.pageSize = pageSize;
-        this.init()
+        this.computedShowOrders()
+      },
+      computedShowOrders() {
+        let skip = (this.page - 1) * this.pageSize;
+        if ((skip + this.pageSize) < this.totalCount) {
+          this.showOrders = this.orders.slice(skip, skip + this.pageSize)
+        } else {
+          this.showOrders = this.orders.slice(skip, this.totalCount)
+        }
       }
     }
   }
