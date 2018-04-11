@@ -1,7 +1,7 @@
 <template>
   <el-row>
     <order-list v-bind:orderListType="orderListType">
-      <h3 slot="title" class="my-title-h3">所有订单列表</h3>
+      <h3 slot="title" class="my-order-title-h3">所有订单列表</h3>
       <div slot="download" class="order-list-top-col">
         <el-row class="order-list-download-btn">
           <el-button

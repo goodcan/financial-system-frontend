@@ -1,6 +1,13 @@
 <template>
   <div>
-    <slot name="title"/>
+    <div align="center">
+      <slot name="title"/>
+      <el-tooltip class="item" effect="dark" content="刷新列表" placement="right">
+        <el-button
+          size="mini" style="border-radius: 50%;padding: 3px;margin-left: 5px"
+          @click="init"><i class="el-icon-refresh" style="font-weight: bold"></i></el-button>
+      </el-tooltip>
+    </div>
     <el-row type="flex" justify="center" style="margin-bottom: 15px">
       <div class="order-list-top-col">
         <el-row>
@@ -25,8 +32,14 @@
       <div class="order-list-top-col">
         <el-form
           :model="search"
-          size="small"
           label-width="80px">
+          <el-form-item label="订单名称" prop="title">
+            <el-input
+              type="text"
+              @change="init"
+              placeholder="请输入关键字"
+              v-model="search.title"/>
+          </el-form-item>
           <el-form-item label="创建日期">
             <el-date-picker
               v-model="search.date"
@@ -35,7 +48,8 @@
               type="daterange"
               range-separator="至"
               start-placeholder="开始日期"
-              end-placeholder="结束日期">
+              end-placeholder="结束日期"
+              style="width: 100%">
             </el-date-picker>
           </el-form-item>
           <el-row>
@@ -58,6 +72,7 @@
                 <el-select
                   v-model="search.company"
                   @change="init"
+                  :disabled="orderListType === 'company'"
                   placeholder="请选择类型"
                   style="width: 100%">
                   <el-option label="不区分" :value="'all'"/>
@@ -69,12 +84,12 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-form-item>
-            <el-button
-              type="primary"
-              plain
-              @click="init"><i class="el-icon-refresh">刷新</i></el-button>
-          </el-form-item>
+          <!--<el-form-item>-->
+          <!--<el-button-->
+          <!--type="primary"-->
+          <!--plain-->
+          <!--@click="init"><i class="el-icon-refresh">刷新</i></el-button>-->
+          <!--</el-form-item>-->
         </el-form>
       </div>
       <slot name="download"/>
@@ -625,6 +640,7 @@
       return {
         search: {
           date: [],
+          title: '',
           createUser: 'all',
           company: 'all',
           status: -1,
@@ -696,6 +712,9 @@
     },
     methods: {
       initOptionData() {
+        if (this.orderListType === 'company') {
+          this.search.company = this.$store.state.userObj.company
+        }
         axios.post('/api/orderInitData').then((response) => {
             let res = response.data;
             if (res.code === 1) {

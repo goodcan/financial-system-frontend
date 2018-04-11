@@ -1,7 +1,7 @@
 <template>
   <div>
     <order-list v-bind:orderListType="orderListType">
-        <h3 slot="title" class="my-title-h3">我创建的订单列表</h3>
+        <h3 slot="title" class="my-order-title-h3">我创建的订单列表</h3>
     </order-list>
   </div>
 </template>

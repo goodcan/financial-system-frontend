@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+.my-order-title-h3 {
+  text-align: center;
+  display: inline-block;
+}
+
 .table-expand label {
   width: 90px;
   color: #99a9bf;
