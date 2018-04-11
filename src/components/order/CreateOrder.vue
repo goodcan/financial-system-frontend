@@ -109,12 +109,12 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="单价对应：" v-if="form.selectUnit">
+          <el-form-item label="单价对应：">
             <el-input-number
               v-model="form.unitNum"
               :min="1"
               label="单价对应"/>
-            <span style="margin-left: 5px">{{showUnit(form.selectUnit)}}</span>
+            <span  v-if="form.selectUnit" style="margin-left: 5px">{{showUnit(form.selectUnit)}}</span>
           </el-form-item>
         </el-col>
       </el-row>
