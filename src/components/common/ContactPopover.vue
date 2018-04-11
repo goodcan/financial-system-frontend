@@ -3,7 +3,7 @@
     <el-popover
       ref="popover"
       placement="top-start"
-      :title="customerName + '信息'"
+      :title="contactName + '的信息'"
       width="300"
       trigger="hover">
       <div v-if="errMsg">
