@@ -8,7 +8,8 @@ import Register from '../components/user/Register'
 import Login from '../components/user/Login'
 import CreateClass from '../components/order/CreateClass'
 import CreateCustomer from '../components/order/CreateCustomer'
-import CreateDpt from '../components/order/CreateDpt'
+// import CreateDpt from '../components/order/CreateDpt'
+import CreateCompany from '../components/order/CreateCompany'
 import CreateContact from '../components/order/CreateContact'
 import UserList from '../components/user/UserList'
 import EditUser from '../components/user/EditUser'
@@ -89,10 +90,15 @@ export default new Router({
           component: CreateContact
         },
         {
-          path: '/createDpt',
-          name: 'CreateDpt',
-          component: CreateDpt
+          path: '/createCompany',
+          name: 'CreateCompany',
+          component: CreateCompany
         },
+        // {
+        //   path: '/createDpt',
+        //   name: 'CreateDpt',
+        //   component: CreateDpt
+        // },
         {
           path: '/userList',
           name: 'UserList',

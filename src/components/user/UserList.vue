@@ -66,9 +66,9 @@
       </el-table-column>
       <el-table-column
         align="center"
-        label="部门">
+        label="所属公司">
         <template slot-scope="scope">
-          {{scope.row.department? scope.row.department: '未设置'}}
+          {{scope.row.company? scope.row.company: '未设置'}}
         </template>
       </el-table-column>
       <el-table-column

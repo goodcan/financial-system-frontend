@@ -48,7 +48,8 @@
         <span>订单选项管理</span>
       </template>
       <el-menu-item-group>
-        <el-menu-item index="/createDpt">部门</el-menu-item>
+        <!--<el-menu-item index="/createDpt">部门</el-menu-item>-->
+        <el-menu-item index="/createCompany">公司</el-menu-item>
         <el-menu-item index="/createClass">类目</el-menu-item>
         <el-menu-item index="/createCustomer">客户</el-menu-item>
         <el-menu-item index="/createContact">外包人员</el-menu-item>
