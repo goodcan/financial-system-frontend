@@ -11,13 +11,25 @@
       <el-form-item label="名称：" prop="title">
         <el-input placeholder="请输入订单名称" v-model="form.title"/>
       </el-form-item>
-      <el-form-item label="部门：" prop="selectDpt">
+      <!--<el-form-item label="部门：" prop="selectDpt">-->
+        <!--<el-select-->
+          <!--v-model="form.selectDpt"-->
+          <!--placeholder="请选择部门"-->
+          <!--style="width: 100%">-->
+          <!--<el-option-->
+            <!--v-for="item in departments"-->
+            <!--:key="item.value"-->
+            <!--:label="item.label"-->
+            <!--:value="item.value"/>-->
+        <!--</el-select>-->
+      <!--</el-form-item>-->
+      <el-form-item label="所属公司：" prop="selectCompany">
         <el-select
-          v-model="form.selectDpt"
+          v-model="form.selectCompany"
           placeholder="请选择部门"
           style="width: 100%">
           <el-option
-            v-for="item in departments"
+            v-for="item in companies"
             :key="item.value"
             :label="item.label"
             :value="item.value"/>
@@ -156,7 +168,8 @@
           price: '',
           unitNum: '',
           num: '',
-          selectDpt: '',
+          // selectDpt: '',
+          selectCompany: '',
           selectClass: '',
           selectCustomer: '',
           selectContact: '',
@@ -169,7 +182,8 @@
         classes: '',
         customers: '',
         contacts: '',
-        departments: '',
+        // departments: '',
+        companies: '',
         helpInfo: '',
         rules: {
           title: [
@@ -179,8 +193,11 @@
           price: [
             {required: true, message: '类目不能为空', trigger: 'blur'},
           ],
-          selectDpt: [
-            {required: true, message: '客户不能为空', trigger: 'blur'},
+          // selectDpt: [
+          //   {required: true, message: '部门不能为空', trigger: 'blur'},
+          // ],
+          selectCompany: [
+            {required: true, message: '所属公司不能为空', trigger: 'blur'},
           ],
           selectClass: [
             {required: true, message: '客户不能为空', trigger: 'blur'},
@@ -214,9 +231,11 @@
               this.classes = res.result.classes;
               this.customers = res.result.customers;
               this.contacts = res.result.contacts;
-              this.departments = res.result.departments;
+              // this.departments = res.result.departments;
+              this.companies = res.result.companies;
               this.helpInfo = res.result.helpInfo[0]['content'];
-              this.form.selectDpt = this.$store.state.userObj.department
+              // this.form.selectDpt = this.$store.state.userObj.department
+              this.form.selectCompany = this.$store.state.userObj.company
             }
           }
         )
@@ -237,7 +256,8 @@
                 userId: this.$store.state.userObj.userId,
                 createUser: this.$store.state.userObj.username,
                 title: this.form.title,
-                department: this.form.selectDpt,
+                // department: this.form.selectDpt,
+                company: this.form.selectCompany,
                 className: this.form.selectClass,
                 customerName: this.form.selectCustomer,
                 contactName: this.form.selectContact,

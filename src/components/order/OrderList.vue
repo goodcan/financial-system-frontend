@@ -89,8 +89,11 @@
               <el-form-item label="创建人：">
                 <span>{{ props.row.createUser }}</span>
               </el-form-item>
-              <el-form-item label="部门类别：">
-                <span>{{ props.row.department }}</span>
+              <!--<el-form-item label="部门类别：">-->
+                <!--<span>{{ props.row.department }}</span>-->
+              <!--</el-form-item>-->
+              <el-form-item label="所属公司：">
+                <span>{{ props.row.company }}</span>
               </el-form-item>
               <el-form-item label="订单类目：">
                 <span>{{ props.row.className }}</span>
@@ -166,10 +169,10 @@
         </template>
       </el-table-column>
       <!--<el-table-column-->
-        <!--align="center"-->
-        <!--label="订单ID"-->
-        <!--width="180px"-->
-        <!--prop="orderId">-->
+      <!--align="center"-->
+      <!--label="订单ID"-->
+      <!--width="180px"-->
+      <!--prop="orderId">-->
       <!--</el-table-column>-->
       <el-table-column
         align="center"
@@ -187,10 +190,15 @@
         label="创建人"
         prop="createUser">
       </el-table-column>
+      <!--<el-table-column-->
+      <!--align="center"-->
+      <!--label="部门"-->
+      <!--prop="department">-->
+      <!--</el-table-column>-->
       <el-table-column
         align="center"
-        label="部门"
-        prop="department">
+        label="所属公司"
+        prop="company">
       </el-table-column>
       <el-table-column
         align="center"
@@ -271,8 +279,11 @@
             <el-form-item label="创建人：">
               <span>{{ confirmData.createUser }}</span>
             </el-form-item>
-            <el-form-item label="部门类别：">
-              <span>{{ confirmData.department }}</span>
+            <!--<el-form-item label="部门类别：">-->
+              <!--<span>{{ confirmData.department }}</span>-->
+            <!--</el-form-item>-->
+            <el-form-item label="所属公司：">
+              <span>{{ confirmData.company }}</span>
             </el-form-item>
             <el-form-item label="订单类目：">
               <span>{{ confirmData.className }}</span>
@@ -319,13 +330,25 @@
               <el-form-item label="名称：" prop="title">
                 <el-input placeholder="请输入订单名称" v-model="confirmData.title"/>
               </el-form-item>
-              <el-form-item label="部门：" prop="department">
+              <!--<el-form-item label="部门：" prop="department">-->
+                <!--<el-select-->
+                  <!--v-model="confirmData.department"-->
+                  <!--placeholder="请选择部门"-->
+                  <!--style="width: 100%">-->
+                  <!--<el-option-->
+                    <!--v-for="item in departments"-->
+                    <!--:key="item.value"-->
+                    <!--:label="item.label"-->
+                    <!--:value="item.value"/>-->
+                <!--</el-select>-->
+              <!--</el-form-item>-->
+              <el-form-item label="部门：" prop="company">
                 <el-select
-                  v-model="confirmData.department"
+                  v-model="confirmData.company"
                   placeholder="请选择部门"
                   style="width: 100%">
                   <el-option
-                    v-for="item in departments"
+                    v-for="item in companies"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value"/>
@@ -396,8 +419,11 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="部门类别：">
-                <span>{{ confirmData.department }}</span>
+              <!--<el-form-item label="部门类别：">-->
+                <!--<span>{{ confirmData.department }}</span>-->
+              <!--</el-form-item>-->
+              <el-form-item label="所属公司：">
+                <span>{{ confirmData.company }}</span>
               </el-form-item>
               <el-form-item label="订单类目：">
                 <span>{{ confirmData.className }}</span>
@@ -603,7 +629,8 @@
         classes: '',
         customers: '',
         contacts: '',
-        departments: '',
+        // departments: '',
+        companies: '',
       }
     },
     computed: {
@@ -653,7 +680,7 @@
               this.classes = res.result.classes;
               this.customers = res.result.customers;
               this.contacts = res.result.contacts;
-              this.departments = res.result.departments;
+              this.companies = res.result.companies;
             }
           }
         );
@@ -678,7 +705,8 @@
         let user = this.$store.state.userObj;
         if (this.$store.state.userPms.editAllOrder === 1) {
           return true
-        } else if (this.$store.state.userPms.editDptOrder === 1 && order.department === user.department) {
+        // } else if (this.$store.state.userPms.editDptOrder === 1 && order.department === user.department) {
+        } else if (this.$store.state.userPms.editDptOrder === 1 && order.company === user.company) {
           return true
         } else {
           return this.$store.state.userPms.editSelfOrder === 1 && order.userId === user.userId
@@ -812,7 +840,8 @@
             if (status === 1 && this.$store.state.userPms.editOrderMoreParam === 1) {
               setParams.title = order.title;
               setParams.className = order.className;
-              setParams.department = order.department;
+              // setParams.department = order.department;
+              setParams.company = order.company;
               setParams.customerName = order.customerName;
               setParams.contactName = order.contactName;
               setParams.desc = order.desc;
