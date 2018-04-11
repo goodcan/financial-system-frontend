@@ -139,7 +139,7 @@
                 <customer-popover v-bind:customerName="props.row.customerName"></customer-popover>
               </el-form-item>
               <el-form-item label="外包人员：">
-                <span>{{ props.row.contactName }}</span>
+                <contact-popover v-bind:contactName="props.row.contactName"></contact-popover>
               </el-form-item>
               <el-form-item label="预计完成：">
                 <span>{{ props.row.expectDate? props.row.expectDate: '未设置' }}</span>
@@ -633,6 +633,7 @@
 <script>
   import axios from '../../axios'
   import CustomerPopover from '../common/CustomerPopover'
+  import ContactPopover from '../common/ContactPopover'
   import {currency} from "../../util/currency";
 
   export default {
@@ -673,7 +674,8 @@
       }
     },
     components: {
-      CustomerPopover
+      CustomerPopover,
+      ContactPopover
     },
     computed: {
       payStatus() {
