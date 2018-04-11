@@ -39,6 +39,9 @@
               <el-form-item label="昵称：">
                 <span>{{ props.row.name }}</span>
               </el-form-item>
+              <el-form-item label="真实姓名：">
+                <span>{{ props.row.realName? props.row.realName: '未设置' }}</span>
+              </el-form-item>
               <el-form-item label="创建时间：">
                 <span>{{ props.row.createTime }}</span>
               </el-form-item>
@@ -70,6 +73,13 @@
         align="center"
         label="昵称"
         prop="name">
+      </el-table-column>
+      <el-table-column
+        align="center"
+        label="真实姓名">
+        <template slot-scope="scope">
+          {{scope.row.realName? scope.row.realName: '未设置'}}
+        </template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -115,11 +125,20 @@
         <el-form-item
           :label="'昵称' + index"
           :prop="'contacts.' + index + '.name'"
-          :rules="{required: true, message: '姓名不能为空', trigger: 'blur'}">
+          :rules="{required: true, message: '昵称不能为空', trigger: 'blur'}">
           <el-input
             type="text"
-            placeholder="请填写姓名"
+            placeholder="请填写昵称"
             v-model="contact.name"/>
+        </el-form-item>
+        <el-form-item
+          :label="'真实姓名'"
+          :prop="'contacts.' + index + '.realName'"
+          :rules="{required: true, message: '真实姓名不能为空', trigger: 'blur'}">
+          <el-input
+            type="text"
+            placeholder="请填写真实姓名"
+            v-model="contact.realName"/>
         </el-form-item>
         <el-form-item
           :label="'付款信息'"
@@ -192,9 +211,16 @@
         :status-icon="true"
         label-width="100px">
         <el-form-item
-          label="姓名"
-          prop="name">
-          <el-input type="text" disabled v-model="editContact.name"/>
+          label="昵称"
+          prop="name"
+          :rules="{required: true, message: '昵称不能为空', trigger: 'blur'}">
+          <el-input type="text" v-model="editContact.name"/>
+        </el-form-item>
+        <el-form-item
+          label="真实姓名"
+          prop="realName"
+          :rules="{required: true, message: '真实姓名不能为空', trigger: 'blur'}">
+          <el-input type="text" v-model="editContact.realName"/>
         </el-form-item>
         <el-form-item
           label="付款信息"
@@ -270,10 +296,11 @@
         totalCount: 0,
         editTitle: '修改外包人员信息',
         editShow: false,
-        editContact: '',
+        editContact: {},
         contactForm: {
           contacts: [{
             name: '',
+            realName: '',
             tel: '',
             email: '',
             qq: '',
@@ -398,6 +425,7 @@
       },
       confirmEdit(option) {
         this.editContact = option;
+        this.editContact.oldName = option.name;
         this.editShow = true
       },
       closeConfirmOrder(formName) {
@@ -430,6 +458,7 @@
                   title: '修改失败',
                   message: res.msg
                 });
+                this.$refs[formName].resetFields();
               }
             })
           } else {
