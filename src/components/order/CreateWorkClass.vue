@@ -152,6 +152,7 @@
                   title: '添加失败',
                   message: res.msg
                 });
+                this.$refs[formName].resetFields();
               }
             })
           } else {
