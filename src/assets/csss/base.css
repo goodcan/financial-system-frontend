@@ -1,6 +1,7 @@
 body {
   margin: 0;
 }
+
 .my-title-h3 {
   text-align: center;
 }
@@ -57,6 +58,11 @@ body {
   padding-left: 85px
 }
 
+.custom-popover-p {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
 .pagination-style {
   text-align: center;
   margin-top: 5px
@@ -80,4 +86,12 @@ body {
 
 .order-list-download-btn {
   margin: 10px 0;
+}
+
+.my-popover-span:hover {
+  cursor: pointer;
+}
+
+.my-popover-div {
+  padding: 5px;
 }

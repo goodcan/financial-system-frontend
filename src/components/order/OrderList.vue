@@ -136,7 +136,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="客户名称：">
-                <span>{{ props.row.customerName }}</span>
+                <customer-popover v-bind:customerName="props.row.customerName"></customer-popover>
               </el-form-item>
               <el-form-item label="外包人员：">
                 <span>{{ props.row.contactName }}</span>
@@ -632,12 +632,14 @@
 
 <script>
   import axios from '../../axios'
+  import CustomerPopover from '../common/CustomerPopover'
   import {currency} from "../../util/currency";
 
   export default {
     props: ['orderListType'],
     data() {
       return {
+        customerDetail: '',
         search: {
           date: [],
           title: '',
@@ -669,6 +671,9 @@
         // departments: '',
         companies: '',
       }
+    },
+    components: {
+      CustomerPopover
     },
     computed: {
       payStatus() {
@@ -947,6 +952,9 @@
         } else if (unit === 'character') {
           return '字'
         }
+      },
+      getCustomerDetail(order) {
+        this.customerDetail = order.customerName
       }
     }
   }
