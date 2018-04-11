@@ -978,6 +978,10 @@
       },
       getCustomerDetail(order) {
         this.customerDetail = order.customerName
+      },
+      sizeChange(pageSize) {
+        this.pageSize = pageSize;
+        this.init()
       }
     }
   }
