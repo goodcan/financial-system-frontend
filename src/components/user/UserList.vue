@@ -26,8 +26,11 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="部门：">
-                <span>{{ props.row.department? props.row.department: '未设置' }}</span>
+              <!--<el-form-item label="部门：">-->
+                <!--<span>{{ props.row.department? props.row.department: '未设置' }}</span>-->
+              <!--</el-form-item>-->
+              <el-form-item label="所属公司：">
+                <span>{{ props.row.company? props.row.company: '未设置' }}</span>
               </el-form-item>
               <el-form-item label="手机号码：">
                 <span>{{ props.row.tel? props.row.tel: '未设置' }}</span>
