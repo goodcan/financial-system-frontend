@@ -24,7 +24,7 @@
         </el-row>
         <el-row>
           <el-badge :value="payStatus.had.hadNum" :max="99" class="my-badge-item">
-            <el-tag type="success" class="order-list-top-tag">已支付</el-tag>
+            <el-tag type="success" class="order-list-top-tag">已付款</el-tag>
           </el-badge>
           <span>已经支出：{{payStatus.had.hadPay | currency('￥')}}</span>
         </el-row>
@@ -63,7 +63,7 @@
                   <el-option label="不区分" :value="-1"/>
                   <el-option label="未完成" :value="1"/>
                   <el-option label="待付款" :value="2"/>
-                  <el-option label="已支付" :value="3"/>
+                  <el-option label="已付款" :value="3"/>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -996,5 +996,3 @@
     }
   }
 </script>
-
-
