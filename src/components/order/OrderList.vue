@@ -239,7 +239,7 @@
         align="center"
         label="总金额">
         <template slot-scope="scope">
-          {{(scope.row.num / scope.row.unitNum * scope.row.price) | currency('￥')}}
+          <sum-price-popover v-bind:order="scope.row"></sum-price-popover>
         </template>
       </el-table-column>
       <el-table-column
@@ -648,6 +648,7 @@
   import axios from '../../axios'
   import CustomerPopover from '../popover/CustomerPopover'
   import ContactPopover from '../popover/ContactPopover'
+  import sumPricePopover from '../popover/sumPricePopover'
   import {currency} from "../../util/currency";
 
   export default {
@@ -693,7 +694,8 @@
     },
     components: {
       CustomerPopover,
-      ContactPopover
+      ContactPopover,
+      sumPricePopover
     },
     computed: {
       payStatus() {
