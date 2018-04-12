@@ -134,11 +134,11 @@
       <el-form-item label="预算总金额：">
         <span class="payment-num">{{(form.num / form.unitNum * form.price) | currency('￥')}}</span>
       </el-form-item>
-      <el-form-item style="float: right">
+      <el-form-item class="btn-float-right">
         <el-button type="primary" @click="createOrder('form')">创建订单</el-button>
         <el-button type="primary" @click="resetForm('form')">重置</el-button>
         <el-button type="primary" @click="helpContent">
-          <i class="el-icon-question">帮助</i>
+          <i class="el-icon-question"> 帮助</i>
         </el-button>
       </el-form-item>
     </el-form>

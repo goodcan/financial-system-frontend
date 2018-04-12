@@ -16,7 +16,7 @@
           :autosize="{ minRows: 10, maxRows: 20}"
           placeholder="请输入帮助信息"/>
       </el-form-item>
-      <el-form-item>
+      <el-form-item class="btn-float-right">
         <el-button type="primary" @click="addOrderHelpInfo('helpContent')">保存</el-button>
         <el-button type="primary" @click="resetForm('helpContent')">重置</el-button>
       </el-form-item>
