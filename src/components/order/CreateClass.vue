@@ -45,7 +45,7 @@
           :label="'类目名称'+ index"
           :prop="'classes.' + index + '.name'"
           :rules="{required: true, message: '类目名不能为空', trigger: 'blur'}">
-          <el-input v-model="eachClass.name"/>
+          <el-input v-model="eachClass.name" placeholder="请填写类目名称"/>
         </el-form-item>
         <el-form-item>
           <el-button @click.prevent="removeClasses(eachClass)" v-if="index > 0">

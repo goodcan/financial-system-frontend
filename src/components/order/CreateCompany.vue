@@ -45,7 +45,7 @@
           :label="'公司名称'+ index"
           :prop="'companies.' + index + '.name'"
           :rules="{required: true, message: '公司名称不能为空', trigger: 'blur'}">
-          <el-input v-model="company.name"/>
+          <el-input v-model="company.name" placeholder="请填写公司名称"/>
         </el-form-item>
         <el-form-item>
           <el-button @click.prevent="removeCompany(company)" v-if="index > 0">

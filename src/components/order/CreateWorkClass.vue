@@ -46,7 +46,7 @@
           :label="'技能名称'+ index"
           :prop="'workClasses.' + index + '.name'"
           :rules="{required: true, message: '技能名不能为空', trigger: 'blur'}">
-          <el-input v-model="workClass.name"/>
+          <el-input v-model="workClass.name" placeholder="请填写外包技能名称"/>
         </el-form-item>
         <el-form-item>
           <el-button @click.prevent="removeWorkClasses(workClass)" v-if="index > 0">
