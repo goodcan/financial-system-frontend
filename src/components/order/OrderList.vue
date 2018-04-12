@@ -646,8 +646,8 @@
 
 <script>
   import axios from '../../axios'
-  import CustomerPopover from '../common/CustomerPopover'
-  import ContactPopover from '../common/ContactPopover'
+  import CustomerPopover from '../popover/CustomerPopover'
+  import ContactPopover from '../popover/ContactPopover'
   import {currency} from "../../util/currency";
 
   export default {
