@@ -755,7 +755,7 @@
       },
       init() {
         this.loading = true;
-        console.log('user: ' + this.$store.state.userObj);
+        // console.log('user: ' + this.$store.state.userObj);
         axios.post('/api/orderList', {
           orderListType: this.orderListType,
           search: this.search,
