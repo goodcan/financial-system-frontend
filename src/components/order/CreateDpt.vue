@@ -44,7 +44,7 @@
         <el-form-item
           :label="'部门名称'+ index"
           :prop="'departments.' + index + '.name'"
-          :rules="{required: true, message: '客户名不能为空', trigger: 'blur'}">
+          :rules="{required: true, message: '部门名不能为空', trigger: 'blur'}">
           <el-input v-model="department.name"/>
         </el-form-item>
         <el-form-item>
@@ -55,7 +55,7 @@
       </div>
       <el-form-item>
         <el-button type="primary" @click="addOrderOption('dptForm')">提交</el-button>
-        <el-button @click="addDpt">新增客户名称</el-button>
+        <el-button @click="addDpt">新增部门名称</el-button>
         <el-button @click="resetForm('dptForm')">重置</el-button>
       </el-form-item>
     </el-form>

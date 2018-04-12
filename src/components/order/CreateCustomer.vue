@@ -108,7 +108,7 @@
       </div>
       <el-form-item>
         <el-button type="primary" @click="addOrderOption('customerForm')">添加</el-button>
-        <el-button @click="addCustomer">新增客户名称</el-button>
+        <el-button @click="addCustomer">新增客户</el-button>
         <el-button @click="resetForm('customerForm')">重置</el-button>
       </el-form-item>
     </el-form>

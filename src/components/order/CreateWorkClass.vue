@@ -56,7 +56,7 @@
       </div>
       <el-form-item>
         <el-button type="primary" @click="addOrderOption('form')">添加</el-button>
-        <el-button @click="addClass">新增类目</el-button>
+        <el-button @click="addClass">新增外包技能</el-button>
         <el-button @click="resetForm('form')">重置</el-button>
       </el-form-item>
     </el-form>

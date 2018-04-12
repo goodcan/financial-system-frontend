@@ -191,7 +191,7 @@
             {max: 25, message: '名称不能超过30个字符', trigger: 'blur'},
           ],
           price: [
-            {required: true, message: '类目不能为空', trigger: 'blur'},
+            {required: true, message: '单价不能为空', trigger: 'blur'},
           ],
           // selectDpt: [
           //   {required: true, message: '部门不能为空', trigger: 'blur'},
@@ -200,10 +200,10 @@
             {required: true, message: '所属公司不能为空', trigger: 'blur'},
           ],
           selectClass: [
-            {required: true, message: '客户不能为空', trigger: 'blur'},
+            {required: true, message: '类目不能为空', trigger: 'blur'},
           ],
           selectCustomer: [
-            {required: true, message: '对接人员不能为空', trigger: 'blur'},
+            {required: true, message: '客户不能为空', trigger: 'blur'},
           ],
           selectContact: [
             {required: true, message: '外包人员不能为空', trigger: 'blur'},
