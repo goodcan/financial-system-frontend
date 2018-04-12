@@ -196,7 +196,7 @@
         </el-form-item>
       </div>
       <el-form-item>
-        <el-button type="primary" @click="addOrderOption('contactForm')">提交</el-button>
+        <el-button type="primary" @click="addOrderOption('contactForm')">添加</el-button>
         <el-button @click="addContact">新增外包人员</el-button>
         <el-button @click="resetForm('contactForm')">重置</el-button>
       </el-form-item>

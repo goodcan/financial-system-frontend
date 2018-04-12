@@ -54,7 +54,7 @@
         </el-form-item>
       </div>
       <el-form-item>
-        <el-button type="primary" @click="addOrderOption('companyForm')">提交</el-button>
+        <el-button type="primary" @click="addOrderOption('companyForm')">添加</el-button>
         <el-button @click="addCompany">新增公司</el-button>
         <el-button @click="resetForm('companyForm')">重置</el-button>
       </el-form-item>
