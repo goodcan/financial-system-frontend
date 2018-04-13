@@ -33,32 +33,39 @@
         <el-form
           :model="search"
           label-width="80px">
-          <el-form-item label="订单名称" prop="title">
-            <el-input
-              type="text"
-              @change="init"
-              placeholder="请输入关键字"
-              v-model="search.title"/>
-          </el-form-item>
-          <el-form-item label="创建日期">
-            <el-date-picker
-              v-model="search.date"
-              @change="init"
-              value-format="yyyy-MM-dd"
-              type="daterange"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              style="width: 100%">
-            </el-date-picker>
-          </el-form-item>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="订单名称" prop="title">
+                <el-input
+                  type="text"
+                  @change="init"
+                  placeholder="请输入关键字"
+                  v-model="search.title"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="创建日期">
+                <el-date-picker
+                  v-model="search.date"
+                  @change="init"
+                  :clearable="false"
+                  value-format="yyyy-MM-dd"
+                  type="daterange"
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  style="width: 100%">
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="订单状态">
                 <el-select
                   v-model="search.status"
                   @change="init"
-                  placeholder="请选择类型"
+                  placeholder="请选择订单状态"
                   style="width: 100%">
                   <el-option label="不区分" :value="-1"/>
                   <el-option label="未完成" :value="1"/>
@@ -66,14 +73,12 @@
                   <el-option label="已付款" :value="3"/>
                 </el-select>
               </el-form-item>
-            </el-col>
-            <el-col :span="12">
               <el-form-item label="所属公司">
                 <el-select
                   v-model="search.company"
                   @change="init"
                   :disabled="orderListType === 'company'"
-                  placeholder="请选择类型"
+                  placeholder="请选择所属公司"
                   style="width: 100%">
                   <el-option label="不区分" :value="'all'"/>
                   <el-option
@@ -83,13 +88,37 @@
                 </el-select>
               </el-form-item>
             </el-col>
+            <el-col :span="12">
+              <el-form-item label="订单客户">
+                <el-select
+                  v-model="search.customer"
+                  filterable
+                  @change="init"
+                  placeholder="请选择订单客户"
+                  style="width: 100%">
+                  <el-option label="不区分" :value="'all'"/>
+                  <el-option
+                    v-for="item in customers"
+                    :label="item.label"
+                    :value="item.value"/>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="外包人员">
+                <el-select
+                  v-model="search.contact"
+                  filterable
+                  @change="init"
+                  placeholder="请选择外包人员"
+                  style="width: 100%">
+                  <el-option label="不区分" :value="'all'"/>
+                  <el-option
+                    v-for="item in contacts"
+                    :label="item.label"
+                    :value="item.value"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
           </el-row>
-          <!--<el-form-item>-->
-          <!--<el-button-->
-          <!--type="primary"-->
-          <!--plain-->
-          <!--@click="init"><i class="el-icon-refresh">刷新</i></el-button>-->
-          <!--</el-form-item>-->
         </el-form>
       </div>
       <slot name="download"/>
@@ -234,6 +263,16 @@
         align="center"
         label="所属公司"
         prop="company">
+      </el-table-column>
+      <el-table-column
+        align="center"
+        label="客户"
+        prop="customerName">
+      </el-table-column>
+      <el-table-column
+        align="center"
+        label="外包人员"
+        prop="contactName">
       </el-table-column>
       <el-table-column
         align="center"
@@ -665,6 +704,8 @@
           createUser: 'all',
           company: 'all',
           status: -1,
+          customer: 'all',
+          contact: 'all'
         },
         orders: [],
         showOrders: [],
