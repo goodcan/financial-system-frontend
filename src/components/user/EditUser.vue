@@ -14,8 +14,8 @@
        <el-form-item label="所属公司：" prop="company">
           <el-select
             :disabled="!isAdmin"
-            v-model="user.company"
-            placeholder="请选择部门"
+            v-model="isAdmin? user.company: user.company + '（注：此项只有管理员可以修改）'"
+            :placeholder="isAdmin? '请选择部门': '请联系管理员'"
             style="width: 100%">
             <el-option
               v-for="item in companies"

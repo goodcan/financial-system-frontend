@@ -65,6 +65,7 @@
       init() {
         this.loading = true;
         axios.post('/api/logList', {
+          logType: this.$route.params.logType,
           page: this.page,
           pageSize: this.pageSize
         }).then(response => {

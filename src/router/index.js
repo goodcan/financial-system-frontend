@@ -31,7 +31,7 @@ export default new Router({
       component: Main,
       children: [
         {
-          path: '/logList',
+          path: '/logList/:logType',
           name: 'LogList',
           component: LogList
         },

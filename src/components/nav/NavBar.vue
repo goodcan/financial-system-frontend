@@ -26,7 +26,7 @@
       </template>
       <el-menu-item-group>
         <el-menu-item :index="'/editUser/self/' + this.$store.state.userObj.userId">设置个人信息</el-menu-item>
-        <el-menu-item index="/selfOrderList">查看操作日志</el-menu-item>
+        <el-menu-item :index="'/logList/' + this.$store.state.userObj.userId">查看操作日志</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
     <el-submenu index="3" v-if="this.$store.state.userPms.summaryOrder === 1">
@@ -49,7 +49,7 @@
       </template>
       <el-menu-item-group>
         <el-menu-item index="/userList">人员列表</el-menu-item>
-        <el-menu-item index="/logList">操作日志</el-menu-item>
+        <el-menu-item index="/logList/all">操作日志</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
     <el-submenu index="5" v-if="this.$store.state.userPms.editOrderOption === 1">
