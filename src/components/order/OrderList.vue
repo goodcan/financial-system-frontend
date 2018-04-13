@@ -266,17 +266,13 @@
       </el-table-column>
       <el-table-column
         align="center"
-        label="客户">
-        <template slot-scope="scope">
-          <customer-popover v-bind:customerName="scope.row.customerName"></customer-popover>
-        </template>
+        label="客户"
+        prop="customerName">
       </el-table-column>
       <el-table-column
         align="center"
-        label="外包人员">
-        <template slot-scope="scope">
-          <contact-popover v-bind:contactName="scope.row.contactName"></contact-popover>
-        </template>
+        label="外包人员"
+        prop="contactName">
       </el-table-column>
       <el-table-column
         align="center"

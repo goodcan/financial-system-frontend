@@ -2,7 +2,7 @@
   <div>
     <el-popover
       ref="popover"
-      placement="left"
+      placement="right"
       :title="customerName + '的信息'"
       width="300"
       trigger="hover">
