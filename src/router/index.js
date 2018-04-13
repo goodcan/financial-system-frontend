@@ -56,7 +56,7 @@ export default new Router({
           component: SummaryAllOrder
         },
         {
-          path: '/editUser/:userId',
+          path: '/editUser/:opsType/:userId/',
           name: 'EditUser',
           component: EditUser
         },
@@ -75,11 +75,6 @@ export default new Router({
           name: 'CompanyOrderList',
           component: CompanyOrderList
         },
-        // {
-        //   path: '/dptOrderList',
-        //   name: 'DptOrderList',
-        //   component: DptOrderList
-        // },
         {
           path: '/createClass',
           name: 'CreateClass',
@@ -100,11 +95,6 @@ export default new Router({
           name: 'CreateCompany',
           component: CreateCompany
         },
-        // {
-        //   path: '/createDpt',
-        //   name: 'CreateDpt',
-        //   component: CreateDpt
-        // },
         {
           path: '/userList',
           name: 'UserList',

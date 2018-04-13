@@ -1,6 +1,9 @@
 <template>
   <div>
-    <h3 class="my-title-h3">正在设置<span style="color: red">{{this.user.username}}</span>的信息</h3>
+    <h3 v-if="isAdmin" class="my-title-h3">
+      正在设置<span style="color: red">{{this.user.username}}</span>的信息
+    </h3>
+    <h3 v-else class="my-title-h3">设置个人信息</h3>
     <el-form :model="user" ref="user" :rules="rules" label-width="100px" class="create-form-size">
       <el-form-item label="用户ID：">
           <el-input type="text" v-model="user._id" disabled/>
@@ -8,20 +11,9 @@
       <el-form-item label="用户名：">
           <el-input type="text" v-model="user.username" disabled/>
       </el-form-item>
-      <!--<el-form-item label="部门：" prop="department">-->
-          <!--<el-select-->
-            <!--v-model="user.department"-->
-            <!--placeholder="请选择部门"-->
-            <!--style="width: 100%">-->
-            <!--<el-option-->
-              <!--v-for="item in departments"-->
-              <!--:key="item.value"-->
-              <!--:label="item.label"-->
-              <!--:value="item.value"/>-->
-          <!--</el-select>-->
-      <!--</el-form-item>-->
        <el-form-item label="所属公司：" prop="company">
           <el-select
+            :disabled="!isAdmin"
             v-model="user.company"
             placeholder="请选择部门"
             style="width: 100%">
@@ -41,7 +33,7 @@
       <el-form-item label="QQ：" prop="qq">
           <el-input type="text" v-model="user.qq" placeholder="请输入QQ"/>
       </el-form-item>
-      <el-form-item label="权限：">
+      <el-form-item label="权限：" v-if="isAdmin">
           <template>
             <el-transfer
               :titles="transferTitles"
@@ -63,8 +55,8 @@
   export default {
     data() {
       return {
+        isAdmin: this.$route.params.opsType === 'admin',
         user: {},
-        // departments: [],
         companies: [],
         transferData: [],
         nowPermissions: [],

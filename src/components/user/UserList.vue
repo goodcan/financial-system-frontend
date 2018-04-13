@@ -26,9 +26,6 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <!--<el-form-item label="部门：">-->
-                <!--<span>{{ props.row.department? props.row.department: '未设置' }}</span>-->
-              <!--</el-form-item>-->
               <el-form-item label="所属公司：">
                 <span>{{ props.row.company? props.row.company: '未设置' }}</span>
               </el-form-item>
@@ -115,7 +112,7 @@
       },
       toEditUser(userId) {
         this.$router.push({
-          path: '/editUser/' + userId
+          path: '/editUser/admin/' + userId
         })
       },
     }
