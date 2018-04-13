@@ -21,7 +21,7 @@
     </el-submenu>
         <el-submenu index="2">
       <template slot="title">
-        <i class="el-icon-setting"></i>
+        <i class="el-icon-menu"></i>
         <span>个人中心</span>
       </template>
       <el-menu-item-group>
@@ -31,7 +31,7 @@
     </el-submenu>
     <el-submenu index="3" v-if="this.$store.state.userPms.summaryOrder === 1">
       <template slot="title">
-        <i class="el-icon-menu"></i>
+        <i class="el-icon-view"></i>
         <span>订单汇总</span>
       </template>
       <el-menu-item-group>
