@@ -10,55 +10,51 @@
     </div>
     <el-row type="flex" justify="center" style="margin-bottom: 15px">
       <div class="order-list-top-col">
-        <el-row>
-          <el-badge :value="payStatus.expect.expectNum" :max="99" class="my-badge-item">
-            <el-tag type="primary" class="order-list-top-tag">制作中</el-tag>
-          </el-badge>
-          <span>预计支出：{{payStatus.expect.expectPay | currency('￥')}}</span>
-        </el-row>
-        <el-row>
-          <el-badge :value="payStatus.need.needNum" :max="99" class="my-badge-item">
-            <el-tag type="warning" class="order-list-top-tag">待付款</el-tag>
-          </el-badge>
-          <span>需要支出：{{payStatus.need.needPay | currency('￥')}}</span>
-        </el-row>
-        <el-row>
-          <el-badge :value="payStatus.had.hadNum" :max="99" class="my-badge-item">
-            <el-tag type="success" class="order-list-top-tag">已付款</el-tag>
-          </el-badge>
-          <span>已经支出：{{payStatus.had.hadPay | currency('￥')}}</span>
-        </el-row>
+        <div>
+          <el-row>
+            <el-badge :value="payStatus.expect.expectNum" :max="99" class="my-badge-item">
+              <el-tag type="primary" class="order-list-top-tag">制作中</el-tag>
+            </el-badge>
+            <span>预计支出：{{payStatus.expect.expectPay | currency('￥')}}</span>
+          </el-row>
+          <el-row>
+            <el-badge :value="payStatus.need.needNum" :max="99" class="my-badge-item">
+              <el-tag type="warning" class="order-list-top-tag">待付款</el-tag>
+            </el-badge>
+            <span>需要支出：{{payStatus.need.needPay | currency('￥')}}</span>
+          </el-row>
+          <el-row>
+            <el-badge :value="payStatus.had.hadNum" :max="99" class="my-badge-item">
+              <el-tag type="success" class="order-list-top-tag">已付款</el-tag>
+            </el-badge>
+            <span>已经支出：{{payStatus.had.hadPay | currency('￥')}}</span>
+          </el-row>
+        </div>
       </div>
       <div class="order-list-top-col">
         <el-form
           :model="search"
           label-width="80px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="订单名称" prop="title">
-                <el-input
-                  type="text"
-                  @change="init"
-                  placeholder="请输入关键字"
-                  v-model="search.title"/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="创建日期">
-                <el-date-picker
-                  v-model="search.date"
-                  @change="init"
-                  :clearable="false"
-                  value-format="yyyy-MM-dd"
-                  type="daterange"
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                  style="width: 100%">
-                </el-date-picker>
-              </el-form-item>
-            </el-col>
-          </el-row>
+          <el-form-item label="订单名称" prop="title">
+            <el-input
+              type="text"
+              @change="init"
+              placeholder="请输入关键字"
+              v-model="search.title"/>
+          </el-form-item>
+          <el-form-item label="创建日期">
+            <el-date-picker
+              v-model="search.date"
+              @change="init"
+              :clearable="false"
+              value-format="yyyy-MM-dd"
+              type="daterange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              style="width: 100%">
+            </el-date-picker>
+          </el-form-item>
           <el-row>
             <el-col :span="12">
               <el-form-item label="订单状态">
