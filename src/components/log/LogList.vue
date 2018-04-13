@@ -1,6 +1,7 @@
 <template>
   <el-row>
-    <h3 class="my-title-h3">用户操作日志</h3>
+    <h3 v-if="isAdmin" class="my-title-h3">用户操作日志</h3>
+    <h3 v-else class="my-title-h3">我的操作日志</h3>
     <el-table
       v-loading="loading"
       :data="logs"
@@ -56,6 +57,12 @@
         pageSize: 25,
         totalCount: 0,
         logs: []
+      }
+    },
+    computed: {
+        isAdmin() {
+        this.init();
+        return this.$route.params.logType === 'all'
       }
     },
     mounted() {
