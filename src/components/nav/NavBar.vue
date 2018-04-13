@@ -38,7 +38,7 @@
         <el-menu-item index="/summaryAllOrder">所有订单</el-menu-item>
         <el-submenu index="3-2">
           <template slot="title">图表统计</template>
-          <el-menu-item index="statisticContacts">外包人员</el-menu-item>
+          <el-menu-item index="/statisticContacts">外包人员</el-menu-item>
         </el-submenu>
       </el-menu-item-group>
     </el-submenu>

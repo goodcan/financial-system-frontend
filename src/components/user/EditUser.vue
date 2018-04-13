@@ -55,7 +55,7 @@
   export default {
     data() {
       return {
-        isAdmin: this.$route.params.opsType === 'admin',
+        // isAdmin: this.$route.params.opsType === 'admin',
         user: {},
         companies: [],
         transferData: [],
@@ -66,6 +66,12 @@
             {required: true, message: '部门不能为空', trigger: 'blur'},
           ],
         }
+      }
+    },
+    computed: {
+      isAdmin() {
+        this.init();
+        return this.$route.params.opsType === 'admin'
       }
     },
     mounted() {

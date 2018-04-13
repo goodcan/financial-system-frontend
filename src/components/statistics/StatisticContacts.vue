@@ -91,9 +91,9 @@
                 // }
               ]
             };
-            console.log(option);
+            // console.log(option);
             if (option && typeof option === "object") {
-              console.log(true);
+              // console.log(true);
               myChart.hideLoading();
               myChart.setOption(option, true);
             }
