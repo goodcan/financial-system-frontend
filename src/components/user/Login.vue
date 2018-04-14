@@ -43,11 +43,21 @@
           重置
         </el-button>
         <router-link href="javascript:" to="/register">注册新用户</router-link>
+        <div><span class="note">注：建议使用Chrome浏览器</span></div>
       </div>
     </el-form>
   </div>
 </template>
 <style>
+  .note {
+    color: red;
+    opacity: 0.5;
+  }
+  .note:hover {
+    color: red;
+    opacity: 1;
+  }
+
   .login-container {
     display: block;
     margin: 10% auto 0 auto;

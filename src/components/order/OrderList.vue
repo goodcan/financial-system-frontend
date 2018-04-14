@@ -317,7 +317,10 @@
       </el-table-column>
     </el-table>
 
-    <div class="pagination-style" style="margin-bottom: 15px">
+    <div
+      v-if="loading"
+      class="pagination-style"
+      style="margin-bottom: 15px">
       <el-pagination
         @size-change="sizeChange"
         @current-change="pageChange"
@@ -705,7 +708,7 @@
         },
         orders: [],
         showOrders: [],
-        loading: false,
+        loading: true,
         confirmTitle: '',
         confirmShow: false,
         confirmStatus: 0,
