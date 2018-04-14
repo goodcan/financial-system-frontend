@@ -19,7 +19,7 @@
         </el-menu-item>
       </el-menu-item-group>
     </el-submenu>
-        <el-submenu index="2">
+    <el-submenu index="2">
       <template slot="title">
         <i class="el-icon-menu"></i>
         <span>个人中心</span>

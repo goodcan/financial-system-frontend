@@ -24,7 +24,7 @@
           text: '',
           color: '#409EFF'
         });
-        axios.post('/api/contactUseTop1').then(response => {
+        axios.post('/api/contactUseTop10').then(response => {
           let contactNameList = [];
           let useNumList = [];
           let seriesData = [];
