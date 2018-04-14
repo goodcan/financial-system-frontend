@@ -53,6 +53,7 @@
     color: red;
     opacity: 0.5;
   }
+
   .note:hover {
     color: red;
     opacity: 1;

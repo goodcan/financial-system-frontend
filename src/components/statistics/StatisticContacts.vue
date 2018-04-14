@@ -20,7 +20,11 @@
         let echarts = require('echarts');
         let dom = document.getElementById("container");
         let myChart = echarts.init(dom);
-        axios.post('/api/contactUseTop10').then(response => {
+        myChart.showLoading({
+          text: '',
+          color: '#409EFF'
+        });
+        axios.post('/api/contactUseTop1').then(response => {
           let contactNameList = [];
           let useNumList = [];
           let seriesData = [];
@@ -34,7 +38,6 @@
               useNumList.push(parseInt(item.num));
               seriesData.push({value: parseInt(item.num)})
             });
-            myChart.showLoading();
             option = {
               tooltip: {
                 trigger: 'axis',
