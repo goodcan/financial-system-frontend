@@ -318,7 +318,6 @@
     </el-table>
 
     <div
-      v-if="loading"
       class="pagination-style"
       style="margin-bottom: 15px">
       <el-pagination
