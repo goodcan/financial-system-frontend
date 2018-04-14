@@ -35,26 +35,32 @@
         <el-form
           :model="search"
           label-width="80px">
-          <el-form-item label="订单名称" prop="title">
-            <el-input
-              type="text"
-              @change="init"
-              placeholder="请输入关键字"
-              v-model="search.title"/>
-          </el-form-item>
-          <el-form-item label="创建日期">
-            <el-date-picker
-              v-model="search.date"
-              @change="init"
-              :clearable="false"
-              value-format="yyyy-MM-dd"
-              type="daterange"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              style="width: 100%">
-            </el-date-picker>
-          </el-form-item>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="订单名称" prop="title">
+                <el-input
+                  type="text"
+                  @change="init"
+                  placeholder="请输入关键字"
+                  v-model="search.title"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="创建日期">
+                <el-date-picker
+                  v-model="search.date"
+                  @change="init"
+                  :clearable="false"
+                  value-format="yyyy-MM-dd"
+                  type="daterange"
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  style="width: 100%">
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="订单状态">
