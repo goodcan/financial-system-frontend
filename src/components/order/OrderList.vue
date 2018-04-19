@@ -82,9 +82,13 @@
                   :disabled="orderListType === 'company'"
                   placeholder="请选择所属公司"
                   style="width: 100%">
-                  <el-option label="不区分" :value="'all'"/>
+                  <el-option
+                    label="不区分"
+                    :key="'all'"
+                    :value="'all'"/>
                   <el-option
                     v-for="item in companies"
+                    :key="item.value"
                     :label="item.label"
                     :value="item.value"/>
                 </el-select>
@@ -98,9 +102,13 @@
                   @change="init"
                   placeholder="请选择订单客户"
                   style="width: 100%">
-                  <el-option label="不区分" :value="'all'"/>
+                  <el-option
+                    label="不区分"
+                    :key="'all'"
+                    :value="'all'"/>
                   <el-option
                     v-for="item in customers"
+                    :key="item.value"
                     :label="item.label"
                     :value="item.value"/>
                 </el-select>
@@ -112,9 +120,13 @@
                   @change="init"
                   placeholder="请选择外包人员"
                   style="width: 100%">
-                  <el-option label="不区分" :value="'all'"/>
+                  <el-option
+                    label="不区分"
+                    :key="'all'"
+                    :value="'all'"/>
                   <el-option
                     v-for="item in contacts"
+                    :key="item.value"
                     :label="item.label"
                     :value="item.value"/>
                 </el-select>
