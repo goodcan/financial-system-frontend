@@ -56,7 +56,7 @@
   }
 
   .nav-bar-aside {
-    width: 250px;
+    width: auto !important;
     height: 100%;
     overflow: auto;
     padding-bottom: 30px

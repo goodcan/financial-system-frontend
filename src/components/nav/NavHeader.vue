@@ -1,22 +1,37 @@
 <template>
   <el-row>
     <el-menu
-      :default-active="activeIndex"
       class="el-menu-demo"
       mode="horizontal"
       @select="handleSelect"
       background-color="#545c64"
       text-color="#fff"
       active-text-color="#ffd04b">
+      <span class="nav-title nav-title-bth" @click="changeNavCollapse">
+         <el-tooltip class="item" effect="dark"
+                     :content="this.$store.state.navCollapse? '展开左侧导航': '收起左侧导航'"
+                     placement="bottom-start">
+            <i v-bind:class="{
+            'el-icon-arrow-up': this.$store.state.navCollapse,
+            'el-icon-arrow-down': !this.$store.state.navCollapse
+            }"></i>
+         </el-tooltip>
+      </span>
       <span class="nav-title">十字星外包管理系统</span>
       <el-submenu index="2" v-if="isLogin" style="float: right;">
         <template slot="title">{{user.username}}</template>
         <el-menu-item index="2-1" @click="logout">退出</el-menu-item>
       </el-submenu>
-        <el-menu-item index="3" @click="toRegister" v-if="!isLogin"
-                      style="float: right">注册</el-menu-item>
-        <el-menu-item index="4" @click="toLogin" v-if="!isLogin"
-                      style="float: right">登录</el-menu-item>
+      <el-menu-item index="3"
+                    @click="toRegister"
+                    v-if="!isLogin"
+                    style="float: right">注册
+      </el-menu-item>
+      <el-menu-item index="4"
+                    @click="toLogin"
+                    v-if="!isLogin"
+                    style="float: right">登录
+      </el-menu-item>
     </el-menu>
   </el-row>
 
@@ -29,6 +44,15 @@
     height: 60px;
     line-height: 60px;
   }
+
+  .nav-title-bth {
+    font-weight: bold;
+  }
+
+  .nav-title-bth:hover {
+    cursor: pointer;
+  }
+
 </style>
 
 <script>
@@ -82,6 +106,9 @@
         this.$store.commit('updateUserObj', null);
         this.isLogin = false;
         this.$router.push({path: '/login'})
+      },
+      changeNavCollapse() {
+        this.$store.commit('updateNavCollapse', !this.$store.state.navCollapse)
       }
     }
   }

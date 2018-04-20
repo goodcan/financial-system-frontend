@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     userObj: null,
     token: window.sessionStorage.getItem('token'),
-    userPms: {} // 用户权限
+    userPms: {},// 用户权限
+    navCollapse: true
   },
   mutations: {
     updateToken(state, token) {
@@ -19,6 +20,9 @@ export default new Vuex.Store({
       if (userObj) {
         this.state.userPms = userObj.permissions
       }
+    },
+    updateNavCollapse(state, collapse) {
+      this.state.navCollapse = collapse;
     }
   },
 })
