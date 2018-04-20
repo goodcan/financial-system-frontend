@@ -6,12 +6,14 @@
         <el-form-item label="昵称" prop="keyName">
           <el-input
             v-model="searchForm.keyName"
+            @change="init"
             type="text"
             placeholder="请输入关键字"/>
         </el-form-item>
         <el-form-item label="技能" prop="workClass">
           <el-select
             v-model="searchForm.workClass"
+            @change="init"
             placeholder="请选择类型"
             style="width: 100px">
             <el-option key="" label="不区分" value=""/>
@@ -23,7 +25,7 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="searchContacts"><i class="el-icon-search">搜索</i></el-button>
+          <el-button type="primary" @click="searchContacts"><i class="el-icon-refresh">刷新</i></el-button>
         </el-form-item>
       </el-form>
     </el-row>
