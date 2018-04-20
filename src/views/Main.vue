@@ -1,9 +1,9 @@
 <template>
   <el-container>
-    <el-header style="padding: 0;">
+    <el-header class="my-header-nav">
       <nav-header/>
     </el-header>
-    <el-container>
+    <el-container style="margin-top: 60px">
       <el-aside style="width: 250px">
         <nav-bar/>
       </el-aside>
@@ -34,5 +34,11 @@
 </script>
 
 <style scoped>
-
+  .my-header-nav {
+    padding: 0;
+    position: fixed;
+    width: 100%;
+    height: 60px;
+    z-index: 1
+  }
 </style>
