@@ -78,6 +78,10 @@
 </script>
 
 <style scoped>
+  .nav-bar-vertical {
+    height: 100%;
+  }
+
   .nav-bar-vertical:not(.el-menu--collapse) {
     width: 250px;
   }
