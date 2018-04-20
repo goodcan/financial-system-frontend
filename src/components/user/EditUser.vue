@@ -14,8 +14,8 @@
        <el-form-item label="所属公司：" prop="company">
           <el-select
             :disabled="!isAdmin"
-            v-model="isAdmin? user.company: user.company + '（注：此项只有管理员可以修改）'"
-            :placeholder="isAdmin? '请选择部门': '请联系管理员'"
+            v-model="user.company"
+            :placeholder="isAdmin? '请选择所属公司': '请联系管理员'"
             style="width: 100%">
             <el-option
               v-for="item in companies"
@@ -55,23 +55,26 @@
   export default {
     data() {
       return {
-        // isAdmin: this.$route.params.opsType === 'admin',
         user: {},
         companies: [],
         transferData: [],
         nowPermissions: [],
         transferTitles: ["没有的权限", "拥有的权限"],
         rules: {
-          department: [
-            {required: true, message: '部门不能为空', trigger: 'blur'},
+          company: [
+            {required: true, message: '所属公司不能为空', trigger: 'blur'},
           ],
         }
       }
     },
     computed: {
       isAdmin() {
-        this.init();
         return this.$route.params.opsType === 'admin'
+      }
+    },
+    watch: {
+      isAdmin(mewData, oldData) {
+        this.init();
       }
     },
     mounted() {
@@ -85,7 +88,6 @@
           let res = response.data;
           if (res.code === 1) {
             this.user = res.result.user;
-            // this.departments = res.result.departments;
             this.companies = res.result.companies;
             this.transferData = res.result.permissions;
             this.nowPermissions = this.user.setPermissions
