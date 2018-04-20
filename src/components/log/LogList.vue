@@ -60,9 +60,13 @@
       }
     },
     computed: {
-        isAdmin() {
-        this.init();
+      isAdmin() {
         return this.$route.params.logType === 'all'
+      }
+    },
+    watch: {
+      isAdmin(newData, oldData) {
+        this.init()
       }
     },
     mounted() {

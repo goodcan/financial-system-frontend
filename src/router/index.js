@@ -36,7 +36,7 @@ export default new Router({
           component: LogList
         },
         {
-          path: '/statisticContacts',
+          path: '/statisticContacts/:userType',
           name: 'StatisticContacts',
           component: StatisticContacts
         },

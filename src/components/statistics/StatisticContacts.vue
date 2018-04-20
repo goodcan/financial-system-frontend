@@ -1,7 +1,12 @@
 <template>
   <div>
     <h3 class="my-title-h3">常用外包人员 - TOP10</h3>
-    <div id="container" style="height: 450px"></div>
+    <div v-if="!hasData" align="center">
+      {{msg}}
+    </div>
+    <div v-if="hasData">
+      <div id="container" style="height: 550px"></div>
+    </div>
   </div>
 </template>
 
@@ -10,28 +15,44 @@
 
   export default {
     data() {
-      return {}
+      return {
+        hasData: true,
+        msg: ''
+      }
+    },
+    computed: {
+      userType() {
+        return this.$route.params.userType
+      }
+    },
+    watch: {
+      userType(newData, oldData) {
+        this.init()
+      }
     },
     mounted() {
       this.init();
     },
     methods: {
       init() {
-        let echarts = require('echarts');
-        let dom = document.getElementById("container");
-        let myChart = echarts.init(dom);
-        myChart.showLoading({
-          text: '',
-          color: '#409EFF'
-        });
-        axios.post('/api/contactUseTop10').then(response => {
-          let contactNameList = [];
-          let useNumList = [];
-          let seriesData = [];
+        this.hasData = true;
+        axios.post('/api/contactUseTop10', {
+          userType: this.$route.params.userType
+        }).then(response => {
+          let res = response.data;
           let contacts = null;
           let option = null;
-          let res = response.data;
           if (res.code === 1) {
+            let echarts = require('echarts');
+            let dom = document.getElementById("container");
+            let myChart = echarts.init(dom);
+            myChart.showLoading({
+              text: '',
+              color: '#409EFF'
+            });
+            let contactNameList = [];
+            let useNumList = [];
+            let seriesData = [];
             contacts = res.result;
             contacts.forEach(item => {
               contactNameList.push(item._id);
@@ -101,7 +122,8 @@
               myChart.setOption(option, true);
             }
           } else {
-
+            this.hasData = false;
+            this.msg = res.msg;
           }
         });
       }
@@ -109,6 +131,3 @@
   }
 </script>
 
-<style scoped>
-
-</style>

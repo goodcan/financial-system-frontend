@@ -27,6 +27,7 @@
       <el-menu-item-group>
         <el-menu-item :index="'/editUser/self/' + this.$store.state.userObj.userId">设置个人信息</el-menu-item>
         <el-menu-item :index="'/logList/' + this.$store.state.userObj.userId">查看操作日志</el-menu-item>
+        <el-menu-item :index="'/statisticContacts/' + this.$store.state.userObj.userId">常用外包人员</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
     <el-submenu index="3" v-if="this.$store.state.userPms.summaryOrder === 1">
@@ -38,7 +39,7 @@
         <el-menu-item index="/summaryAllOrder">所有订单</el-menu-item>
         <el-submenu index="3-2">
           <template slot="title">图表统计</template>
-          <el-menu-item index="/statisticContacts">外包人员</el-menu-item>
+          <el-menu-item index="/statisticContacts/all">外包人员</el-menu-item>
         </el-submenu>
       </el-menu-item-group>
     </el-submenu>
