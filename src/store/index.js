@@ -8,7 +8,7 @@ export default new Vuex.Store({
     userObj: null,
     token: window.sessionStorage.getItem('token'),
     userPms: {},// 用户权限
-    navCollapse: true
+    navCollapse: false
   },
   mutations: {
     updateToken(state, token) {
