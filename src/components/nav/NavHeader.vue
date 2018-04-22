@@ -108,7 +108,11 @@
         this.$router.push({path: '/login'})
       },
       changeNavCollapse() {
-        this.$store.commit('updateNavCollapse', !this.$store.state.navCollapse)
+        this.$store.commit('updateNavCollapse', !this.$store.state.navCollapse);
+        axios.post('/api/setNavCollapse', {
+          userId: this.$store.state.userObj.userId,
+          setCollapse: !this.$store.state.navCollapse
+        })
       }
     }
   }
