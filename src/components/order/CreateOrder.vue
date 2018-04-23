@@ -131,6 +131,7 @@
       </el-form-item>
     </el-form>
     <el-dialog
+      :append-to-body="true"
       title="帮助信息"
       :visible.sync="helpShow">
       <pre style="margin: 0 0">{{helpInfo? helpInfo: '暂无帮助信息'}}</pre>

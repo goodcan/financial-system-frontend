@@ -337,6 +337,7 @@
     </div>
 
     <el-dialog
+      :append-to-body="true"
       :title="confirmTitle"
       :visible.sync="confirmShow"
       width="60%">

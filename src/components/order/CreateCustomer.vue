@@ -140,6 +140,7 @@
       </el-form-item>
     </el-form>
     <el-dialog
+      :append-to-body="true"
       :title="editTitle"
       :visible.sync="editShow"
       width="60%">
