@@ -41,6 +41,7 @@
                 <el-input
                   type="text"
                   @change="init"
+                  clearable
                   placeholder="请输入关键字"
                   v-model="search.title"/>
               </el-form-item>

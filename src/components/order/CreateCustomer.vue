@@ -7,6 +7,7 @@
           <el-input
             v-model="searchForm.keyName"
             @change="init"
+            clearable
             type="text"
             placeholder="请输入关键字"/>
         </el-form-item>
