@@ -11,18 +11,6 @@
       <el-form-item label="名称：" prop="title">
         <el-input placeholder="请输入订单名称" v-model="form.title"/>
       </el-form-item>
-      <!--<el-form-item label="部门：" prop="selectDpt">-->
-        <!--<el-select-->
-          <!--v-model="form.selectDpt"-->
-          <!--placeholder="请选择部门"-->
-          <!--style="width: 100%">-->
-          <!--<el-option-->
-            <!--v-for="item in departments"-->
-            <!--:key="item.value"-->
-            <!--:label="item.label"-->
-            <!--:value="item.value"/>-->
-        <!--</el-select>-->
-      <!--</el-form-item>-->
       <el-form-item label="所属公司：" prop="selectCompany">
         <el-select
           v-model="form.selectCompany"

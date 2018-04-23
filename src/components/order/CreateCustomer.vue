@@ -1,6 +1,20 @@
 <template>
   <el-row>
     <h3 class="my-title-h3">当前已有客户</h3>
+    <el-row class="my-center-row">
+      <el-form inline v-model="searchForm">
+        <el-form-item label="名称" prop="keyName">
+          <el-input
+            v-model="searchForm.keyName"
+            @change="init"
+            type="text"
+            placeholder="请输入关键字"/>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="searchCustomers"><i class="el-icon-refresh">刷新</i></el-button>
+        </el-form-item>
+      </el-form>
+    </el-row>
     <el-table
       v-loading="loading"
       :data="customers"
@@ -65,6 +79,18 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <div class="pagination-style">
+      <el-pagination
+        @current-change="init()"
+        layout="prev, pager, next, total"
+        :current-page.sync="page"
+        :page-size="pageSize"
+        :total="totalCount">
+      </el-pagination>
+    </div>
+
+
     <h3 class="my-title-h3">添加新的客户</h3>
     <el-form
       :model="customerForm"
@@ -175,6 +201,12 @@
           }],
         },
         loading: true,
+        searchForm: {
+          keyName: '',
+        },
+        page: 1,
+        pageSize: 0,
+        totalCount: 0,
         customers: [],
         optionType: 'customers'
       };
@@ -186,11 +218,15 @@
       init() {
         this.loading = true;
         axios.post('/api/orderOptionInitData', {
-          optionType: this.optionType
+          optionType: this.optionType,
+          page: this.page,
+          keyName: this.searchForm.keyName
         }).then(response => {
           let res = response.data;
           if (res.code === 1) {
-            this.customers = res.result;
+            this.customers = res.result.customers;
+            this.totalCount = res.result.totalCount;
+            this.pageSize = res.result.pageSize;
             this.loading = false
           }
         })
@@ -214,6 +250,7 @@
                 message: '删除成功!',
                 type: 'success'
               });
+              this.clearSearch();
               this.init();
             } else {
               this.$message({
@@ -247,6 +284,7 @@
                   message: '新的客户添加成功',
                   type: 'success'
                 });
+                this.clearSearch();
                 this.init();
               } else {
                 this.$notify.error({
@@ -320,6 +358,14 @@
             return false;
           }
         })
+      },
+      searchCustomers() {
+        this.page = 1;
+        this.init()
+      },
+      clearSearch() {
+        this.page = 1;
+        this.searchForm.keyName = '';
       }
     }
   }
