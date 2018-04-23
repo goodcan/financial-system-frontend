@@ -8,6 +8,7 @@
             v-model="searchForm.keyName"
             @change="init"
             clearable
+            prefix-icon="el-icon-search"
             type="text"
             placeholder="请输入关键字"/>
         </el-form-item>

@@ -42,6 +42,7 @@
                   type="text"
                   @change="init"
                   clearable
+                  prefix-icon="el-icon-search"
                   placeholder="请输入关键字"
                   v-model="search.title"/>
               </el-form-item>
