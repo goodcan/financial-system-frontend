@@ -30,6 +30,7 @@
       </el-form>
     </el-row>
     <el-table
+      v-loading="loading"
       :data="contacts"
       :stripe="true"
       size="small"
@@ -293,6 +294,7 @@
           keyName: '',
           workClass: ''
         },
+        loading: true,
         page: 1,
         pageSize: 0,
         totalCount: 0,
@@ -321,6 +323,7 @@
     },
     methods: {
       init() {
+        this.loading = true;
         axios.post('/api/orderOptionInitData', {
           optionType: this.optionType,
           page: this.page,
@@ -332,7 +335,8 @@
             this.contacts = res.result.contacts;
             this.workClasses = res.result.workClasses;
             this.totalCount = res.result.totalCount;
-            this.pageSize = res.result.pageSize
+            this.pageSize = res.result.pageSize;
+            this.loading  = false
           }
         })
       },

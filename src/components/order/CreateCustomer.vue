@@ -2,6 +2,7 @@
   <el-row>
     <h3 class="my-title-h3">当前已有客户</h3>
     <el-table
+      v-loading="loading"
       :data="customers"
       :stripe="true"
       size="small"
@@ -173,6 +174,7 @@
             time: Date.now()
           }],
         },
+        loading: true,
         customers: [],
         optionType: 'customers'
       };
@@ -182,12 +184,14 @@
     },
     methods: {
       init() {
+        this.loading = true;
         axios.post('/api/orderOptionInitData', {
           optionType: this.optionType
         }).then(response => {
           let res = response.data;
           if (res.code === 1) {
             this.customers = res.result;
+            this.loading = false
           }
         })
       },

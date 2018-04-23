@@ -2,6 +2,7 @@
   <el-row>
     <h3 class="my-title-h3">当前已有类目</h3>
     <el-table
+      v-loading="loading"
       :data="classes"
       :stripe="true"
       size="small"
@@ -75,6 +76,7 @@
             time: Date.now()
           }]
         },
+        loading: true,
         classes: [],
         optionType: 'classes'
       };
@@ -84,12 +86,14 @@
     },
     methods: {
       init() {
+        this.loading = true;
         axios.post('/api/orderOptionInitData', {
           optionType: this.optionType
         }).then(response => {
           let res = response.data;
           if (res.code === 1) {
             this.classes = res.result;
+            this.loading = false
           }
         })
       },

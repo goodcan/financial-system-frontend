@@ -167,9 +167,6 @@
               <el-form-item label="创建人：">
                 <span>{{ props.row.createUser }}</span>
               </el-form-item>
-              <!--<el-form-item label="部门类别：">-->
-              <!--<span>{{ props.row.department }}</span>-->
-              <!--</el-form-item>-->
               <el-form-item label="所属公司：">
                 <span>{{ props.row.company }}</span>
               </el-form-item>
@@ -246,12 +243,6 @@
           </el-form>
         </template>
       </el-table-column>
-      <!--<el-table-column-->
-      <!--align="center"-->
-      <!--label="订单ID"-->
-      <!--width="180px"-->
-      <!--prop="orderId">-->
-      <!--</el-table-column>-->
       <el-table-column
         align="center"
         label="订单名称"
@@ -268,11 +259,6 @@
         label="创建人"
         prop="createUser">
       </el-table-column>
-      <!--<el-table-column-->
-      <!--align="center"-->
-      <!--label="部门"-->
-      <!--prop="department">-->
-      <!--</el-table-column>-->
       <el-table-column
         align="center"
         label="所属公司"
@@ -383,9 +369,6 @@
             <el-form-item label="创建人：">
               <span>{{ confirmData.createUser }}</span>
             </el-form-item>
-            <!--<el-form-item label="部门类别：">-->
-            <!--<span>{{ confirmData.department }}</span>-->
-            <!--</el-form-item>-->
             <el-form-item label="所属公司：">
               <span>{{ confirmData.company }}</span>
             </el-form-item>
@@ -434,18 +417,6 @@
               <el-form-item label="名称：" prop="title">
                 <el-input placeholder="请输入订单名称" v-model="confirmData.title"/>
               </el-form-item>
-              <!--<el-form-item label="部门：" prop="department">-->
-              <!--<el-select-->
-              <!--v-model="confirmData.department"-->
-              <!--placeholder="请选择部门"-->
-              <!--style="width: 100%">-->
-              <!--<el-option-->
-              <!--v-for="item in departments"-->
-              <!--:key="item.value"-->
-              <!--:label="item.label"-->
-              <!--:value="item.value"/>-->
-              <!--</el-select>-->
-              <!--</el-form-item>-->
               <el-form-item label="部门：" prop="company">
                 <el-select
                   v-model="confirmData.company"
@@ -523,9 +494,6 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <!--<el-form-item label="部门类别：">-->
-              <!--<span>{{ confirmData.department }}</span>-->
-              <!--</el-form-item>-->
               <el-form-item label="所属公司：">
                 <span>{{ confirmData.company }}</span>
               </el-form-item>
