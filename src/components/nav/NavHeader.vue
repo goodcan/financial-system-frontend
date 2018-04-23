@@ -9,11 +9,11 @@
       active-text-color="#ffd04b">
       <span class="nav-title nav-title-bth" @click="changeNavCollapse">
          <el-tooltip class="item" effect="dark"
-                     :content="this.$store.state.navCollapse? '展开左侧导航': '收起左侧导航'"
+                     :content="this.$store.state.userObj.navCollapse? '展开左侧导航': '收起左侧导航'"
                      placement="bottom-start">
             <i v-bind:class="{
-            'el-icon-arrow-up': this.$store.state.navCollapse,
-            'el-icon-arrow-down': !this.$store.state.navCollapse
+            'el-icon-arrow-up': this.$store.state.userObj.navCollapse,
+            'el-icon-arrow-down': !this.$store.state.userObj.navCollapse
             }"></i>
          </el-tooltip>
       </span>
@@ -108,10 +108,11 @@
         this.$router.push({path: '/login'})
       },
       changeNavCollapse() {
-        this.$store.commit('updateNavCollapse', !this.$store.state.navCollapse);
+        let setCollapse = !this.$store.state.userObj.navCollapse;
+        this.$store.commit('updateNavCollapse', setCollapse);
         axios.post('/api/setNavCollapse', {
           userId: this.$store.state.userObj.userId,
-          setCollapse: !this.$store.state.navCollapse
+          setCollapse: setCollapse
         })
       }
     }

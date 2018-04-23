@@ -2,7 +2,7 @@
   <el-menu
     class="nav-bar-vertical"
     :router="true"
-    :collapse="this.$store.state.navCollapse"
+    :collapse="this.$store.state.userObj.navCollapse"
     @open="handleOpen"
     @close="handleClose">
     <el-submenu index="1">
