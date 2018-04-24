@@ -1,8 +1,8 @@
 <template>
   <el-row>
-    <el-footer>
-      Footer
-    </el-footer>
+    <div id="footer-img" style="text-align: center;margin-top: 5px">
+      <img src="/static/img/footer_logo.png" alt="" style="height: 50px">
+    </div>
   </el-row>
 </template>
 

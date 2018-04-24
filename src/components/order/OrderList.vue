@@ -323,9 +323,7 @@
       </el-table-column>
     </el-table>
 
-    <div
-      class="pagination-style"
-      style="margin-bottom: 15px">
+    <div class="pagination-style">
       <el-pagination
         @size-change="sizeChange"
         @current-change="pageChange"

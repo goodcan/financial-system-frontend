@@ -1,16 +1,19 @@
 <template>
   <el-container>
-    <el-header class="nav-bar-header">
+    <el-header class="custom-nav-header">
       <nav-header/>
     </el-header>
-    <el-container class="nav-bar-container">
-      <el-aside class="nav-bar-aside">
+    <el-container class="custom-nav-container">
+      <el-aside class="custom-nav-aside">
         <nav-bar/>
       </el-aside>
-      <el-main class="nav-bar-main">
+      <el-main class="custom-nav-main">
         <router-view/>
       </el-main>
     </el-container>
+    <el-footer class="custom-nav-footer">
+      <nav-footer/>
+    </el-footer>
   </el-container>
 </template>
 
@@ -34,7 +37,7 @@
 </script>
 
 <style scoped>
-  .nav-bar-header {
+  .custom-nav-header {
     padding: 0;
     position: fixed;
     width: 100%;
@@ -42,23 +45,30 @@
     z-index: 1
   }
 
-  .nav-bar-main {
+  .custom-nav-main {
     height: 100%;
     overflow: auto;
   }
 
-  .nav-bar-container {
+  .custom-nav-container {
     margin-top: 60px;
     position: fixed;
     height: 100%;
     width: 100%;
-    padding-bottom: 50px
+    padding-bottom: 120px
   }
 
-  .nav-bar-aside {
+  .custom-nav-aside {
     width: auto !important;
     height: 100%;
     overflow: auto;
-    padding-bottom: 30px
+  }
+
+  .custom-nav-footer {
+    position: absolute;
+    height: 60px;
+    bottom: 0;
+    width: 100%;
+    background-color: #535c63
   }
 </style>
