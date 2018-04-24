@@ -69,6 +69,6 @@
     height: 60px;
     bottom: 0;
     width: 100%;
-    background-color: #535c63
+    background-color: #545c64
   }
 </style>
