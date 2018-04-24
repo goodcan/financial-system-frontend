@@ -672,7 +672,7 @@
   import axios from '../../axios'
   import CustomerPopover from '../popover/CustomerPopover'
   import ContactPopover from '../popover/ContactPopover'
-  import sumPricePopover from '../popover/sumPricePopover'
+  import SumPricePopover from '../popover/SumPricePopover'
   import {currency} from "../../util/currency";
 
   export default {
@@ -714,14 +714,13 @@
         classes: '',
         customers: '',
         contacts: '',
-        // departments: '',
         companies: '',
       }
     },
     components: {
       CustomerPopover,
       ContactPopover,
-      sumPricePopover
+      SumPricePopover
     },
     computed: {
       payStatus() {

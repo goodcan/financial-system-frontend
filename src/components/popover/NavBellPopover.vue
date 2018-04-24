@@ -26,5 +26,16 @@
 </script>
 
 <style scoped>
+  .nav-bell {
+    color: white;
+    padding: 0 20px;
+    height: 60px;
+    line-height: 60px;
+    float: right;
+  }
 
+  .nav-bell:hover {
+    cursor: pointer;
+    background-color: rgb(67, 74, 80);
+  }
 </style>
