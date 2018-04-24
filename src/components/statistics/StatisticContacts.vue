@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h3 class="my-title-h3">常用外包人员 - TOP10</h3>
+    <h3 v-if="this.$route.params.userType === 'all'" class="my-title-h3">总的常用外包人员 - TOP10</h3>
+    <h3 v-else class="my-title-h3">我的常用外包人员 - TOP10</h3>
     <div v-if="!hasData" align="center">
       {{msg}}
     </div>

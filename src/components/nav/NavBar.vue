@@ -25,7 +25,8 @@
       </template>
       <el-menu-item :index="'/editUser/self/' + this.$store.state.userObj.userId">设置个人信息</el-menu-item>
       <el-menu-item :index="'/logList/' + this.$store.state.userObj.userId">查看操作日志</el-menu-item>
-      <el-menu-item :index="'/statisticContacts/' + this.$store.state.userObj.userId">常用外包人员</el-menu-item>
+      <el-menu-item :index="'/statisticContacts/' + this.$store.state.userObj.userId">我的常用外包</el-menu-item>
+      <el-menu-item index="/statisticContacts/all">总的常用外包</el-menu-item>
     </el-submenu>
     <el-submenu index="3" v-if="this.$store.state.userPms.summaryOrder === 1">
       <template slot="title">
