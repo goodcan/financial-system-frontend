@@ -4,11 +4,13 @@ body {
 
 .my-title-h3 {
   text-align: center;
+  margin: 15px 0;
 }
 
 .my-order-title-h3 {
   text-align: center;
   display: inline-block;
+  margin: 15px 0;
 }
 
 .table-expand label {
