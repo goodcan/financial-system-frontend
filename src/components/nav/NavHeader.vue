@@ -18,6 +18,8 @@
          </el-tooltip>
       </span>
       <span class="nav-title">十字星外包管理系统</span>
+
+
       <el-submenu index="2" v-if="isLogin" style="float: right;">
         <template slot="title">{{user.username}}</template>
         <el-menu-item index="2-1" @click="logout">退出</el-menu-item>
@@ -32,6 +34,21 @@
                     v-if="!isLogin"
                     style="float: right">登录
       </el-menu-item>
+
+      <el-popover
+        ref="bell_popover"
+        placement="bottom"
+        title="消息"
+        width="200"
+        trigger="hover"
+        content="暂无消息">
+      </el-popover>
+      <span
+        class="nav-bell"
+        v-popover:bell_popover>
+        <i class="el-icon-bell"></i>
+      </span>
+
     </el-menu>
   </el-row>
 
@@ -40,9 +57,22 @@
 <style>
   .nav-title {
     color: white;
-    margin-left: 30px;
+    padding: 0 20px;
     height: 60px;
     line-height: 60px;
+  }
+
+  .nav-bell {
+    color: white;
+    padding: 0 20px;
+    height: 60px;
+    line-height: 60px;
+    float: right;
+  }
+
+  .nav-bell:hover {
+    cursor: pointer;
+    background-color: rgb(67, 74, 80);
   }
 
   .nav-title-bth {
