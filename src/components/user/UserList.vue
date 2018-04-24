@@ -46,7 +46,7 @@
               <span v-if="props.row.pmsListName.length !== 0" v-for="each in props.row.pmsListName">
                 <el-tag style="margin-right: 5px">{{each}}</el-tag>
               </span>
-                <span v-if="props.row.pmsListName.length === 0">
+              <span v-if="props.row.pmsListName.length === 0">
                 没有任何权限
               </span>
               </el-form-item>
