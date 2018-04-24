@@ -93,6 +93,11 @@
       </el-table-column>
       <el-table-column
         align="center"
+        label="创建人"
+        prop="createUser">
+      </el-table-column>
+      <el-table-column
+        align="center"
         label="操作">
         <template slot-scope="scope">
           <el-button
