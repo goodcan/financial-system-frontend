@@ -55,7 +55,7 @@
     position: fixed;
     height: 100%;
     width: 100%;
-    padding-bottom: 120px
+    padding-bottom: 90px
   }
 
   .custom-nav-aside {
@@ -66,7 +66,7 @@
 
   .custom-nav-footer {
     position: absolute;
-    height: 60px;
+    height: 30px !important;
     bottom: 0;
     width: 100%;
     background-color: #545c64
