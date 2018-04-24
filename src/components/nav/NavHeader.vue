@@ -34,21 +34,7 @@
                     v-if="!isLogin"
                     style="float: right">登录
       </el-menu-item>
-
-      <el-popover
-        ref="bell_popover"
-        placement="bottom"
-        title="消息"
-        width="200"
-        trigger="hover"
-        content="暂无消息">
-      </el-popover>
-      <span
-        class="nav-bell"
-        v-popover:bell_popover>
-        <i class="el-icon-bell"></i>
-      </span>
-
+      <!--<nav-bell-popover/>-->
     </el-menu>
   </el-row>
 
@@ -83,11 +69,14 @@
     cursor: pointer;
   }
 
+  .my-bell-badge-item sup.is-dot {
+    margin-top: 20px;
+  }
 </style>
 
 <script>
-  // import { registerApi } from '../api/userApi'
   import axios from '../../axios'
+  import NavBellPopover from '../../components/popover/NavBellPopover'
 
   export default {
     data() {
@@ -95,6 +84,9 @@
         activeIndex: '1',
         isLogin: false
       }
+    },
+    components: {
+      NavBellPopover
     },
     computed: {
       user() {
