@@ -13,7 +13,9 @@
         <div class="my-popover-div">
           <span>真实姓名：{{contact.realName? contact.realName: '未设置'}}</span>
         </div>
-        <div class="my-popover-div">
+        <div
+          v-if="this.$store.state.userPms.summaryOrder"
+          class="my-popover-div">
           <span>付款信息：{{contact.payInfo? contact.payInfo: '未设置'}}</span>
         </div>
         <div class="my-popover-div">
@@ -28,10 +30,8 @@
       </div>
     </el-popover>
     <span
-      v-if="this.$store.state.userPms.summaryOrder"
       v-popover:popover
       class="my-popover-span">{{ contactName }}</span>
-    <span v-else>{{ contactName }}</span>
   </div>
 </template>
 
