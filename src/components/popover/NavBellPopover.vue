@@ -25,7 +25,7 @@
               </el-table-column>
               <el-table-column width="100px">
                 <template slot-scope="scope">
-                  {{scope.row.content.status === 2? '申请付款': '完成付款'}}
+                  {{showTextByStatus(scope.row)}}
                 </template>
               </el-table-column>
           </el-table>
@@ -80,6 +80,16 @@
               this.showBadge = false
             }
           })
+        }
+      },
+      showTextByStatus(msg) {
+        let status = msg.content.status;
+        if (status === 1) {
+          return '订单修改'
+        } else if (status === 2) {
+          return '申请付款'
+        } else if (status === 3) {
+          return '完成付款'
         }
       }
     }
