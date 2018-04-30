@@ -25,21 +25,27 @@
       </template>
       <el-menu-item :index="'/editUser/self/' + this.$store.state.userObj.userId">设置个人信息</el-menu-item>
       <el-menu-item :index="'/logList/' + this.$store.state.userObj.userId">查看操作日志</el-menu-item>
+    </el-submenu>
+      <el-submenu index="3">
+      <template slot="title">
+        <i class="el-icon-tickets"></i>
+        <span>统计分析</span>
+      </template>
       <el-menu-item :index="'/statisticContacts/' + this.$store.state.userObj.userId">我的常用外包</el-menu-item>
       <el-menu-item index="/statisticContacts/all">总的常用外包</el-menu-item>
     </el-submenu>
-    <el-submenu index="3" v-if="this.$store.state.userPms.summaryOrder === 1">
+    <el-submenu index="4" v-if="this.$store.state.userPms.summaryOrder === 1">
       <template slot="title">
         <i class="el-icon-view"></i>
         <span>订单汇总</span>
       </template>
       <el-menu-item index="/summaryAllOrder">所有订单</el-menu-item>
-      <el-submenu index="3-2">
+      <el-submenu index="4-2">
         <template slot="title">图表统计</template>
         <el-menu-item index="/statisticContacts/all">外包人员</el-menu-item>
       </el-submenu>
     </el-submenu>
-    <el-submenu index="4" v-if="this.$store.state.userPms.editUser === 1">
+    <el-submenu index="5" v-if="this.$store.state.userPms.editUser === 1">
       <template slot="title">
         <i class="el-icon-setting"></i>
         <span>管理系统人员</span>
@@ -47,7 +53,7 @@
       <el-menu-item index="/userList">人员列表</el-menu-item>
       <el-menu-item index="/logList/all">操作日志</el-menu-item>
     </el-submenu>
-    <el-submenu index="5" v-if="this.$store.state.userPms.editOrderOption === 1">
+    <el-submenu index="6" v-if="this.$store.state.userPms.editOrderOption === 1">
       <template slot="title">
         <i class="el-icon-setting"></i>
         <span>订单选项管理</span>
