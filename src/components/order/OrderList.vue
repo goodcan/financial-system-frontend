@@ -923,7 +923,10 @@
             let setParams = {
               opsUserId: this.$store.state.userObj.userId,
               status: status,
+              title: order.title,
               orderId: order.orderId,
+              userId: order.userId,
+              createUser: order.createUser,
               price: order.price,
               tax: order.tax,
               unit: order.unit,

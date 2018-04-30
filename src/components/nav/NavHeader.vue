@@ -34,7 +34,7 @@
                     v-if="!isLogin"
                     style="float: right">登录
       </el-menu-item>
-      <!--<nav-bell-popover/>-->
+      <nav-bell-popover/>
     </el-menu>
   </el-row>
 
