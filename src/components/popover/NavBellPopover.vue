@@ -1,40 +1,42 @@
 <template>
-    <span
-      class="nav-bell"
-      @click="clearBadge"
-      v-popover:bell_popover>
+  <span
+    class="nav-bell"
+    @click="clearBadge"
+    v-popover:bell_popover>
       <el-popover
         ref="bell_popover"
         placement="bottom"
-        title="通知信息"
         width="350"
-        trigger="click"
-        popper-class="nav-bell-popover">
-        <div v-if="msg.length === 0" class="my-popover-div">
-           <span>暂无新的消息</span>
-        </div>
-        <div v-else class="my-popover-div">
-          <el-table
-            :data="msg"
-            :show-header="false"
-            style="width: 100%;">
-              <el-table-column>
-                <template slot-scope="scope">
-                  {{scope.row.content.orderTitle}}
-                </template>
-              </el-table-column>
-              <el-table-column width="100px">
-                <template slot-scope="scope">
-                  {{showTextByStatus(scope.row)}}
-                </template>
-              </el-table-column>
-          </el-table>
-        </div>
+        trigger="click">
+        <p style="margin: 10px">
+          <span>通知中心</span>
+          <span style="float: right">
+            共 <span style="color: red;font-weight: bold;">{{msg.length}}</span> 条
+          </span>
+        </p>
+            <div v-if="msg.length === 0" class="my-popover-div bell-popover-div">
+               <p style="margin: 10px 0;text-align: center">暂无新的消息</p>
+            </div>
+            <div v-else class="my-popover-div bell-popover-div">
+              <el-table
+                :data="msg"
+                :show-header="false"
+                style="width: 100%">
+                  <el-table-column>
+                    <template slot-scope="scope">
+                      <p style="font-size: 8px;margin: 0;margin-bottom: 5px">
+                        <span>订单信息</span>
+                        <span style="float: right">{{scope.row.sendTime}}</span>
+                      </p>
+                      [{{showTextByStatus(scope.row)}}] {{scope.row.content.orderTitle}}
+                    </template>
+                  </el-table-column>
+              </el-table>
+            </div>
       </el-popover>
-        <el-badge v-if="showBadge" is-dot class="my-bell-badge-item">
+        <el-badge :hidden="!showBadge" is-dot class="my-bell-badge-item">
             <i class="el-icon-bell"></i>
         </el-badge>
-        <i v-else class="el-icon-bell"></i>
       </span>
 </template>
 
@@ -108,5 +110,11 @@
   .nav-bell:hover {
     cursor: pointer;
     background-color: rgb(67, 74, 80);
+  }
+
+  .bell-popover-div {
+    border-top: solid 1px #ccc;
+    height: 300px;
+    overflow: auto;
   }
 </style>
