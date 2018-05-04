@@ -14,25 +14,30 @@
             共 <span style="color: red;font-weight: bold;">{{msg.length}}</span> 条
           </span>
         </p>
-            <div v-if="msg.length === 0" class="my-popover-div bell-popover-div">
-               <p style="margin: 10px 0;text-align: center">暂无新的消息</p>
-            </div>
-            <div v-else class="my-popover-div bell-popover-div">
-              <el-table
-                :data="msg"
-                :show-header="false"
-                style="width: 100%">
-                  <el-table-column>
-                    <template slot-scope="scope">
-                      <p style="font-size: 8px;margin: 0;margin-bottom: 5px">
-                        <span>订单信息</span>
+        <div v-if="msg.length === 0" class="my-popover-div bell-popover-div">
+           <p style="margin: 10px 0;text-align: center">暂无新的消息</p>
+        </div>
+        <div v-else class="my-popover-div bell-popover-div">
+          <el-table
+            :data="msg"
+            :show-header="false"
+            style="width: 100%">
+              <el-table-column>
+                <template slot-scope="scope">
+                  <p style="font-size: 8px;margin: 0;margin-bottom: 5px">
+                    <span>订单信息</span>
                         <span style="float: right">{{scope.row.sendTime}}</span>
-                      </p>
-                      [{{showTextByStatus(scope.row)}}] {{scope.row.content.orderTitle}}
-                    </template>
-                  </el-table-column>
-              </el-table>
-            </div>
+                  </p>
+                  [{{showTextByStatus(scope.row)}}] {{scope.row.content.orderTitle}}
+                  <!--<span-->
+                    <!--v-if="!scope.row.isRead"-->
+                    <!--style="float: right;font-size: 5px;color: red">-->
+                    <!--<b>新</b>-->
+                  <!--</span>-->
+                </template>
+              </el-table-column>
+          </el-table>
+        </div>
       </el-popover>
         <el-badge :hidden="!showBadge" is-dot class="my-bell-badge-item">
             <i class="el-icon-bell"></i>
