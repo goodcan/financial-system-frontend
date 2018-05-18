@@ -60,6 +60,11 @@ body {
   padding-left: 85px
 }
 
+.order-list-p {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
 .custom-popover-p {
   margin: 0;
   white-space: pre-wrap;

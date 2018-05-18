@@ -198,7 +198,7 @@
             </el-col>
             <el-col :span="24">
               <el-form-item label="备注：">
-                <span>{{ props.row.desc? props.row.desc: '未设置' }}</span>
+                <p class="order-list-p">{{ props.row.desc? props.row.desc: '未设置' }}</p>
               </el-form-item>
             </el-col>
             <div v-if="props.row.status !== 1">
@@ -397,11 +397,12 @@
               <span>{{(confirmData.expect.num / confirmData.expect.unitNum * confirmData.expect.price) | currency('￥') }}</span>
             </el-form-item>
           </el-col>
-          <el-col :span="24">
-            <el-form-item label="备注：">
-              <span>{{ confirmData.desc? confirmData.desc: '未设置' }}</span>
-            </el-form-item>
-          </el-col>
+          <el-form-item label="备注：" prop="desc">
+            <el-input
+              type="textarea"
+              :autosize="{ minRows: 2, maxRows: 4}"
+              placeholder="请输入备注" v-model="confirmData.desc"/>
+          </el-form-item>
         </div>
         <div v-else>
           <div v-if="this.$store.state.userPms.editOrderMoreParam === 1">
@@ -508,11 +509,12 @@
                 <span>{{ confirmData.contactName }}</span>
               </el-form-item>
             </el-col>
-            <el-col :span="24">
-              <el-form-item label="备注：">
-                <span>{{ confirmData.desc? confirmData.desc: '未设置' }}</span>
-              </el-form-item>
-            </el-col>
+            <el-form-item label="备注：" prop="desc">
+              <el-input
+                type="textarea"
+                :autosize="{ minRows: 2, maxRows: 4}"
+                placeholder="请输入备注" v-model="confirmData.desc"/>
+            </el-form-item>
           </div>
           <el-col :span="24">
             <el-form-item label="预算单价类型：" prop="tax">
@@ -933,7 +935,8 @@
               num: order.num,
               unitNum: order.unitNum,
               sumPrice: order.num / order.unitNum * order.price,
-              evaluation: order.evaluation
+              evaluation: order.evaluation,
+              desc: order.desc
             };
 
             // 订单用户修改订单其他信息
