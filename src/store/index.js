@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    userObj: null,
+    userObj: {},
     token: window.sessionStorage.getItem('token'),
     userPms: {},// 用户权限
   },
