@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    userObj: {},
+    userObj: window.sessionStorage.getItem('userObj') || {},
     token: window.sessionStorage.getItem('token'),
     userPms: {},// 用户权限
   },
@@ -19,6 +19,7 @@ export default new Vuex.Store({
       if (userObj) {
         this.state.userPms = userObj.permissions
       }
+      window.sessionStorage.setItem('userObj', userObj);
     },
     updateNavCollapse(state, collapse) {
       this.state.userObj.navCollapse = collapse;

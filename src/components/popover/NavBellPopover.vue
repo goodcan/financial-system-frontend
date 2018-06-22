@@ -55,8 +55,20 @@
         showBadge: false
       }
     },
+    computed: {
+      userInfo() {
+        return this.$store.state.userObj
+      }
+    },
+    watch: {
+      userInfo(newData, oldData) {
+        if (newData.userId) {
+          this.init()
+        }
+      }
+    },
     mounted() {
-      this.init()
+      // this.init()
     },
     methods: {
       init() {
