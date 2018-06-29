@@ -4,6 +4,14 @@
       <h3 slot="title" class="my-order-title-h3">所有订单列表</h3>
       <div slot="download" class="order-list-top-col">
         <div>
+          <div class="block">
+            <el-date-picker
+              v-model="tableDate"
+              type="month"
+              value-format="yyyy-MM-dd"
+              placeholder="选择汇总月份">
+            </el-date-picker>
+          </div>
           <el-row class="order-list-download-btn">
             <el-button
               type="primary"
@@ -41,6 +49,7 @@
   export default {
     data() {
       return {
+        tableDate: '',
         orderListType: 'summary'
       }
     },
@@ -52,12 +61,14 @@
         axios.get('/api/downloadTable', {
           params: {
             opsUserId: this.$store.state.userObj.userId,
-            tableType: taleType
+            tableType: taleType,
+            tableDate: this.tableDate
           }
         }).then(() => {
           axios.post('/api/writeDownloadLog', {
             opsUserId: this.$store.state.userObj.userId,
-            tableType: taleType
+            tableType: taleType,
+            tableDate: this.tableDate
           })
         })
       }
